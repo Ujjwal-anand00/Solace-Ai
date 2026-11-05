@@ -1,93 +1,201 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
-import {
-  ScreenContainer,
-  AppHeading,
-  AppText,
-  PrimaryButton,
-  AppIcon,
-  AppBadge,
-} from '@/components/ui';
-import { FloatingView } from '@/utils/animations';
-import { useTheme } from '@/hooks/useTheme';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withDelay,
+  withSequence,
+  Easing,
+} from 'react-native-reanimated';
+import { useTheme } from '../src/hooks/useTheme';
+import { SolaceLogo } from '../src/components/ui/SolaceLogo';
+import { AppText } from '../src/components/ui/AppText';
+import { useOnboardingStore } from '../src/store/onboardingStore';
+import { triggerHaptic } from '../src/utils/haptics';
 
-export default function IndexScreen(): React.JSX.Element {
+export default function SplashScreen(): React.JSX.Element {
   const router = useRouter();
   const { colors, isDark } = useTheme();
+  const { hasCompletedOnboarding, hydrateOnboarding, isHydrated } = useOnboardingStore();
+
+  const [isAnimationDone, setIsAnimationDone] = useState(false);
+
+  // Reanimated values for splash entrance
+  const logoScale = useSharedValue(0.75);
+  const logoOpacity = useSharedValue(0);
+  const taglineOpacity = useSharedValue(0);
+  const tagtranslateY = useSharedValue(12);
+  const decorativeScale = useSharedValue(0.8);
+  const decorativeOpacity = useSharedValue(0);
+
+  // 1. Hydrate onboarding state from AsyncStorage on launch
+  useEffect(() => {
+    hydrateOnboarding();
+  }, [hydrateOnboarding]);
+
+  // 2. Run elegant splash animation sequence
+  useEffect(() => {
+    // Gentle scale & fade-in for the central logo
+    logoOpacity.value = withTiming(1, {
+      duration: 800,
+      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
+
+    logoScale.value = withTiming(1, {
+      duration: 1000,
+      easing: Easing.out(Easing.back(1.2)),
+    });
+
+    // Decorative floating aura circles
+    decorativeOpacity.value = withDelay(
+      300,
+      withTiming(0.65, { duration: 900, easing: Easing.inOut(Easing.sin) }),
+    );
+    decorativeScale.value = withDelay(
+      300,
+      withSequence(
+        withTiming(1.08, { duration: 1100, easing: Easing.inOut(Easing.sin) }),
+        withTiming(1, { duration: 900, easing: Easing.inOut(Easing.sin) }),
+      ),
+    );
+
+    // Staggered fade in for tagline
+    taglineOpacity.value = withDelay(
+      600,
+      withTiming(1, {
+        duration: 800,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      }),
+    );
+    tagtranslateY.value = withDelay(
+      600,
+      withTiming(0, {
+        duration: 800,
+        easing: Easing.out(Easing.cubic),
+      }),
+    );
+
+    // After animation holds gently, mark animation as finished
+    const timer = setTimeout(() => {
+      triggerHaptic.light();
+      setIsAnimationDone(true);
+    }, 2200);
+
+    return () => clearTimeout(timer);
+  }, [decorativeOpacity, decorativeScale, logoOpacity, logoScale, taglineOpacity, tagtranslateY]);
+
+  // 3. When both animation and storage hydration are complete, navigate seamlessly
+  useEffect(() => {
+    if (isAnimationDone && isHydrated) {
+      if (hasCompletedOnboarding) {
+        // Returning user -> skip onboarding, navigate to auth entry
+        router.replace('/(auth)/index');
+      } else {
+        // First-time user -> navigate to welcome screen
+        router.replace('/(onboarding)/welcome');
+      }
+    }
+  }, [isAnimationDone, isHydrated, hasCompletedOnboarding, router]);
+
+  const animatedLogoStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: logoScale.value }],
+    opacity: logoOpacity.value,
+  }));
+
+  const animatedTaglineStyle = useAnimatedStyle(() => ({
+    opacity: taglineOpacity.value,
+    transform: [{ translateY: tagtranslateY.value }],
+  }));
+
+  const animatedDecorativeStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: decorativeScale.value }],
+    opacity: decorativeOpacity.value,
+  }));
 
   return (
-    <ScreenContainer>
-      <View style={styles.content}>
-        <FloatingView floatDistance={6} style={styles.floatingMascot}>
-          <View
-            style={[
-              styles.iconCircle,
-              {
-                backgroundColor: isDark ? colors.surfaceSecondary : colors.mint,
-              },
-            ]}
-          >
-            <AppIcon name="sparkles" size="xl" color={colors.primary} />
-          </View>
-        </FloatingView>
-
-        <AppBadge
-          label="Design System Initialized"
-          variant="mint"
-          size="sm"
-          style={{ marginBottom: 12 }}
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      {/* Soft floating decorative background rings */}
+      <Animated.View style={[styles.decorativeRing, animatedDecorativeStyle]}>
+        <View
+          style={[
+            styles.outerHalo,
+            {
+              borderColor: isDark ? 'rgba(130, 155, 131, 0.2)' : colors.lavender,
+            },
+          ]}
         />
+        <View
+          style={[
+            styles.innerHalo,
+            {
+              borderColor: isDark ? 'rgba(220, 233, 221, 0.15)' : colors.mint,
+            },
+          ]}
+        />
+      </Animated.View>
 
-        <AppHeading level="displayLarge" align="center" style={styles.title}>
-          Solace AI
-        </AppHeading>
+      {/* Central Solace Logo with scale and fade */}
+      <Animated.View style={[styles.logoWrapper, animatedLogoStyle]}>
+        <SolaceLogo size="xl" variant="stacked" />
+      </Animated.View>
 
-        <AppText variant="bodyLarge" align="center" color="textSecondary" style={styles.subtitle}>
+      {/* Tagline */}
+      <Animated.View style={[styles.taglineWrapper, animatedTaglineStyle]}>
+        <AppText
+          variant="bodyMedium"
+          color="textSecondary"
+          align="center"
+          style={styles.taglineText}
+        >
           Your personal space to feel, heal and grow.
         </AppText>
-
-        <View style={styles.actionBlock}>
-          <PrimaryButton
-            title="Explore Design System"
-            leadingIcon="sliders"
-            size="lg"
-            fullWidth
-            onPress={() => router.push('/design-system')}
-          />
-        </View>
-      </View>
-    </ScreenContainer>
+      </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 32,
+    position: 'relative',
   },
-  floatingMascot: {
-    marginBottom: 20,
-  },
-  iconCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+  decorativeRing: {
+    position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    marginBottom: 8,
+  outerHalo: {
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    position: 'absolute',
   },
-  subtitle: {
-    maxWidth: 280,
-    lineHeight: 26,
-    marginBottom: 32,
+  innerHalo: {
+    width: 220,
+    height: 220,
+    borderRadius: 110,
+    borderWidth: 1.2,
+    position: 'absolute',
   },
-  actionBlock: {
-    width: '100%',
-    maxWidth: 320,
+  logoWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+  },
+  taglineWrapper: {
+    marginTop: 20,
+    maxWidth: 260,
+    zIndex: 2,
+  },
+  taglineText: {
+    letterSpacing: 0.3,
+    lineHeight: 22,
   },
 });

@@ -12,3 +12,4 @@ if (fs.existsSync(target) && !fs.existsSync(link)) {
     console.warn('[postinstall] Could not link expo-router:', err.message);
   }
 }
+

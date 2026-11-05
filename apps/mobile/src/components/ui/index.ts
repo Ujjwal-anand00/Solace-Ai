@@ -15,3 +15,5 @@ export * from './ScreenContainer';
 export * from './SectionHeader';
 export * from './BottomSheet';
 export * from './Backgrounds';
+export * from './SolaceLogo';
+export * from './SolaceMascot';

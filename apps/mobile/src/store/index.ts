@@ -1,4 +1,5 @@
 export * from './themeStore';
+export * from './onboardingStore';
 
 import { create } from 'zustand';
 
