@@ -1,9 +1,11 @@
 import { Request } from 'express';
-import { AuthTokenPayload } from '@solace/shared';
+import { AuthenticatedUser } from './express';
+
+export * from './express';
 
 /**
  * Extended Express Request with authenticated user payload
  */
 export interface AuthenticatedRequest extends Request {
-  user?: AuthTokenPayload;
+  user?: AuthenticatedUser;
 }

@@ -23,7 +23,7 @@ export default function WelcomeScreen(): React.JSX.Element {
   };
 
   const handleLogin = () => {
-    router.push('/(auth)/index');
+    router.push('/(auth)');
   };
 
   return (

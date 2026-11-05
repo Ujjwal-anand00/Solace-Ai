@@ -120,3 +120,4 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
     set({ isHydrated: true });
   },
 }));
+

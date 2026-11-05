@@ -28,7 +28,7 @@ export default function CompleteScreen(): React.JSX.Element {
     await completeOnboarding();
 
     // Navigate to authentication entry placeholder
-    router.replace('/(auth)/index');
+    router.replace('/(auth)');
   };
 
   return (

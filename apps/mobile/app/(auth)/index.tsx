@@ -11,37 +11,31 @@ import {
   SolaceLogo,
   SolaceMascot,
   AppBadge,
-  AppCard,
   AppIcon,
-  AppDivider,
 } from '../../src/components/ui';
-import { useOnboardingStore } from '../../src/store/onboardingStore';
+import { FadeInView } from '../../src/utils/animations';
 import { useTheme } from '../../src/hooks/useTheme';
 import { triggerHaptic } from '../../src/utils/haptics';
 
-export default function AuthEntryScreen(): React.JSX.Element {
+export default function AuthLandingScreen(): React.JSX.Element {
   const router = useRouter();
   const { colors } = useTheme();
-  const {
-    selectedWellnessGoals,
-    notificationPreference,
-    resetOnboarding,
-  } = useOnboardingStore();
 
-  const handleResetOnboarding = async () => {
-    triggerHaptic.medium();
-    await resetOnboarding();
-    Alert.alert('Onboarding Reset', 'Onboarding has been reset. Returning to the welcome screen.', [
-      { text: 'OK', onPress: () => router.replace('/(onboarding)/welcome') },
-    ]);
+  const handleSignIn = () => {
+    triggerHaptic.light();
+    router.push('/(auth)/login');
   };
 
-  const handlePlaceholderAuth = (action: string) => {
-    triggerHaptic.light();
+  const handleSignUp = () => {
+    triggerHaptic.medium();
+    router.push('/(auth)/sign-up');
+  };
+
+  const handleShowTerms = () => {
     Alert.alert(
-      'Authentication Placeholder',
-      `${action} will be fully implemented in STEP 04 with secure JWT and bcrypt backend registration.`,
-      [{ text: 'Got it' }],
+      'Terms & Privacy Commitment',
+      'Solace AI is committed to your privacy. Your reflections, journal entries, and personal wellness conversations are confidential, encrypted, and never sold to third parties.',
+      [{ text: 'Understood' }],
     );
   };
 
@@ -50,108 +44,76 @@ export default function AuthEntryScreen(): React.JSX.Element {
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        bounces={false}
       >
-        {/* Header Branding */}
-        <View style={styles.headerBlock}>
-          <SolaceLogo size="md" variant="horizontal" />
-          <AppBadge label="STEP 04 Entry" variant="lavender" size="sm" />
-        </View>
+        {/* Top Header Logo */}
+        <FadeInView delay={100} style={styles.headerBlock}>
+          <SolaceLogo size="sm" variant="horizontal" />
+          <AppBadge label="Private Sanctuary" variant="mint" size="sm" />
+        </FadeInView>
 
-        {/* Mascot Greeting */}
-        <View style={styles.mascotWrapper}>
-          <SolaceMascot size={110} expression="calm" animationState="breathe" showCushion />
-        </View>
+        {/* Mascot Centerpiece */}
+        <FadeInView delay={250} style={styles.mascotWrapper}>
+          <SolaceMascot size={130} expression="calm" animationState="breathe" showCushion />
+        </FadeInView>
 
-        {/* Title & Introduction */}
-        <View style={styles.textBlock}>
-          <AppHeading level={1} align="center" style={styles.title}>
-            Welcome to Solace
+        {/* Text Section */}
+        <FadeInView delay={400} style={styles.textSection}>
+          <AppHeading level={1} align="center" style={styles.heading}>
+            A little space, just for you.
           </AppHeading>
+
           <AppText
-            variant="bodyMedium"
+            variant="bodyLarge"
             color="textSecondary"
             align="center"
-            style={styles.subtitle}
+            style={styles.description}
           >
-            Your personal mental wellness sanctuary. Sign in to sync your reflections and meet your
-            AI companion.
+            Your safe sanctuary to understand emotions, find peace, and grow alongside an AI
+            companion who truly listens.
           </AppText>
-        </View>
 
-        {/* Summary Card of Completed Onboarding State */}
-        <AppCard variant="soft" style={styles.stateCard}>
-          <View style={styles.stateCardHeader}>
-            <AppIcon name="checkCircle" size="sm" color={colors.primary} />
-            <AppText variant="label" style={styles.stateCardTitle}>
-              ONBOARDING COMPLETED
+          {/* Privacy Guarantee Chip */}
+          <View style={styles.privacyBadge}>
+            <AppIcon name="shield" size="xs" color={colors.primary} />
+            <AppText variant="caption" color="textSecondary" style={styles.privacyText}>
+              100% Confidential • End-to-End Protected
             </AppText>
           </View>
+        </FadeInView>
 
-          <View style={styles.stateDetails}>
-            <View style={styles.stateRow}>
-              <AppText variant="bodySmall" color="textSecondary">
-                Wellness Focus:
-              </AppText>
-              <AppBadge
-                label={`${selectedWellnessGoals.length} goals selected`}
-                variant="mint"
-                size="sm"
-              />
-            </View>
-
-            <View style={styles.stateRow}>
-              <AppText variant="bodySmall" color="textSecondary">
-                Notifications:
-              </AppText>
-              <AppBadge
-                label={notificationPreference.toUpperCase()}
-                variant={notificationPreference === 'enabled' ? 'mint' : 'neutral'}
-                size="sm"
-              />
-            </View>
-          </View>
-        </AppCard>
-
-        {/* Auth Action Buttons (Placeholders for STEP 04) */}
-        <View style={styles.authActions}>
+        {/* Action Buttons */}
+        <FadeInView delay={550} style={styles.actionSection}>
           <PrimaryButton
-            title="Create Free Account"
+            title="Continue with Email"
             size="lg"
             fullWidth
             leadingIcon="mail"
-            onPress={() => handlePlaceholderAuth('Account Creation')}
+            onPress={handleSignIn}
+            style={styles.primaryBtn}
           />
 
           <OutlineButton
-            title="Sign In to Existing Account"
+            title="Create an Account"
             size="lg"
             fullWidth
-            onPress={() => handlePlaceholderAuth('Sign In')}
-            style={styles.signInBtn}
-          />
-        </View>
-
-        <AppDivider label="DEVELOPMENT & TESTING CONTROLS" style={styles.divider} />
-
-        {/* Testing Helpers */}
-        <View style={styles.testingControls}>
-          <OutlineButton
-            title="Reset Onboarding & Test Again"
-            size="md"
-            fullWidth
-            leadingIcon="refreshCw"
-            onPress={handleResetOnboarding}
-            style={styles.resetBtn}
+            onPress={handleSignUp}
+            style={styles.outlineBtn}
           />
 
-          <GhostButton
-            title="Explore Design System (/design-system)"
-            size="sm"
-            fullWidth
-            leadingIcon="sliders"
-            onPress={() => router.push('/design-system')}
-          />
-        </View>
+          {/* Terms and Privacy Footer */}
+          <View style={styles.footerTerms}>
+            <AppText variant="caption" color="textMuted" align="center">
+              By continuing, you agree to Solace AI’s{' '}
+            </AppText>
+            <GhostButton
+              title="Terms & Privacy Policy"
+              size="sm"
+              onPress={handleShowTerms}
+              style={styles.termsButton}
+            />
+          </View>
+        </FadeInView>
       </ScrollView>
     </SafeAreaView>
   );
@@ -165,7 +127,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 24,
     paddingTop: 16,
-    paddingBottom: 32,
+    paddingBottom: 28,
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   headerBlock: {
@@ -173,68 +136,64 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
-  },
-  mascotWrapper: {
-    marginVertical: 12,
-    alignItems: 'center',
-  },
-  textBlock: {
-    width: '100%',
-    maxWidth: 320,
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  title: {
     marginBottom: 8,
   },
-  subtitle: {
-    lineHeight: 22,
+  mascotWrapper: {
+    marginVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  stateCard: {
+  textSection: {
     width: '100%',
     maxWidth: 340,
-    padding: 16,
-    marginBottom: 24,
-  },
-  stateCardHeader: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    marginBottom: 28,
+  },
+  heading: {
     marginBottom: 12,
+    lineHeight: 38,
   },
-  stateCardTitle: {
-    fontWeight: '700',
-    letterSpacing: 0.8,
+  description: {
+    lineHeight: 25,
+    paddingHorizontal: 6,
+    marginBottom: 16,
   },
-  stateDetails: {
-    gap: 8,
-  },
-  stateRow: {
+  privacyBadge: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    backgroundColor: 'rgba(130, 155, 131, 0.12)',
   },
-  authActions: {
+  privacyText: {
+    fontWeight: '600',
+  },
+  actionSection: {
     width: '100%',
     maxWidth: 340,
     gap: 12,
-    marginBottom: 16,
   },
-  signInBtn: {
-    marginTop: 4,
+  primaryBtn: {
+    shadowColor: '#829B83',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 3,
   },
-  divider: {
-    width: '100%',
-    maxWidth: 340,
-    marginVertical: 20,
+  outlineBtn: {
+    marginTop: 2,
   },
-  testingControls: {
-    width: '100%',
-    maxWidth: 340,
-    gap: 10,
+  footerTerms: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
   },
-  resetBtn: {
-    borderColor: '#E2E6DF',
+  termsButton: {
+    paddingVertical: 0,
+    paddingHorizontal: 0,
   },
 });

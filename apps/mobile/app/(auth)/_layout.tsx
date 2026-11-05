@@ -10,10 +10,15 @@ export default function AuthLayout(): React.JSX.Element {
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: colors.background },
-        animation: 'fade',
+        animation: 'slide_from_right',
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen name="login" />
+      <Stack.Screen name="sign-up" />
+      <Stack.Screen name="forgot-password" />
+      <Stack.Screen name="reset-password" />
+      <Stack.Screen name="profile-setup" />
     </Stack>
   );
 }

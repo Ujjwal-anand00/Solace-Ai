@@ -13,12 +13,14 @@ import { useTheme } from '../src/hooks/useTheme';
 import { SolaceLogo } from '../src/components/ui/SolaceLogo';
 import { AppText } from '../src/components/ui/AppText';
 import { useOnboardingStore } from '../src/store/onboardingStore';
+import { useAuthStore } from '../src/store/authStore';
 import { triggerHaptic } from '../src/utils/haptics';
 
 export default function SplashScreen(): React.JSX.Element {
   const router = useRouter();
   const { colors, isDark } = useTheme();
   const { hasCompletedOnboarding, hydrateOnboarding, isHydrated } = useOnboardingStore();
+  const { isAuthenticated, isRestoringSession, restoreSession } = useAuthStore();
 
   const [isAnimationDone, setIsAnimationDone] = useState(false);
 
@@ -30,10 +32,11 @@ export default function SplashScreen(): React.JSX.Element {
   const decorativeScale = useSharedValue(0.8);
   const decorativeOpacity = useSharedValue(0);
 
-  // 1. Hydrate onboarding state from AsyncStorage on launch
+  // 1. Hydrate onboarding state and restore auth session on launch
   useEffect(() => {
     hydrateOnboarding();
-  }, [hydrateOnboarding]);
+    restoreSession();
+  }, [hydrateOnboarding, restoreSession]);
 
   // 2. Run elegant splash animation sequence
   useEffect(() => {
@@ -86,18 +89,28 @@ export default function SplashScreen(): React.JSX.Element {
     return () => clearTimeout(timer);
   }, [decorativeOpacity, decorativeScale, logoOpacity, logoScale, taglineOpacity, tagtranslateY]);
 
-  // 3. When both animation and storage hydration are complete, navigate seamlessly
+  // 3. When animation, storage hydration, and session restoration complete, navigate
   useEffect(() => {
-    if (isAnimationDone && isHydrated) {
-      if (hasCompletedOnboarding) {
-        // Returning user -> skip onboarding, navigate to auth entry
-        router.replace('/(auth)/index');
+    if (isAnimationDone && isHydrated && !isRestoringSession) {
+      if (isAuthenticated) {
+        // Authenticated user -> navigate directly to home
+        router.replace('/(home)/index');
+      } else if (hasCompletedOnboarding) {
+        // Returning user -> skip onboarding, navigate to auth landing
+        router.replace('/(auth)');
       } else {
         // First-time user -> navigate to welcome screen
         router.replace('/(onboarding)/welcome');
       }
     }
-  }, [isAnimationDone, isHydrated, hasCompletedOnboarding, router]);
+  }, [
+    isAnimationDone,
+    isHydrated,
+    isRestoringSession,
+    isAuthenticated,
+    hasCompletedOnboarding,
+    router,
+  ]);
 
   const animatedLogoStyle = useAnimatedStyle(() => ({
     transform: [{ scale: logoScale.value }],
