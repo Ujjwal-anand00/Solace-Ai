@@ -6,6 +6,8 @@ import {
   CreateMoodDto,
   UpdateMoodDto,
   MoodSummary,
+  MoodCalendarDay,
+  MoodInsightsResponse,
   PaginationMeta,
 } from '@solace/shared';
 
@@ -23,6 +25,8 @@ export const moodService = {
     limit?: number;
     startDate?: string;
     endDate?: string;
+    mood?: string;
+    emotion?: string;
   }): Promise<MoodListResponse> {
     const res = await apiClient.get<ApiResponse<MoodEntry[]> & { meta: PaginationMeta }>(
       API_ROUTES.MOOD.BASE,
@@ -83,6 +87,26 @@ export const moodService = {
       throw new Error(res.data.message || 'Failed to fetch mood summary');
     }
     return res.data.data;
+  },
+
+  /**
+   * Get monthly mood calendar entries
+   */
+  async getMoodCalendar(params?: { year?: number; month?: number }): Promise<MoodCalendarDay[]> {
+    const res = await apiClient.get<ApiResponse<MoodCalendarDay[]>>(API_ROUTES.MOOD.CALENDAR, {
+      params,
+    });
+    return res.data.data || [];
+  },
+
+  /**
+   * Get supportive rule-based mood insights & safety guidance
+   */
+  async getMoodInsights(params?: { days?: number }): Promise<MoodInsightsResponse> {
+    const res = await apiClient.get<ApiResponse<MoodInsightsResponse>>(API_ROUTES.MOOD.INSIGHTS, {
+      params,
+    });
+    return res.data.data || { insights: [] };
   },
 };
 

@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from 'react-native-reanimated';
-import { AppHeading, AppText, AppCard, AppBadge } from '../../../components/ui';
+import { AppHeading, AppText, AppCard, AppBadge, AppIcon } from '../../../components/ui';
 import { useTheme } from '../../../hooks/useTheme';
 import { triggerHaptic } from '../../../utils/haptics';
 import { MoodEntry } from '@solace/shared';
@@ -14,6 +14,7 @@ interface MoodCheckInCardProps {
   todayMood?: MoodEntry | null;
   onSelectMood: (mood: string) => void;
   onUpdateMood?: () => void;
+  onOpenHistory?: () => void;
 }
 
 interface MoodOption {
@@ -36,6 +37,7 @@ export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
   todayMood,
   onSelectMood,
   onUpdateMood,
+  onOpenHistory,
 }) => {
   const { colors, isDark } = useTheme();
 
@@ -64,7 +66,7 @@ export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
       {/* Header section */}
       <View style={styles.header}>
         <View style={styles.titleWrapper}>
-          <AppHeading level="h3" style={[styles.title, { color: colors.textPrimary }]}>
+          <AppHeading level={3} style={[styles.title, { color: colors.textPrimary }]}>
             How are you feeling today?
           </AppHeading>
           <AppText variant="bodySmall" style={[styles.subtitle, { color: colors.textSecondary }]}>
@@ -81,46 +83,82 @@ export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
 
       {/* If checked in today, show existing mood summary */}
       {todayMood ? (
-        <View style={[styles.existingMoodContainer, { backgroundColor: isDark ? colors.background : '#F3F4ED' }]}>
-          <View style={styles.existingMoodLeft}>
-            <View style={styles.existingMoodDot}>
-              <AppText style={styles.existingMoodEmoji}>
-                {MOOD_OPTIONS.find((m) => m.key === todayMood.mood.toLowerCase())?.emoji || '🌿'}
-              </AppText>
+        <View style={styles.todaySection}>
+          <View style={[styles.existingMoodContainer, { backgroundColor: isDark ? colors.background : '#F3F4ED' }]}>
+            <View style={styles.existingMoodLeft}>
+              <View style={styles.existingMoodDot}>
+                <AppText style={styles.existingMoodEmoji}>
+                  {MOOD_OPTIONS.find((m) => m.key === todayMood.mood.toLowerCase())?.emoji || '🌿'}
+                </AppText>
+              </View>
+              <View style={styles.existingMoodDetails}>
+                <AppText variant="bodyMedium" style={[styles.existingMoodTitle, { color: colors.textPrimary }]}>
+                  Felt {todayMoodLabel} today
+                </AppText>
+                <AppText variant="caption" style={{ color: colors.textSecondary }}>
+                  Intensity {todayMood.moodIntensity}/10
+                  {todayMood.emotions?.length ? ` • ${todayMood.emotions.slice(0, 2).join(', ')}` : ''}
+                </AppText>
+              </View>
             </View>
-            <View style={styles.existingMoodDetails}>
-              <AppText variant="bodyMedium" style={[styles.existingMoodTitle, { color: colors.textPrimary }]}>
-                Felt {todayMoodLabel} today
+
+            <TouchableOpacity
+              onPress={onUpdateMood}
+              style={[styles.updateButton, { borderColor: colors.primary }]}
+              activeOpacity={0.7}
+            >
+              <AppText variant="caption" style={[styles.updateButtonText, { color: colors.primary }]}>
+                Update
               </AppText>
-              <AppText variant="caption" style={{ color: colors.textSecondary }}>
-                Intensity {todayMood.moodIntensity}/10
-                {todayMood.emotions?.length ? ` • ${todayMood.emotions.slice(0, 2).join(', ')}` : ''}
-              </AppText>
-            </View>
+            </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            onPress={onUpdateMood}
-            style={[styles.updateButton, { borderColor: colors.primary }]}
-            activeOpacity={0.7}
-          >
-            <AppText variant="caption" style={[styles.updateButtonText, { color: colors.primary }]}>
-              Update
-            </AppText>
-          </TouchableOpacity>
+          {onOpenHistory && (
+            <TouchableOpacity
+              onPress={() => {
+                triggerHaptic.light();
+                onOpenHistory();
+              }}
+              style={styles.historyLinkRow}
+              activeOpacity={0.7}
+            >
+              <AppText variant="caption" style={{ color: colors.primaryDark, fontWeight: '700' }}>
+                View Mood History & Calendar
+              </AppText>
+              <AppIcon name="chevronRight" size={14} color={colors.primaryDark} />
+            </TouchableOpacity>
+          )}
         </View>
       ) : (
         /* Mood Options Row */
-        <View style={styles.optionsRow}>
-          {MOOD_OPTIONS.map((option) => (
-            <MoodOptionItem
-              key={option.key}
-              option={option}
-              onPress={() => handleMoodPress(option.key)}
-              colors={colors}
-              isDark={isDark}
-            />
-          ))}
+        <View style={styles.optionsContainer}>
+          <View style={styles.optionsRow}>
+            {MOOD_OPTIONS.map((option) => (
+              <MoodOptionItem
+                key={option.key}
+                option={option}
+                onPress={() => handleMoodPress(option.key)}
+                colors={colors}
+                isDark={isDark}
+              />
+            ))}
+          </View>
+
+          {onOpenHistory && (
+            <TouchableOpacity
+              onPress={() => {
+                triggerHaptic.light();
+                onOpenHistory();
+              }}
+              style={styles.historyLinkRow}
+              activeOpacity={0.7}
+            >
+              <AppText variant="caption" style={{ color: colors.primaryDark, fontWeight: '700' }}>
+                Explore Mood Calendar & Analytics
+              </AppText>
+              <AppIcon name="chevronRight" size={14} color={colors.primaryDark} />
+            </TouchableOpacity>
+          )}
         </View>
       )}
     </AppCard>
@@ -207,6 +245,12 @@ const styles = StyleSheet.create({
   completedBadge: {
     marginLeft: 8,
   },
+  todaySection: {
+    gap: 12,
+  },
+  optionsContainer: {
+    gap: 12,
+  },
   optionsRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -280,5 +324,11 @@ const styles = StyleSheet.create({
   updateButtonText: {
     fontWeight: '600',
   },
+  historyLinkRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 4,
+    paddingTop: 4,
+  },
 });
-

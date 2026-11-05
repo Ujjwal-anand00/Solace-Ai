@@ -15,13 +15,15 @@ export class MoodController {
 
   public static async list(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { page, limit, startDate, endDate } = req.query;
+      const { page, limit, startDate, endDate, mood, emotion } = req.query;
       const result = await MoodService.getMoods(
         req.user!.id,
         page,
         limit,
         startDate as string | undefined,
         endDate as string | undefined,
+        mood as string | undefined,
+        emotion as string | undefined,
       );
       ApiResponseUtil.paginated(res, 'Mood entries retrieved successfully', result.data, result.meta);
     } catch (err) {
@@ -64,5 +66,31 @@ export class MoodController {
       next(err);
     }
   }
-}
 
+  public static async calendar(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { year, month } = req.query;
+      const calendar = await MoodService.getCalendar(
+        req.user!.id,
+        year ? Number(year) : undefined,
+        month ? Number(month) : undefined,
+      );
+      ApiResponseUtil.success(res, 'Mood calendar retrieved successfully', calendar);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  public static async insights(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { days } = req.query;
+      const insights = await MoodService.getInsights(
+        req.user!.id,
+        days ? Number(days) : undefined,
+      );
+      ApiResponseUtil.success(res, 'Mood insights calculated successfully', insights);
+    } catch (err) {
+      next(err);
+    }
+  }
+}

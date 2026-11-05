@@ -7,6 +7,8 @@ export const QUERY_KEYS = {
     LIST: (filters?: Record<string, unknown>) => ['moods', 'list', filters || {}] as const,
     DETAIL: (id: string) => ['moods', 'detail', id] as const,
     SUMMARY: ['moods', 'summary'] as const,
+    CALENDAR: (year?: number, month?: number) => ['moods', 'calendar', year, month] as const,
+    INSIGHTS: (days?: number) => ['moods', 'insights', days || 30] as const,
   },
   JOURNAL: {
     ALL: ['journals'] as const,

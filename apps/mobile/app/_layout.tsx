@@ -31,6 +31,7 @@ function AppNavigation(): React.JSX.Element {
       <Stack.Screen name="(onboarding)" />
       <Stack.Screen name="(auth)" />
       <Stack.Screen name="(home)" />
+      <Stack.Screen name="mood" options={{ animation: 'slide_from_bottom' }} />
       <Stack.Screen name="design-system" />
     </Stack>
   );

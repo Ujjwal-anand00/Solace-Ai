@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useTheme } from '../../src/hooks/useTheme';
-import { useMoods, useCreateMood } from '../../src/hooks/useMood';
+import { useMoods } from '../../src/hooks/useMood';
 import { useDailyAffirmation } from '../../src/hooks/useAffirmations';
 import { useActivities } from '../../src/hooks/useActivities';
 import { useCurrentWellnessPlan } from '../../src/hooks/useWellnessPlan';
@@ -12,7 +12,7 @@ import { useProgress, useProgressHistory } from '../../src/hooks/useProgress';
 import { useResources } from '../../src/hooks/useResources';
 import { useUnreadNotificationCount } from '../../src/hooks/useNotifications';
 import { triggerHaptic } from '../../src/utils/haptics';
-import { WellnessActivity, WellnessResource, MoodEntry, MoodCategory } from '@solace/shared';
+import { WellnessActivity, WellnessResource, MoodEntry } from '@solace/shared';
 
 // Modular Dashboard Components
 import {
@@ -50,9 +50,6 @@ export default function HomeScreen(): React.JSX.Element {
   const { data: resources = [], isLoading: isResourcesLoading, refetch: refetchResources } =
     useResources();
   const { refetch: refetchNotifications } = useUnreadNotificationCount();
-
-  // Mutations
-  const createMoodMutation = useCreateMood();
 
   // Determine if user has already checked in today
   const todayMood: MoodEntry | null = React.useMemo(() => {
@@ -95,35 +92,23 @@ export default function HomeScreen(): React.JSX.Element {
     refetchNotifications,
   ]);
 
-  // Mood selection handler
-  const handleSelectMood = async (moodKey: string) => {
+  // Mood selection handler - launches dedicated multi-step check-in flow with initial mood
+  const handleSelectMood = (moodKey: string) => {
     triggerHaptic.medium();
-    try {
-      await createMoodMutation.mutateAsync({
-        mood: moodKey as MoodCategory,
-        moodIntensity: 7,
-        note: 'Logged from sanctuary home',
-      });
-      triggerHaptic.success();
-    } catch (err: unknown) {
-      Alert.alert('Mood Log', (err as Error).message || 'Unable to record mood check-in');
-    }
+    router.push({
+      pathname: '/mood/check-in',
+      params: { initialMood: moodKey },
+    });
   };
 
   const handleUpdateMood = () => {
     triggerHaptic.light();
-    Alert.alert(
-      'Update Today’s Mood',
-      'Select a new emotion to adjust your emotional check-in for today:',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: '🌟 Amazing', onPress: () => handleSelectMood('ecstatic') },
-        { text: '😊 Good', onPress: () => handleSelectMood('happy') },
-        { text: '🌿 Okay', onPress: () => handleSelectMood('calm') },
-        { text: '🌧️ Low', onPress: () => handleSelectMood('sad') },
-        { text: '⚡ Stressed', onPress: () => handleSelectMood('anxious') },
-      ]
-    );
+    router.push('/mood/check-in');
+  };
+
+  const handleOpenMoodHistory = () => {
+    triggerHaptic.light();
+    router.push('/mood/history');
   };
 
   const handleActivityPress = (activity: WellnessActivity) => {
@@ -186,6 +171,7 @@ export default function HomeScreen(): React.JSX.Element {
             todayMood={todayMood}
             onSelectMood={handleSelectMood}
             onUpdateMood={handleUpdateMood}
+            onOpenHistory={handleOpenMoodHistory}
           />
         </Animated.View>
 

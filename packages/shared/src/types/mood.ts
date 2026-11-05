@@ -62,4 +62,41 @@ export interface MoodSummary {
   dominantMood: string;
   topEmotions: Array<{ emotion: string; count: number }>;
   recentTrend: Array<{ date: string; averageIntensity: number; count: number }>;
+  moodDistribution?: Record<string, number>;
+  checkInStreak?: number;
+}
+
+/**
+ * Calendar day item representing mood records on a date
+ */
+export interface MoodCalendarDay {
+  date: string; // YYYY-MM-DD
+  hasCheckIn: boolean;
+  count: number;
+  dominantMood?: string;
+  averageIntensity?: number;
+  entries: MoodEntry[];
+}
+
+/**
+ * Single rule-based supportive mood insight
+ */
+export interface MoodInsightItem {
+  id: string;
+  type: 'consistency' | 'trend' | 'emotion' | 'tag' | 'encouragement';
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+/**
+ * Response for mood insights including optional safety guidance
+ */
+export interface MoodInsightsResponse {
+  insights: MoodInsightItem[];
+  safetySupport?: {
+    recommended: boolean;
+    message: string;
+    resources: Array<{ name: string; contact: string; description: string }>;
+  };
 }

@@ -23,7 +23,17 @@ export const updateMoodSchema = z.object({
 export const moodQuerySchema = z.object({
   page: z.coerce.number().int().min(1).optional().default(1),
   limit: z.coerce.number().int().min(1).max(100).optional().default(20),
-  startDate: z.string().datetime().optional(),
-  endDate: z.string().datetime().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  mood: z.string().trim().optional(),
+  emotion: z.string().trim().optional(),
 });
 
+export const calendarQuerySchema = z.object({
+  year: z.coerce.number().int().min(2000).max(2100).optional(),
+  month: z.coerce.number().int().min(1).max(12).optional(),
+});
+
+export const insightsQuerySchema = z.object({
+  days: z.coerce.number().int().min(1).max(90).optional().default(30),
+});

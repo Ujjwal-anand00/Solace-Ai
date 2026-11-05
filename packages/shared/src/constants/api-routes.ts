@@ -17,6 +17,8 @@ export const API_ROUTES = {
   MOOD: {
     BASE: '/api/v1/mood',
     SUMMARY: '/api/v1/mood/summary',
+    CALENDAR: '/api/v1/mood/calendar',
+    INSIGHTS: '/api/v1/mood/insights',
   },
   JOURNAL: {
     BASE: '/api/v1/journal',
