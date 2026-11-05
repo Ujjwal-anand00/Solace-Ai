@@ -1,18 +1,29 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, Href } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useTheme } from '../../src/hooks/useTheme';
 import { useMoods } from '../../src/hooks/useMood';
 import { useDailyAffirmation } from '../../src/hooks/useAffirmations';
 import { useActivities } from '../../src/hooks/useActivities';
-import { useCurrentWellnessPlan } from '../../src/hooks/useWellnessPlan';
+import {
+  useCurrentWellnessPlan,
+  useCompleteWellnessTask,
+} from '../../src/hooks/useWellnessPlan';
+import { useAssessmentHistory } from '../../src/hooks/useAssessments';
 import { useProgress, useProgressHistory } from '../../src/hooks/useProgress';
 import { useResources } from '../../src/hooks/useResources';
 import { useUnreadNotificationCount } from '../../src/hooks/useNotifications';
 import { triggerHaptic } from '../../src/utils/haptics';
 import { WellnessActivity, WellnessResource, MoodEntry } from '@solace/shared';
+import {
+  AppCard,
+  AppText,
+  AppHeading,
+  AppIcon,
+  AppButton,
+} from '../../src/components/ui';
 
 // Modular Dashboard Components
 import {
@@ -45,6 +56,9 @@ export default function HomeScreen(): React.JSX.Element {
     isLoading: isPlanLoading,
     refetch: refetchPlan,
   } = useCurrentWellnessPlan();
+  const completeTaskMutation = useCompleteWellnessTask();
+  const { data: assessmentData, refetch: refetchAssessments } = useAssessmentHistory(1, 1);
+  const latestAssessment = assessmentData?.data?.[0];
   const { data: progress, isLoading: isProgressLoading, refetch: refetchProgress } = useProgress();
   const { data: history = [], refetch: refetchHistory } = useProgressHistory();
   const { data: resources = [], isLoading: isResourcesLoading, refetch: refetchResources } =
@@ -71,6 +85,7 @@ export default function HomeScreen(): React.JSX.Element {
         refetchAffirmation(),
         refetchActivities(),
         refetchPlan(),
+        refetchAssessments(),
         refetchProgress(),
         refetchHistory(),
         refetchResources(),
@@ -86,6 +101,7 @@ export default function HomeScreen(): React.JSX.Element {
     refetchAffirmation,
     refetchActivities,
     refetchPlan,
+    refetchAssessments,
     refetchProgress,
     refetchHistory,
     refetchResources,
@@ -196,12 +212,45 @@ export default function HomeScreen(): React.JSX.Element {
           <WellnessPlanCard
             plan={currentPlan}
             isLoading={isPlanLoading}
-            onCreatePlanPress={() => router.navigate('/(home)/activities')}
-            onViewAllPlansPress={() => router.navigate('/(home)/activities')}
+            onTaskToggle={(taskId, completed) => {
+              if (currentPlan) {
+                completeTaskMutation.mutate({
+                  planId: currentPlan.id,
+                  taskId,
+                  completed,
+                });
+              }
+            }}
+            onCreatePlanPress={() => router.push('/plan/generate' as Href)}
+            onViewAllPlansPress={() => router.push('/plan' as Href)}
           />
         </Animated.View>
 
-        {/* Section G: Progress Overview & 7-Day Dots */}
+        {/* Section G: Self-Reflection Assessment Card */}
+        <Animated.View entering={FadeInDown.duration(400).delay(320)}>
+          <AppCard style={styles.assessmentCard}>
+            <View style={styles.assessmentCardHeader}>
+              <View style={[styles.assessmentIconBadge, { backgroundColor: colors.primaryLight }]}>
+                <AppIcon name="heart" size={20} color={colors.primaryDark} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <AppHeading level="h4">Mindful Self-Reflection</AppHeading>
+                <AppText variant="caption" color="secondary">
+                  {latestAssessment
+                    ? `Latest: ${latestAssessment.assessmentType.toUpperCase()} • ${latestAssessment.resultCategory}`
+                    : '2-min gentle check-in on stress, sleep & energy'}
+                </AppText>
+              </View>
+              <AppButton
+                title={latestAssessment ? 'Reflect' : 'Start'}
+                size="sm"
+                onPress={() => router.push('/assessments' as Href)}
+              />
+            </View>
+          </AppCard>
+        </Animated.View>
+
+        {/* Section H: Progress Overview & 7-Day Dots */}
         <Animated.View entering={FadeInDown.duration(400).delay(350)}>
           <ProgressOverview
             progress={progress}
@@ -242,5 +291,22 @@ const styles = StyleSheet.create({
   },
   bottomSpacer: {
     height: 16,
+  },
+  assessmentCard: {
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 16,
+  },
+  assessmentCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  assessmentIconBadge: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

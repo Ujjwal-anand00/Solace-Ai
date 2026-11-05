@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { ZodError } from 'zod';
 import { AppError } from '../utils/apiError';
 import { ApiResponseUtil } from '../utils/apiResponse';
 import { logger } from '../utils/logger';
@@ -11,6 +12,22 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction,
 ): void => {
+  if (err instanceof ZodError) {
+    const errorDetails = err.errors.map((e) => ({
+      field: e.path.join('.'),
+      message: e.message,
+    }));
+    logger.warn(`Validation Error at ${req.originalUrl}: ${JSON.stringify(errorDetails)}`);
+    ApiResponseUtil.error(
+      res,
+      'Validation failed',
+      400,
+      ERROR_CODES.VALIDATION_ERROR,
+      errorDetails,
+    );
+    return;
+  }
+
   if (err instanceof AppError) {
     logger.warn(
       `Operational Error: ${err.message} [Code: ${err.errorCode}, Path: ${req.originalUrl}]`,

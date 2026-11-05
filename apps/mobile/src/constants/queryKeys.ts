@@ -38,7 +38,19 @@ export const QUERY_KEYS = {
     LIST: (category?: string) => ['resources', 'list', category || 'all'] as const,
   },
   WELLNESS_PLANS: {
+    ALL: ['wellness-plans'] as const,
     CURRENT: ['wellness-plans', 'current'] as const,
+    LIST: (page?: number) => ['wellness-plans', 'list', page || 1] as const,
+    DETAIL: (id: string) => ['wellness-plans', 'detail', id] as const,
+    RECOMMENDATIONS: ['wellness-plans', 'recommendations'] as const,
+  },
+  ASSESSMENTS: {
+    ALL: ['assessments'] as const,
+    TYPES: ['assessments', 'types'] as const,
+    TYPE_DETAIL: (type: string) => ['assessments', 'types', type] as const,
+    HISTORY: (page?: number) => ['assessments', 'history', page || 1] as const,
+    LATEST: (type: string) => ['assessments', 'latest', type] as const,
+    DETAIL: (id: string) => ['assessments', 'detail', id] as const,
   },
   NOTIFICATIONS: {
     UNREAD_COUNT: ['notifications', 'unread-count'] as const,

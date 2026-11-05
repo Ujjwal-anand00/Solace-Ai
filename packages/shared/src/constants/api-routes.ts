@@ -38,9 +38,27 @@ export const API_ROUTES = {
   RESOURCES: {
     BASE: '/api/v1/resources',
   },
+  ASSESSMENTS: {
+    BASE: '/api/v1/assessments',
+    TYPES: '/api/v1/assessments/types',
+    TYPE_DETAIL: (type: string) => `/api/v1/assessments/types/${type}`,
+    HISTORY: '/api/v1/assessments/history',
+    LATEST: (type: string) => `/api/v1/assessments/${type}/latest`,
+    DETAIL: (id: string) => `/api/v1/assessments/${id}`,
+    SUBMIT: (type: string) => `/api/v1/assessments/${type}/submit`,
+  },
   WELLNESS_PLANS: {
     BASE: '/api/v1/wellness-plans',
     CURRENT: '/api/v1/wellness-plans/current',
+    GENERATE: '/api/v1/wellness-plans/generate',
+    RECOMMENDATIONS: '/api/v1/wellness-plans/recommendations',
+    DETAIL: (id: string) => `/api/v1/wellness-plans/${id}`,
+    COMPLETE_TASK: (id: string, taskId: string) =>
+      `/api/v1/wellness-plans/${id}/tasks/${taskId}/complete`,
+    SKIP_TASK: (id: string, taskId: string) =>
+      `/api/v1/wellness-plans/${id}/tasks/${taskId}/skip`,
+    PAUSE: (id: string) => `/api/v1/wellness-plans/${id}/pause`,
+    RESUME: (id: string) => `/api/v1/wellness-plans/${id}/resume`,
   },
   NOTIFICATIONS: {
     BASE: '/api/v1/notifications',
