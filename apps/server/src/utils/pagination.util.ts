@@ -39,3 +39,4 @@ export const buildPaginationMeta = (
     hasPrev: page > 1,
   };
 };
+

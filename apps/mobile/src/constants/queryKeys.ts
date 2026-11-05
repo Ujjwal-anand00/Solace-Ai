@@ -31,4 +31,14 @@ export const QUERY_KEYS = {
   USER: {
     PROFILE: ['user', 'profile'] as const,
   },
+  RESOURCES: {
+    ALL: ['resources'] as const,
+    LIST: (category?: string) => ['resources', 'list', category || 'all'] as const,
+  },
+  WELLNESS_PLANS: {
+    CURRENT: ['wellness-plans', 'current'] as const,
+  },
+  NOTIFICATIONS: {
+    UNREAD_COUNT: ['notifications', 'unread-count'] as const,
+  },
 } as const;

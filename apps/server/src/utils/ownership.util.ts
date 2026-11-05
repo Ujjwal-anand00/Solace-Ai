@@ -15,3 +15,4 @@ export const assertOwnership = (
     throw AppError.forbidden(`You do not have permission to access or modify this ${resourceName}.`);
   }
 };
+

@@ -77,3 +77,4 @@ export const journalService = {
     await apiClient.delete(`${API_ROUTES.JOURNAL.BASE}/${id}`);
   },
 };
+

@@ -22,3 +22,4 @@ export const useDailyAffirmation = (category?: string, language = 'en') => {
     staleTime: 1000 * 60 * 30, // 30 minutes cache
   });
 };
+

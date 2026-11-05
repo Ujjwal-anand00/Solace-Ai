@@ -33,6 +33,17 @@ export const API_ROUTES = {
     BASE: '/api/v1/progress',
     HISTORY: '/api/v1/progress/history',
   },
+  RESOURCES: {
+    BASE: '/api/v1/resources',
+  },
+  WELLNESS_PLANS: {
+    BASE: '/api/v1/wellness-plans',
+    CURRENT: '/api/v1/wellness-plans/current',
+  },
+  NOTIFICATIONS: {
+    BASE: '/api/v1/notifications',
+    UNREAD_COUNT: '/api/v1/notifications/unread-count',
+  },
   COMPANION: {
     CHAT: '/api/v1/companion/chat',
     HISTORY: '/api/v1/companion/history',

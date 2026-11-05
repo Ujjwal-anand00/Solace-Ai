@@ -43,6 +43,15 @@ import {
   Calendar,
   Feather,
   Zap,
+  TrendingUp,
+  Award,
+  Share2,
+  Bookmark,
+  PlayCircle,
+  FileText,
+  Phone,
+  Star,
+  Wind,
   LucideIcon,
 } from 'lucide-react-native';
 import { useTheme } from '../../hooks/useTheme';
@@ -90,6 +99,21 @@ export const ICON_MAP = {
   calendar: Calendar,
   feather: Feather,
   zap: Zap,
+  wind: Wind,
+  trendingUp: TrendingUp,
+  award: Award,
+  share: Share2,
+  'share-2': Share2,
+  bookmark: Bookmark,
+  'play-circle': PlayCircle,
+  'file-text': FileText,
+  phone: Phone,
+  star: Star,
+  'chevron-right': ChevronRight,
+  'chevron-left': ChevronLeft,
+  'message-circle': MessageCircle,
+  'refresh-cw': RefreshCw,
+  'book-open': BookOpen,
 } as const;
 
 export type IconName = keyof typeof ICON_MAP;

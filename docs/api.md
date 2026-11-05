@@ -319,3 +319,4 @@
 - **Endpoint:** `GET /api/v1/progress/history`
 - **Auth Required:** `Bearer <accessToken>`
 - **Response (200 OK):** Returns chronological 14-day array with daily activity counts, mood check-in booleans, journal booleans, and breathing minutes.
+

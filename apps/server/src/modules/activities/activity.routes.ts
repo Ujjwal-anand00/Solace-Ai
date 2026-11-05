@@ -20,3 +20,4 @@ router.post(
 );
 
 export const activityRoutes = router;
+

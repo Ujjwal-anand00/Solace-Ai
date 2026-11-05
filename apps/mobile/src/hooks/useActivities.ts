@@ -43,3 +43,4 @@ export const useActivityHistory = (page = 1, limit = 20) => {
     staleTime: 1000 * 60 * 2,
   });
 };
+

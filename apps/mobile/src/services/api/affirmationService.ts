@@ -30,3 +30,4 @@ export const affirmationService = {
     return res.data.data || null;
   },
 };
+

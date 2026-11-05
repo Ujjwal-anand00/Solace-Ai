@@ -41,3 +41,4 @@ export interface WellnessResource {
   createdAt: string;
   updatedAt: string;
 }
+

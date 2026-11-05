@@ -5,3 +5,4 @@ export const affirmationQuerySchema = z.object({
   tag: z.string().optional(),
   language: z.string().optional().default('en'),
 });
+

@@ -6,3 +6,6 @@ export * from './activityService';
 export * from './affirmationService';
 export * from './progressService';
 export * from './userService';
+export * from './resourceService';
+export * from './wellnessPlanService';
+export * from './notificationService';

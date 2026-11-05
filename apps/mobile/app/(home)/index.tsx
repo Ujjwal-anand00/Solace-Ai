@@ -1,186 +1,257 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, StyleSheet, ScrollView, RefreshControl, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  AppHeading,
-  AppText,
-  AppCard,
-  AppBadge,
-  AppIcon,
-  PrimaryButton,
-  OutlineButton,
-  GhostButton,
-  SolaceMascot,
-  SolaceLogo,
-} from '../../src/components/ui';
-import { useAuthStore } from '../../src/store/authStore';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useTheme } from '../../src/hooks/useTheme';
+import { useMoods, useCreateMood } from '../../src/hooks/useMood';
+import { useDailyAffirmation } from '../../src/hooks/useAffirmations';
+import { useActivities } from '../../src/hooks/useActivities';
+import { useCurrentWellnessPlan } from '../../src/hooks/useWellnessPlan';
+import { useProgress, useProgressHistory } from '../../src/hooks/useProgress';
+import { useResources } from '../../src/hooks/useResources';
+import { useUnreadNotificationCount } from '../../src/hooks/useNotifications';
 import { triggerHaptic } from '../../src/utils/haptics';
+import { WellnessActivity, WellnessResource, MoodEntry, MoodCategory } from '@solace/shared';
+
+// Modular Dashboard Components
+import {
+  HomeHeader,
+  MoodCheckInCard,
+  DailyAffirmationCard,
+  CompanionPreviewCard,
+  QuickActivitiesSection,
+  WellnessPlanCard,
+  ProgressOverview,
+  ResourceSection,
+} from '../../src/features/dashboard/components';
 
 export default function HomeScreen(): React.JSX.Element {
   const router = useRouter();
   const { colors } = useTheme();
-  const { user, logout, isLoading } = useAuthStore();
+  const [refreshing, setRefreshing] = useState(false);
 
-  const greeting = React.useMemo(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
-  }, []);
+  // Queries
+  const { data: moodData, refetch: refetchMoods } = useMoods({ limit: 5 });
+  const {
+    data: dailyAffirmation,
+    refetch: refetchAffirmation,
+    isFetching: isAffirmationFetching,
+  } = useDailyAffirmation();
+  const { data: activities = [], isLoading: isActivitiesLoading, refetch: refetchActivities } =
+    useActivities();
+  const {
+    data: currentPlan,
+    isLoading: isPlanLoading,
+    refetch: refetchPlan,
+  } = useCurrentWellnessPlan();
+  const { data: progress, isLoading: isProgressLoading, refetch: refetchProgress } = useProgress();
+  const { data: history = [], refetch: refetchHistory } = useProgressHistory();
+  const { data: resources = [], isLoading: isResourcesLoading, refetch: refetchResources } =
+    useResources();
+  const { refetch: refetchNotifications } = useUnreadNotificationCount();
 
-  const displayName = user?.preferredName || user?.name || 'Friend';
+  // Mutations
+  const createMoodMutation = useCreateMood();
 
-  const handleSignOut = () => {
+  // Determine if user has already checked in today
+  const todayMood: MoodEntry | null = React.useMemo(() => {
+    if (!moodData?.data || moodData.data.length === 0) return null;
+    const todayStr = new Date().toDateString();
+    return (
+      moodData.data.find((entry) => new Date(entry.createdAt).toDateString() === todayStr) ||
+      null
+    );
+  }, [moodData]);
+
+  // Pull-to-refresh handler
+  const onRefresh = useCallback(async () => {
+    triggerHaptic.light();
+    setRefreshing(true);
+    try {
+      await Promise.all([
+        refetchMoods(),
+        refetchAffirmation(),
+        refetchActivities(),
+        refetchPlan(),
+        refetchProgress(),
+        refetchHistory(),
+        refetchResources(),
+        refetchNotifications(),
+      ]);
+    } catch {
+      // Ignore background refresh errors
+    } finally {
+      setRefreshing(false);
+    }
+  }, [
+    refetchMoods,
+    refetchAffirmation,
+    refetchActivities,
+    refetchPlan,
+    refetchProgress,
+    refetchHistory,
+    refetchResources,
+    refetchNotifications,
+  ]);
+
+  // Mood selection handler
+  const handleSelectMood = async (moodKey: string) => {
     triggerHaptic.medium();
-    Alert.alert('Sign Out', 'Are you sure you want to exit your sanctuary?', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Sign Out',
-        style: 'destructive',
-        onPress: async () => {
-          await logout();
-          router.replace('/(auth)');
-        },
-      },
-    ]);
+    try {
+      await createMoodMutation.mutateAsync({
+        mood: moodKey as MoodCategory,
+        moodIntensity: 7,
+        note: 'Logged from sanctuary home',
+      });
+      triggerHaptic.success();
+    } catch (err: unknown) {
+      Alert.alert('Mood Log', (err as Error).message || 'Unable to record mood check-in');
+    }
   };
 
-  const handleMoodCheckIn = () => {
+  const handleUpdateMood = () => {
     triggerHaptic.light();
     Alert.alert(
-      'Mood & Emotional Tracking',
-      'Daily mood logging, sentiment analysis, and wellness check-ins will be implemented in STEP 05.',
-      [{ text: 'Looking Forward' }],
+      'Update Today’s Mood',
+      'Select a new emotion to adjust your emotional check-in for today:',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: '🌟 Amazing', onPress: () => handleSelectMood('ecstatic') },
+        { text: '😊 Good', onPress: () => handleSelectMood('happy') },
+        { text: '🌿 Okay', onPress: () => handleSelectMood('calm') },
+        { text: '🌧️ Low', onPress: () => handleSelectMood('sad') },
+        { text: '⚡ Stressed', onPress: () => handleSelectMood('anxious') },
+      ]
+    );
+  };
+
+  const handleActivityPress = (activity: WellnessActivity) => {
+    triggerHaptic.medium();
+    Alert.alert(
+      activity.title,
+      `${activity.description}\n\nEstimated duration: ${Math.round(activity.duration / 60)} minutes.\n\nInteractive full-screen activity guidance is scheduled for STEP 08!`,
+      [
+        { text: 'Close', style: 'cancel' },
+        {
+          text: 'View All Activities',
+          onPress: () => router.navigate('/(home)/activities'),
+        },
+      ]
+    );
+  };
+
+  const handleResourcePress = (resource: WellnessResource) => {
+    triggerHaptic.light();
+    Alert.alert(
+      resource.title,
+      `${resource.description}\n\nFormat: ${resource.contentType.toUpperCase()}\n\nFull resource viewer scheduled for next phase.`,
+      [{ text: 'Close' }]
+    );
+  };
+
+  const handleNotificationsPress = () => {
+    Alert.alert(
+      'Sanctuary Notifications',
+      'All calm here! You are up to date on your reminders and mindful check-ins.',
+      [{ text: 'Understood' }]
     );
   };
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={['top']}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.primary}
+            colors={[colors.primary]}
+          />
+        }
       >
-        {/* Top Header Bar */}
-        <View style={styles.topBar}>
-          <SolaceLogo size="sm" variant="horizontal" />
-
-          <TouchableOpacity
-            onPress={handleSignOut}
-            style={styles.signOutIconBtn}
-            accessibilityRole="button"
-            accessibilityLabel="Sign out"
-          >
-            <AppIcon name="user" size="sm" color={colors.textSecondary} />
-          </TouchableOpacity>
-        </View>
-
-        {/* Greeting Block */}
-        <View style={styles.greetingBlock}>
-          <AppText variant="caption" color="textSecondary" style={styles.dateTag}>
-            TODAY’S SANCTUARY
-          </AppText>
-          <AppHeading level={1} style={styles.greetingTitle}>
-            {greeting}, {displayName}
-          </AppHeading>
-          <AppText variant="bodyLarge" color="textSecondary" style={styles.greetingSubtitle}>
-            How is your heart feeling today? Solace is here whenever you need a calm moment.
-          </AppText>
-        </View>
-
-        {/* Mascot Centerpiece */}
-        <View style={styles.mascotWrapper}>
-          <SolaceMascot size={135} expression="happy" animationState="floating" showCushion />
-        </View>
-
-        {/* Quick Check-in Prompt Card (Step 05 hook) */}
-        <AppCard variant="elevated" style={styles.checkInCard}>
-          <View style={styles.checkInHeader}>
-            <View style={[styles.checkInIcon, { backgroundColor: colors.mint }]}>
-              <AppIcon name="heart" size="md" color={colors.primaryDark} />
-            </View>
-            <View style={styles.checkInTexts}>
-              <AppText variant="bodyLarge" style={styles.checkInTitle}>
-                Daily Mood Check-In
-              </AppText>
-              <AppText variant="bodySmall" color="textSecondary">
-                Take 30 seconds to reflect and tune in with yourself.
-              </AppText>
-            </View>
-          </View>
-
-          <PrimaryButton
-            title="Start Daily Check-in"
-            size="md"
-            fullWidth
-            trailingIcon="arrowRight"
-            onPress={handleMoodCheckIn}
-            style={styles.checkInBtn}
+        {/* Section A: Personalized Greeting Header */}
+        <Animated.View entering={FadeInDown.duration(400).delay(50)}>
+          <HomeHeader
+            onProfilePress={() => router.navigate('/(home)/profile')}
+            onNotificationsPress={handleNotificationsPress}
           />
-        </AppCard>
+        </Animated.View>
 
-        {/* User Wellness Goals Summary */}
-        {user?.wellnessGoals && user.wellnessGoals.length > 0 && (
-          <View style={styles.goalsSection}>
-            <AppText variant="label" color="textSecondary" style={styles.sectionLabel}>
-              ACTIVE WELLNESS FOCUS
-            </AppText>
-
-            <View style={styles.goalsRow}>
-              {user.wellnessGoals.map((goal) => (
-                <AppBadge
-                  key={goal}
-                  label={goal.replace('_', ' ').toUpperCase()}
-                  variant="mint"
-                  size="sm"
-                />
-              ))}
-            </View>
-          </View>
-        )}
-
-        {/* Profile Details Card */}
-        <AppCard variant="soft" style={styles.profileCard}>
-          <View style={styles.profileRow}>
-            <View style={[styles.avatarCircle, { backgroundColor: colors.primary }]}>
-              <AppText style={styles.avatarInitial}>
-                {displayName.charAt(0).toUpperCase()}
-              </AppText>
-            </View>
-
-            <View style={styles.profileTexts}>
-              <AppText variant="bodyMedium" style={{ fontWeight: '700' }}>
-                {user?.name}
-              </AppText>
-              <AppText variant="bodySmall" color="textSecondary">
-                {user?.email}
-              </AppText>
-            </View>
-
-            <AppBadge label="Verified" variant="neutral" size="sm" />
-          </View>
-        </AppCard>
-
-        {/* Action Controls */}
-        <View style={styles.actions}>
-          <OutlineButton
-            title="Sign Out"
-            size="md"
-            fullWidth
-            loading={isLoading}
-            onPress={handleSignOut}
-            style={styles.signOutBtn}
+        {/* Section B: Daily Emotional Check-In Card */}
+        <Animated.View entering={FadeInDown.duration(400).delay(100)}>
+          <MoodCheckInCard
+            todayMood={todayMood}
+            onSelectMood={handleSelectMood}
+            onUpdateMood={handleUpdateMood}
           />
+        </Animated.View>
 
-          <GhostButton
-            title="Explore Design System (/design-system)"
-            size="sm"
-            fullWidth
-            leadingIcon="sliders"
-            onPress={() => router.push('/design-system')}
+        {/* Section C: Daily Affirmation Card */}
+        <Animated.View entering={FadeInDown.duration(400).delay(150)}>
+          <DailyAffirmationCard
+            affirmation={dailyAffirmation}
+            isLoading={isAffirmationFetching}
+            onRefresh={() => refetchAffirmation()}
           />
-        </View>
+        </Animated.View>
+
+        {/* Section D: AI Companion Introduction Card */}
+        <Animated.View entering={FadeInDown.duration(400).delay(200)}>
+          <CompanionPreviewCard
+            onStartConversation={() => router.navigate('/(home)/companion')}
+          />
+        </Animated.View>
+
+        {/* Section E: Quick Wellness Activities */}
+        <Animated.View entering={FadeInDown.duration(400).delay(250)}>
+          <QuickActivitiesSection
+            activities={activities}
+            isLoading={isActivitiesLoading}
+            onActivityPress={handleActivityPress}
+            onSeeAllPress={() => router.navigate('/(home)/activities')}
+          />
+        </Animated.View>
+
+        {/* Section F: Daily Wellness Plan */}
+        <Animated.View entering={FadeInDown.duration(400).delay(300)}>
+          <WellnessPlanCard
+            plan={currentPlan}
+            isLoading={isPlanLoading}
+            onCreatePlanPress={() => router.navigate('/(home)/activities')}
+            onViewAllPlansPress={() => router.navigate('/(home)/activities')}
+          />
+        </Animated.View>
+
+        {/* Section G: Progress Overview & 7-Day Dots */}
+        <Animated.View entering={FadeInDown.duration(400).delay(350)}>
+          <ProgressOverview
+            progress={progress}
+            history={history}
+            isLoading={isProgressLoading}
+            onPressDetails={() => router.navigate('/(home)/progress')}
+          />
+        </Animated.View>
+
+        {/* Section H: Recommended Wellness Resources */}
+        <Animated.View entering={FadeInDown.duration(400).delay(400)}>
+          <ResourceSection
+            resources={resources}
+            isLoading={isResourcesLoading}
+            onResourcePress={handleResourcePress}
+            onSeeAllPress={() => {
+              triggerHaptic.light();
+              Alert.alert(
+                'Mindful Library',
+                'Access the complete collection of articles, sleep meditations, and soothing sounds in the upcoming release.'
+              );
+            }}
+          />
+        </Animated.View>
+
+        <View style={styles.bottomSpacer} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -191,111 +262,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 40,
+    paddingBottom: 24,
   },
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  signOutIconBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  greetingBlock: {
-    marginBottom: 16,
-  },
-  dateTag: {
-    letterSpacing: 1.2,
-    fontWeight: '700',
-    marginBottom: 4,
-  },
-  greetingTitle: {
-    lineHeight: 36,
-    marginBottom: 6,
-  },
-  greetingSubtitle: {
-    lineHeight: 23,
-  },
-  mascotWrapper: {
-    marginVertical: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkInCard: {
-    padding: 18,
-    marginBottom: 20,
-  },
-  checkInHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    marginBottom: 16,
-  },
-  checkInIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checkInTexts: {
-    flex: 1,
-  },
-  checkInTitle: {
-    fontWeight: '700',
-    marginBottom: 2,
-  },
-  checkInBtn: {
-    marginTop: 4,
-  },
-  goalsSection: {
-    marginBottom: 20,
-  },
-  sectionLabel: {
-    letterSpacing: 0.8,
-    marginBottom: 8,
-  },
-  goalsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  profileCard: {
-    padding: 14,
-    marginBottom: 24,
-  },
-  profileRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  avatarCircle: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  avatarInitial: {
-    color: '#FFFFFF',
-    fontWeight: '700',
-    fontSize: 18,
-  },
-  profileTexts: {
-    flex: 1,
-  },
-  actions: {
-    gap: 10,
-    alignItems: 'center',
-  },
-  signOutBtn: {
-    maxWidth: 340,
+  bottomSpacer: {
+    height: 16,
   },
 });

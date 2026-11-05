@@ -28,3 +28,4 @@ export const journalQuerySchema = z.object({
     .transform((val) => (val === 'true' ? true : val === 'false' ? false : undefined)),
   tag: z.string().optional(),
 });
+

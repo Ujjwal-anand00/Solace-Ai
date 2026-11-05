@@ -25,3 +25,4 @@ export interface ProgressHistoryItem {
   journalWritten: boolean;
   breathingMinutes: number;
 }
+

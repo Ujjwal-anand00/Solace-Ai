@@ -22,3 +22,4 @@ export const BREATHING_PATTERNS = {
     holdExhale: 0,
   },
 } as const;
+

@@ -12,6 +12,7 @@ export interface AppAvatarProps {
   size?: AvatarSize | number;
   status?: AvatarStatus;
   backgroundColor?: string;
+  textColor?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 }
@@ -22,6 +23,7 @@ export const AppAvatar: React.FC<AppAvatarProps> = ({
   size = 'md',
   status,
   backgroundColor,
+  textColor,
   style,
   accessibilityLabel,
 }) => {
@@ -99,7 +101,7 @@ export const AppAvatar: React.FC<AppAvatarProps> = ({
           style={{
             fontSize: Math.round(dimension * 0.38),
             fontWeight: '600',
-            color: isDark ? colors.primaryLight : colors.primaryDark,
+            color: textColor || (isDark ? colors.primaryLight : colors.primaryDark),
           }}
         >
           {initials}

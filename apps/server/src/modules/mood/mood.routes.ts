@@ -17,3 +17,4 @@ router.patch('/:id', validateBody(updateMoodSchema), MoodController.update);
 router.delete('/:id', MoodController.delete);
 
 export const moodRoutes = router;
+

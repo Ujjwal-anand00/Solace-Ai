@@ -6,6 +6,9 @@ import { journalRoutes } from '../modules/journal/journal.routes';
 import { activityRoutes } from '../modules/activities/activity.routes';
 import { affirmationRoutes } from '../modules/affirmations/affirmation.routes';
 import { progressRoutes } from '../modules/progress/progress.routes';
+import { resourceRoutes } from '../modules/resources/resource.routes';
+import { wellnessPlanRoutes } from '../modules/wellness-plans/wellnessPlan.routes';
+import { notificationRoutes } from '../modules/notifications/notification.routes';
 
 const router = Router();
 
@@ -21,5 +24,8 @@ router.use('/journal', journalRoutes);
 router.use('/activities', activityRoutes);
 router.use('/affirmations', affirmationRoutes);
 router.use('/progress', progressRoutes);
+router.use('/resources', resourceRoutes);
+router.use('/wellness-plans', wellnessPlanRoutes);
+router.use('/notifications', notificationRoutes);
 
 export const v1Routes = router;

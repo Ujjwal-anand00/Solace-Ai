@@ -20,3 +20,4 @@ export interface Assessment {
   createdAt: string;
   updatedAt: string;
 }
+

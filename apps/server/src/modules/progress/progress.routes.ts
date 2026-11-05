@@ -10,3 +10,4 @@ router.get('/', ProgressController.get);
 router.get('/history', ProgressController.history);
 
 export const progressRoutes = router;
+

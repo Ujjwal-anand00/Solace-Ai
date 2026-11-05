@@ -22,3 +22,4 @@ export interface ChatMessage {
   createdAt: string;
   updatedAt: string;
 }
+

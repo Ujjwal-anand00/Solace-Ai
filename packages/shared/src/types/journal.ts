@@ -37,3 +37,4 @@ export interface UpdateJournalDto {
   tags?: string[];
   isFavorite?: boolean;
 }
+

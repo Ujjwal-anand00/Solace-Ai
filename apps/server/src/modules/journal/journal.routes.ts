@@ -16,3 +16,4 @@ router.patch('/:id', validateBody(updateJournalSchema), JournalController.update
 router.delete('/:id', JournalController.delete);
 
 export const journalRoutes = router;
+

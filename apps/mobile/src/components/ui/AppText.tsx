@@ -61,7 +61,7 @@ export const AppText: React.FC<AppTextProps> = ({
 };
 
 export interface AppHeadingProps extends AppTextProps {
-  level?: 1 | 2 | 3 | 'displayLarge' | 'displayMedium';
+  level?: 1 | 2 | 3 | 4 | 'h1' | 'h2' | 'h3' | 'h4' | 'displayLarge' | 'displayMedium';
 }
 
 /**
@@ -78,8 +78,8 @@ export const AppHeading: React.FC<AppHeadingProps> = ({
     if (variant) return variant;
     if (level === 'displayLarge') return 'displayLarge';
     if (level === 'displayMedium') return 'displayMedium';
-    if (level === 2) return 'h2';
-    if (level === 3) return 'h3';
+    if (level === 2 || level === 'h2') return 'h2';
+    if (level === 3 || level === 'h3' || level === 4 || level === 'h4') return 'h3';
     return 'h1';
   }, [level, variant]);
 

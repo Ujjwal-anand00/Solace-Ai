@@ -22,3 +22,4 @@ export interface WellnessPlan {
   createdAt: string;
   updatedAt: string;
 }
+

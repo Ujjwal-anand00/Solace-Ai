@@ -9,3 +9,4 @@ router.get('/', validateQuery(affirmationQuerySchema), AffirmationController.lis
 router.get('/daily', AffirmationController.daily);
 
 export const affirmationRoutes = router;
+
