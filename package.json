@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "concurrently -k -p \"[{name}]\" -n \"SERVER,MOBILE\" -c \"blue.bold,magenta.bold\" \"npm run server:dev\" \"npm run mobile\"",
     "mobile": "npm run start --workspace=@solace/mobile",
+    "mobile:clear": "npm run start:clear --workspace=@solace/mobile",
     "mobile:android": "npm run android --workspace=@solace/mobile",
     "mobile:ios": "npm run ios --workspace=@solace/mobile",
     "mobile:web": "npm run web --workspace=@solace/mobile",
