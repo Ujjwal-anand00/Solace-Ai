@@ -1,10 +1,3 @@
-/**
- * Layout Components & Containers
- *
- * Screen containers, safe area wrappers, and headers
- * will be defined here in subsequent steps.
- */
-export const LAYOUT_COMPONENTS = {
-  ScreenContainer: 'ScreenContainer',
-  Header: 'Header',
-} as const;
+export { ScreenContainer, ScreenContainerProps } from '../ui/ScreenContainer';
+export { SectionHeader, SectionHeaderProps } from '../ui/SectionHeader';
+export { BottomSheet, BottomSheetProps } from '../ui/BottomSheet';

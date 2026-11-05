@@ -1,10 +1,10 @@
 import '../global.css';
 import React from 'react';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { ThemeProvider, useTheme } from '@/theme';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,20 +16,31 @@ const queryClient = new QueryClient({
   },
 });
 
+function AppNavigation(): React.JSX.Element {
+  const { colors } = useTheme();
+
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: colors.background },
+        animation: 'fade',
+      }}
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="design-system" />
+    </Stack>
+  );
+}
+
 export default function RootLayout(): React.JSX.Element {
   return (
     <SafeAreaProvider>
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
-          <StatusBar style="light" />
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: '#0F172A' },
-            }}
-          >
-            <Stack.Screen name="index" />
-          </Stack>
+          <ThemeProvider>
+            <AppNavigation />
+          </ThemeProvider>
         </QueryClientProvider>
       </ErrorBoundary>
     </SafeAreaProvider>

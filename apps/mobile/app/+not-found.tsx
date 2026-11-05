@@ -1,16 +1,42 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Link, Stack } from 'expo-router';
+import { View, StyleSheet } from 'react-native';
+import { Stack, useRouter } from 'expo-router';
+import { useTheme } from '@/hooks/useTheme';
+import { AppHeading, AppText, PrimaryButton, AppIcon } from '@/components/ui';
 
 export default function NotFoundScreen(): React.JSX.Element {
+  const router = useRouter();
+  const { colors, isDark } = useTheme();
+
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <View style={styles.container}>
-        <Text style={styles.title}>This screen doesn't exist.</Text>
-        <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Go to home screen</Text>
-        </Link>
+      <Stack.Screen options={{ title: 'Not Found' }} />
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View
+          style={[
+            styles.iconCircle,
+            {
+              backgroundColor: isDark ? colors.surfaceSecondary : colors.mint,
+            },
+          ]}
+        >
+          <AppIcon name="alertCircle" size="xl" color={colors.primary} />
+        </View>
+
+        <AppHeading level={2} align="center" style={styles.title}>
+          This screen doesn't exist
+        </AppHeading>
+
+        <AppText variant="bodyMedium" align="center" color="textSecondary" style={styles.subtitle}>
+          Let's return to your mindful sanctuary.
+        </AppText>
+
+        <PrimaryButton
+          title="Return to Solace"
+          leadingIcon="home"
+          onPress={() => router.replace('/')}
+          style={styles.button}
+        />
       </View>
     </>
   );
@@ -21,20 +47,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#0F172A',
+    padding: 24,
+  },
+  iconCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#F8FAFC',
+    marginBottom: 8,
   },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
+  subtitle: {
+    maxWidth: 260,
+    marginBottom: 24,
   },
-  linkText: {
-    fontSize: 14,
-    color: '#38BDF8',
+  button: {
+    minWidth: 200,
   },
 });

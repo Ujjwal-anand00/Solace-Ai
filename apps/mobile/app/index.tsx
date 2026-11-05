@@ -1,41 +1,93 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import {
+  ScreenContainer,
+  AppHeading,
+  AppText,
+  PrimaryButton,
+  AppIcon,
+  AppBadge,
+} from '@/components/ui';
+import { FloatingView } from '@/utils/animations';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function IndexScreen(): React.JSX.Element {
+  const router = useRouter();
+  const { colors, isDark } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <ScreenContainer>
       <View style={styles.content}>
-        <Text style={styles.title}>Solace AI</Text>
-        <Text style={styles.subtitle}>Your personal space to feel, heal and grow.</Text>
+        <FloatingView floatDistance={6} style={styles.floatingMascot}>
+          <View
+            style={[
+              styles.iconCircle,
+              {
+                backgroundColor: isDark ? colors.surfaceSecondary : colors.mint,
+              },
+            ]}
+          >
+            <AppIcon name="sparkles" size="xl" color={colors.primary} />
+          </View>
+        </FloatingView>
+
+        <AppBadge
+          label="Design System Initialized"
+          variant="mint"
+          size="sm"
+          style={{ marginBottom: 12 }}
+        />
+
+        <AppHeading level="displayLarge" align="center" style={styles.title}>
+          Solace AI
+        </AppHeading>
+
+        <AppText variant="bodyLarge" align="center" color="textSecondary" style={styles.subtitle}>
+          Your personal space to feel, heal and grow.
+        </AppText>
+
+        <View style={styles.actionBlock}>
+          <PrimaryButton
+            title="Explore Design System"
+            leadingIcon="sliders"
+            size="lg"
+            fullWidth
+            onPress={() => router.push('/design-system')}
+          />
+        </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0F172A',
-  },
   content: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 24,
   },
+  floatingMascot: {
+    marginBottom: 20,
+  },
+  iconCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   title: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#F8FAFC',
-    textAlign: 'center',
-    marginBottom: 12,
-    letterSpacing: -0.5,
+    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#94A3B8',
-    textAlign: 'center',
-    lineHeight: 24,
+    maxWidth: 280,
+    lineHeight: 26,
+    marginBottom: 32,
+  },
+  actionBlock: {
+    width: '100%',
+    maxWidth: 320,
   },
 });
