@@ -6,10 +6,11 @@ import { ApiResponseUtil } from '../../utils';
 export class ActivityController {
   public static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { category, difficulty } = req.query;
+      const { category, difficulty, search } = req.query;
       const activities = await ActivityService.listActivities(
         category as string | undefined,
         difficulty as string | undefined,
+        search as string | undefined,
       );
       ApiResponseUtil.success(res, 'Activities retrieved successfully', activities);
     } catch (err) {

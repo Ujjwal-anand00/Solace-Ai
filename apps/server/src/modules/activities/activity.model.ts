@@ -73,6 +73,7 @@ ActivitySchema.methods.toDto = function (): WellnessActivity {
   const obj = this.toObject();
   return {
     id: obj._id.toString(),
+    slug: obj.slug,
     title: obj.title,
     description: obj.description,
     category: obj.category,

@@ -7,7 +7,11 @@ import {
 } from '@solace/shared';
 import { QUERY_KEYS } from '../constants/queryKeys';
 
-export const useActivities = (params?: { category?: string; difficulty?: string }) => {
+export const useActivities = (params?: {
+  category?: string;
+  difficulty?: string;
+  search?: string;
+}) => {
   return useQuery<WellnessActivity[], Error>({
     queryKey: QUERY_KEYS.ACTIVITIES.LIST(params),
     queryFn: () => activityService.getActivities(params),

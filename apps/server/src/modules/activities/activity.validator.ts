@@ -11,7 +11,8 @@ export const completeActivitySchema = z.object({
 export const activityQuerySchema = z.object({
   category: z.string().optional(),
   difficulty: z.enum(['beginner', 'intermediate', 'advanced']).optional(),
+  search: z.string().optional(),
   page: z.coerce.number().int().min(1).optional().default(1),
-  limit: z.coerce.number().int().min(1).max(100).optional().default(20),
+  limit: z.coerce.number().int().min(1).max(100).optional().default(50),
 });
 

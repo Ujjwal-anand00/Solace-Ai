@@ -12,15 +12,22 @@ import { ProgressService } from '../progress/progress.service';
 
 export class ActivityService {
   /**
-   * List all active activities with optional category filter
+   * List all active activities with optional category, difficulty, and search filter
    */
   public static async listActivities(
     category?: string,
     difficulty?: string,
+    search?: string,
   ): Promise<WellnessActivity[]> {
     const filter: Record<string, unknown> = { isActive: true };
-    if (category) filter.category = category.toLowerCase();
-    if (difficulty) filter.difficulty = difficulty.toLowerCase();
+    if (category && category !== 'all') filter.category = category.toLowerCase();
+    if (difficulty && difficulty !== 'all') filter.difficulty = difficulty.toLowerCase();
+    if (search && search.trim()) {
+      filter.$or = [
+        { title: { $regex: search.trim(), $options: 'i' } },
+        { description: { $regex: search.trim(), $options: 'i' } },
+      ];
+    }
 
     const activities = await Activity.find(filter).sort({ title: 1 });
     return activities.map((doc: IActivityDocument) => doc.toDto());

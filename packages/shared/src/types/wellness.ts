@@ -3,19 +3,39 @@
  */
 export type WellnessCategory =
   | 'breathing'
+  | 'mindfulness'
+  | 'relaxation'
+  | 'self-care'
+  | 'affirmation'
+  | 'reflection'
   | 'meditation'
   | 'journaling'
   | 'grounding'
-  | 'affirmation'
   | 'movement';
 
 export type ActivityDifficulty = 'beginner' | 'intermediate' | 'advanced';
+
+/**
+ * Standard Breathing Patterns
+ */
+export interface BreathingPattern {
+  id: string;
+  name: string;
+  subtitle: string;
+  description: string;
+  inhale: number; // in seconds
+  hold1: number;  // in seconds
+  exhale: number; // in seconds
+  hold2: number;  // in seconds
+  benefits: string[];
+}
 
 /**
  * Wellness Activity definition
  */
 export interface WellnessActivity {
   id: string;
+  slug?: string;
   title: string;
   description: string;
   category: WellnessCategory | string;

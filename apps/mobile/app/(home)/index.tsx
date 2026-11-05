@@ -111,19 +111,9 @@ export default function HomeScreen(): React.JSX.Element {
     router.push('/mood/history');
   };
 
-  const handleActivityPress = (activity: WellnessActivity) => {
-    triggerHaptic.medium();
-    Alert.alert(
-      activity.title,
-      `${activity.description}\n\nEstimated duration: ${Math.round(activity.duration / 60)} minutes.\n\nInteractive full-screen activity guidance is scheduled for STEP 08!`,
-      [
-        { text: 'Close', style: 'cancel' },
-        {
-          text: 'View All Activities',
-          onPress: () => router.navigate('/(home)/activities'),
-        },
-      ]
-    );
+  const handleActivityPress = (_activity: WellnessActivity) => {
+    triggerHaptic.selection();
+    router.navigate('/(home)/activities');
   };
 
   const handleResourcePress = (resource: WellnessResource) => {

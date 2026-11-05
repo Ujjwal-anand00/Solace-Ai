@@ -15,11 +15,12 @@ export interface ActivityHistoryResponse {
 
 export const activityService = {
   /**
-   * Fetch all active activities with optional category filter
+   * Fetch all active activities with optional category, difficulty, or search filter
    */
   async getActivities(params?: {
     category?: string;
     difficulty?: string;
+    search?: string;
   }): Promise<WellnessActivity[]> {
     const res = await apiClient.get<ApiResponse<WellnessActivity[]>>(API_ROUTES.ACTIVITIES.BASE, {
       params,

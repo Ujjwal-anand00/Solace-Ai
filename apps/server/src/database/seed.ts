@@ -8,44 +8,89 @@ import {
 } from '../models';
 
 export const SEED_ACTIVITIES = [
+  // 1. BREATHING
   {
     slug: 'box-breathing',
-    title: 'Box Breathing (Sama Vritti)',
+    title: 'Box Breathing (4-4-4-4)',
     description: 'A powerful technique used by athletes and yogis to instantly calm the nervous system and regain focus.',
     category: 'breathing',
     duration: 240, // 4 minutes
     difficulty: 'beginner',
     instructions: [
-      'Inhale slowly and smoothly through your nose for 4 counts.',
-      'Gently hold your breath with full lungs for 4 counts.',
-      'Exhale smoothly through your mouth for 4 counts.',
-      'Hold your breath with empty lungs for 4 counts.',
+      'Inhale slowly and smoothly through your nose for 4 seconds.',
+      'Gently hold your breath with full lungs for 4 seconds.',
+      'Exhale smoothly through your mouth for 4 seconds.',
+      'Hold your breath with empty lungs for 4 seconds.',
       'Repeat this cycle until you feel grounded.',
+    ],
+    isActive: true,
+  },
+  {
+    slug: 'relaxing-breathing',
+    title: 'Relaxing Breathing (4-6)',
+    description: 'A soothing rhythm with an elongated exhale to activate the parasympathetic calm response.',
+    category: 'breathing',
+    duration: 180, // 3 minutes
+    difficulty: 'beginner',
+    instructions: [
+      'Inhale softly through your nose for 4 seconds.',
+      'Exhale slowly and steadily through your mouth for 6 seconds.',
+      'Allow your shoulders to drop with each breath out.',
+      'Repeat gently without strain.',
+    ],
+    isActive: true,
+  },
+  {
+    slug: 'equal-breathing',
+    title: 'Equal Breathing (4-4)',
+    description: 'Sama Vritti brings balance, symmetry, and steady equilibrium to your mind and autonomic nervous system.',
+    category: 'breathing',
+    duration: 180, // 3 minutes
+    difficulty: 'beginner',
+    instructions: [
+      'Inhale smoothly for a count of 4.',
+      'Exhale smoothly for a count of 4.',
+      'Maintain an unbroken, rhythmic cycle.',
+      'Rest in the feeling of balanced ease.',
+    ],
+    isActive: true,
+  },
+  {
+    slug: 'extended-exhale',
+    title: 'Extended Exhale Breathing (4-8)',
+    description: 'Doubling your exhalation time to slow your heart rate and release accumulated tension.',
+    category: 'breathing',
+    duration: 240, // 4 minutes
+    difficulty: 'intermediate',
+    instructions: [
+      'Inhale gently through your nose for 4 seconds.',
+      'Exhale slowly, quietly, and completely for 8 seconds.',
+      'Notice the immediate wave of heaviness and relief.',
     ],
     isActive: true,
   },
   {
     slug: '4-7-8-breathing',
     title: '4-7-8 Relaxing Breath',
-    description: 'Dr. Andrew Weil’s natural tranquilizer for the nervous system, ideal before sleep or when feeling anxious.',
+    description: 'Dr. Andrew Weil’s natural tranquilizer for the nervous system, ideal before sleep or during acute stress.',
     category: 'breathing',
     duration: 300, // 5 minutes
     difficulty: 'beginner',
     instructions: [
-      'Place the tip of your tongue against the ridge behind your upper front teeth.',
-      'Exhale completely through your mouth with a whoosh sound.',
-      'Close your mouth and inhale quietly through your nose for 4 counts.',
-      'Hold your breath for a count of 7.',
-      'Exhale completely through your mouth for a count of 8.',
+      'Inhale quietly through your nose for 4 counts.',
+      'Hold your breath comfortably for 7 counts.',
+      'Exhale completely with a whoosh sound for 8 counts.',
       'Repeat for 4 to 8 cycles.',
     ],
     isActive: true,
   },
+
+  // 2. MINDFULNESS
   {
     slug: 'sensory-grounding-54321',
     title: '5-4-3-2-1 Sensory Grounding',
     description: 'An evidence-based cognitive grounding technique that pulls you out of runaway thoughts into the present moment.',
-    category: 'grounding',
+    category: 'mindfulness',
     duration: 360, // 6 minutes
     difficulty: 'beginner',
     instructions: [
@@ -61,7 +106,7 @@ export const SEED_ACTIVITIES = [
     slug: 'loving-kindness-meditation',
     title: 'Loving-Kindness Meditation (Metta)',
     description: 'Cultivate profound self-compassion, reduce negative self-talk, and foster emotional warmth.',
-    category: 'meditation',
+    category: 'mindfulness',
     duration: 480, // 8 minutes
     difficulty: 'intermediate',
     instructions: [
@@ -72,11 +117,29 @@ export const SEED_ACTIVITIES = [
     ],
     isActive: true,
   },
+
+  // 3. RELAXATION
+  {
+    slug: 'progressive-muscle-relaxation',
+    title: 'Progressive Muscle Relaxation',
+    description: 'Tense and then deliberately release individual muscle groups to dissolve physical stress holding patterns.',
+    category: 'relaxation',
+    duration: 420, // 7 minutes
+    difficulty: 'intermediate',
+    instructions: [
+      'Take a deep breath and clench your fists tightly for 5 seconds.',
+      'Exhale and abruptly release, noticing the immediate sensation of limp relaxation.',
+      'Move up to your shoulders: shrug them tightly up to your ears for 5 seconds, then drop them.',
+      'Tighten your facial muscles, then release completely.',
+      'Enjoy the wave of calm tingling throughout your body.',
+    ],
+    isActive: true,
+  },
   {
     slug: 'body-scan-sleep',
-    title: 'Gentle Body Scan for Sleep',
-    description: 'Systematically release muscular tension from toes to crown to prepare mind and body for deep restorative sleep.',
-    category: 'meditation',
+    title: 'Gentle Body Scan for Deep Rest',
+    description: 'Systematically release muscular tension from toes to crown to prepare mind and body for deep restorative calm.',
+    category: 'relaxation',
     duration: 600, // 10 minutes
     difficulty: 'beginner',
     instructions: [
@@ -84,15 +147,67 @@ export const SEED_ACTIVITIES = [
       'Bring gentle awareness to the soles of your feet and toes, releasing any tightness.',
       'Slowly migrate your focus up your calves, knees, and thighs, inviting softness.',
       'Release tension in your stomach, chest, hands, neck, and jaw.',
-      'Let your whole body sink weightlessly into your mattress.',
+      'Let your whole body sink weightlessly into a state of rest.',
+    ],
+    isActive: true,
+  },
+
+  // 4. SELF-CARE
+  {
+    slug: 'digital-detox-moment',
+    title: '5-Minute Screen & Digital Reset',
+    description: 'Rest your eyes, unclench your posture, and disconnect from digital stimuli for gentle mental restoration.',
+    category: 'self-care',
+    duration: 300, // 5 minutes
+    difficulty: 'beginner',
+    instructions: [
+      'Turn away from all screens and gently close your eyes.',
+      'Place warm palms over your closed eyelids and take three slow, conscious breaths.',
+      'Roll your shoulders backward and release any clenching in your jaw.',
+      'Enjoy several unhurried minutes of stillness and non-doing.',
     ],
     isActive: true,
   },
   {
+    slug: 'restorative-tea-ritual',
+    title: 'Mindful Hydration & Nourishment',
+    description: 'Transform a simple cup of water or tea into a grounding sensory moment of self-kindness.',
+    category: 'self-care',
+    duration: 180, // 3 minutes
+    difficulty: 'beginner',
+    instructions: [
+      'Hold your cup with both hands, noticing the temperature and texture.',
+      'Inhale the gentle aroma with a slow, full breath.',
+      'Take a slow sip, mindfully experiencing the sensation of nourishing your body.',
+      'Silently thank yourself for taking time to pause.',
+    ],
+    isActive: true,
+  },
+
+  // 5. POSITIVE AFFIRMATIONS
+  {
+    slug: 'affirmations-immersion',
+    title: 'Daily Positive Affirmations Immersion',
+    description: 'Reprogram self-doubt into grounded resilience with soothing, empowering mental affirmations.',
+    category: 'affirmation',
+    duration: 240, // 4 minutes
+    difficulty: 'beginner',
+    instructions: [
+      'Settle into a comfortable posture with an open chest.',
+      'Repeat silently or aloud: I am allowed to take my time and move at my own pace.',
+      'Repeat: Peace begins the moment I choose to take a conscious breath.',
+      'Repeat: I do not have to carry everything all at once.',
+      'Let these truths anchor deeply into your awareness.',
+    ],
+    isActive: true,
+  },
+
+  // 6. REFLECTION
+  {
     slug: 'morning-gratitude-reflection',
-    title: 'Morning Gratitude Reflection',
+    title: 'Morning Gratitude & Intention',
     description: 'Start your day by rewiring your brain toward positivity, resilience, and calm optimism.',
-    category: 'journaling',
+    category: 'reflection',
     duration: 300, // 5 minutes
     difficulty: 'beginner',
     instructions: [
@@ -104,33 +219,16 @@ export const SEED_ACTIVITIES = [
     isActive: true,
   },
   {
-    slug: 'mindful-forest-walk',
-    title: 'Mindful Outdoor Movement (Shinrin-yoku)',
-    description: 'Take a meditative stroll outdoors, syncing your steps with rhythmic breathing to lower cortisol.',
-    category: 'movement',
-    duration: 900, // 15 minutes
+    slug: 'evening-reflection-compassion',
+    title: 'Evening Reflection & Self-Compassion',
+    description: 'Wind down your day by releasing self-judgment, honoring small wins, and setting a peaceful rest intention.',
+    category: 'reflection',
+    duration: 300, // 5 minutes
     difficulty: 'beginner',
     instructions: [
-      'Walk at an unhurried, natural pace without looking at screens.',
-      'Match your breath to your footsteps (e.g. 3 steps inhale, 3 steps exhale).',
-      'Observe the play of light on leaves, the breeze, and the soil beneath you.',
-      'Whenever the mind wanders to to-do lists, gently bring focus back to the sensation of walking.',
-    ],
-    isActive: true,
-  },
-  {
-    slug: 'progressive-muscle-relaxation',
-    title: 'Progressive Muscle Relaxation',
-    description: 'Tense and then deliberately release individual muscle groups to dissolve physical stress holding patterns.',
-    category: 'movement',
-    duration: 420, // 7 minutes
-    difficulty: 'intermediate',
-    instructions: [
-      'Take a deep breath and clench your fists tightly for 5 seconds.',
-      'Exhale and abruptly release, noticing the immediate sensation of limp relaxation.',
-      'Move up to your shoulders: shrug them tightly up to your ears for 5 seconds, then drop them.',
-      'Tighten your facial muscles, then release completely.',
-      'Enjoy the wave of calm tingling throughout your body.',
+      'Acknowledge one thing you handled with courage or care today.',
+      'Forgive yourself for anything that did not unfold as planned.',
+      'Take a deep breath and let go of the day. You did enough.',
     ],
     isActive: true,
   },
