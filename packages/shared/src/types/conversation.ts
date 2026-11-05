@@ -23,3 +23,41 @@ export interface ChatMessage {
   updatedAt: string;
 }
 
+export interface CompanionSettings {
+  userId: string;
+  enablePersonalization: boolean;
+  journalPersonalizationConsent: boolean;
+  preferredTone: 'gentle' | 'balanced' | 'direct';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UpdateCompanionSettingsDto {
+  enablePersonalization?: boolean;
+  journalPersonalizationConsent?: boolean;
+  preferredTone?: 'gentle' | 'balanced' | 'direct';
+}
+
+export interface CreateConversationDto {
+  title?: string;
+  initialMessage?: string;
+}
+
+export interface UpdateConversationDto {
+  title?: string;
+  status?: ConversationStatus;
+}
+
+export interface SendMessageDto {
+  content: string;
+}
+
+export interface SendMessageResponse {
+  userMessage: ChatMessage;
+  assistantMessage: ChatMessage;
+  safetyAlert?: {
+    isCrisis: boolean;
+    message: string;
+    helplines: Array<{ name: string; contact: string }>;
+  };
+}

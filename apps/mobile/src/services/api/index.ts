@@ -9,3 +9,5 @@ export * from './userService';
 export * from './resourceService';
 export * from './wellnessPlanService';
 export * from './notificationService';
+export * from './companionService';
+export * from './conversationService';

@@ -1,128 +1,186 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  StyleSheet,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
-  AppHeading,
-  AppText,
-  AppCard,
-  AppBadge,
-  AppButton,
-  AppIcon,
-  SolaceMascot,
-} from '../../src/components/ui';
+  CompanionHeader,
+  WelcomeStarters,
+  ChatMessageBubble,
+  ChatInputBar,
+  TypingIndicator,
+  CompanionSettingsModal,
+  ConversationHistoryModal,
+} from '../../src/features/companion';
+import {
+  useConversations,
+  useConversationMessages,
+  useCreateConversation,
+  useSendMessage,
+} from '../../src/hooks/useConversations';
+import { useAuthStore } from '../../src/store/authStore';
 import { useTheme } from '../../src/hooks/useTheme';
-import { triggerHaptic } from '../../src/utils/haptics';
+import { ChatMessage } from '@solace/shared';
 
 export default function CompanionScreen(): React.JSX.Element {
-  const router = useRouter();
   const { colors } = useTheme();
+  const user = useAuthStore((state) => state.user);
+  const userName = user?.preferredName || user?.name || 'Friend';
 
-  const handleBackHome = () => {
-    triggerHaptic.light();
-    router.navigate('/(home)');
+  // Active conversation state
+  const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  // Queries & Mutations
+  const { data: conversationsData } = useConversations();
+  const {
+    data: messagesData,
+  } = useConversationMessages(activeConversationId || undefined);
+
+  const createConversationMutation = useCreateConversation();
+  const sendMessageMutation = useSendMessage(activeConversationId || '');
+
+  const flatListRef = useRef<FlatList<ChatMessage>>(null);
+
+  // Auto-select latest conversation on initial load if none selected
+  useEffect(() => {
+    if (!activeConversationId && conversationsData?.data && conversationsData.data.length > 0) {
+      setActiveConversationId(conversationsData.data[0].id);
+    }
+  }, [conversationsData, activeConversationId]);
+
+  // Messages list
+  const messages = messagesData?.data || [];
+
+  // Scroll to bottom on new messages
+  useEffect(() => {
+    if (messages.length > 0) {
+      setTimeout(() => {
+        flatListRef.current?.scrollToEnd({ animated: true });
+      }, 150);
+    }
+  }, [messages.length, isGenerating]);
+
+  // Handle sending a message
+  const handleSendMessage = async (text: string) => {
+    if (!text.trim() || isGenerating) return;
+
+    setIsGenerating(true);
+
+    try {
+      if (!activeConversationId) {
+        // Create new conversation with initial message
+        const result = await createConversationMutation.mutateAsync({
+          initialMessage: text,
+        });
+        if (result.conversation?.id) {
+          setActiveConversationId(result.conversation.id);
+        }
+      } else {
+        // Send message to existing conversation
+        await sendMessageMutation.mutateAsync({ content: text });
+      }
+    } catch {
+      // Error handled by mutation
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
+  // Handle regenerating the last assistant response
+  const handleRegenerate = async () => {
+    if (!activeConversationId || isGenerating || messages.length === 0) return;
+
+    // Find the last user message
+    const reversed = [...messages].reverse();
+    const lastUserMsg = reversed.find((m) => m.role === 'user');
+    if (!lastUserMsg) return;
+
+    setIsGenerating(true);
+    try {
+      await sendMessageMutation.mutateAsync({ content: lastUserMsg.content });
+    } catch {
+      // Handled
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleStartNewChat = () => {
+    setActiveConversationId(null);
+  };
+
+  const renderMessageItem = ({ item, index }: { item: ChatMessage; index: number }) => {
+    const isLastAssistant =
+      item.role === 'assistant' && index === messages.length - 1;
+
+    return (
+      <ChatMessageBubble
+        message={item}
+        onRegenerate={handleRegenerate}
+        isLastAssistant={isLastAssistant}
+      />
+    );
+  };
+
+  const showWelcome = !activeConversationId || messages.length === 0;
+
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={['top']}>
+      <CompanionHeader
+        onOpenHistory={() => setShowHistoryModal(true)}
+        onNewChat={handleStartNewChat}
+        onOpenSettings={() => setShowSettingsModal(true)}
+        isOnline={true}
+      />
+
+      <KeyboardAvoidingView
+        style={styles.keyboardContainer}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <AppBadge label="AI COMPANION" variant="primary" size="sm" />
-          <AppHeading level="h2" style={styles.title}>
-            Solace Companion 🌿
-          </AppHeading>
-          <AppText
-            variant="bodyMedium"
-            style={[styles.subtitle, { color: colors.textSecondary }]}
-          >
-            A calm, empathetic presence ready to listen, reflect, and guide you through life’s moments.
-          </AppText>
-        </View>
-
-        {/* Mascot Centerpiece */}
-        <View style={styles.mascotWrapper}>
-          <SolaceMascot
-            size={140}
-            expression="listening"
-            animationState="breathe"
-            showGlow
-            showCushion
+        {showWelcome ? (
+          <WelcomeStarters
+            userName={userName}
+            onSelectStarter={handleSendMessage}
           />
-        </View>
-
-        {/* Core Principles Card */}
-        <AppCard style={styles.infoCard}>
-          <AppHeading level="h4" style={styles.cardHeading}>
-            Coming in Step 07: Real-time Companion Engine
-          </AppHeading>
-          <AppText
-            variant="bodySmall"
-            style={[styles.cardDescription, { color: colors.textSecondary }]}
-          >
-            Our conversational companion is being tuned with trauma-informed therapeutic framing, emotional sentiment awareness, and personalized grounding techniques.
-          </AppText>
-
-          <View style={styles.featureList}>
-            <View style={styles.featureItem}>
-              <View style={[styles.featureIconBadge, { backgroundColor: colors.primaryLight }]}>
-                <AppIcon name="heart" size={16} color={colors.primaryDark} />
-              </View>
-              <View style={styles.featureTexts}>
-                <AppText variant="bodySmall" style={styles.featureTitle}>
-                  Empathetic Active Listening
-                </AppText>
-                <AppText variant="caption" style={{ color: colors.textSecondary }}>
-                  Non-judgmental, warm responses calibrated to your current mood.
-                </AppText>
-              </View>
-            </View>
-
-            <View style={styles.featureItem}>
-              <View style={[styles.featureIconBadge, { backgroundColor: colors.primaryLight }]}>
-                <AppIcon name="sparkles" size={16} color={colors.primaryDark} />
-              </View>
-              <View style={styles.featureTexts}>
-                <AppText variant="bodySmall" style={styles.featureTitle}>
-                  Contextual Grounding & CBT Prompts
-                </AppText>
-                <AppText variant="caption" style={{ color: colors.textSecondary }}>
-                  Gentle cognitive re-framing and breath sync when feelings get intense.
-                </AppText>
-              </View>
-            </View>
-
-            <View style={styles.featureItem}>
-              <View style={[styles.featureIconBadge, { backgroundColor: colors.primaryLight }]}>
-                <AppIcon name="shield" size={16} color={colors.primaryDark} />
-              </View>
-              <View style={styles.featureTexts}>
-                <AppText variant="bodySmall" style={styles.featureTitle}>
-                  Safe & Confidential Sanctuary
-                </AppText>
-                <AppText variant="caption" style={{ color: colors.textSecondary }}>
-                  Your emotional reflections remain private and protected at all times.
-                </AppText>
-              </View>
-            </View>
-          </View>
-        </AppCard>
-
-        {/* Action Button */}
-        <View style={styles.buttonWrapper}>
-          <AppButton
-            title="Return to Sanctuary Home"
-            variant="primary"
-            size="lg"
-            fullWidth
-            leadingIcon="home"
-            onPress={handleBackHome}
+        ) : (
+          <FlatList
+            ref={flatListRef}
+            data={messages}
+            keyExtractor={(item) => item.id}
+            renderItem={renderMessageItem}
+            contentContainerStyle={styles.messagesList}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            ListFooterComponent={isGenerating ? <TypingIndicator /> : undefined}
           />
-        </View>
-      </ScrollView>
+        )}
+
+        <ChatInputBar
+          onSendMessage={handleSendMessage}
+          disabled={isGenerating}
+        />
+      </KeyboardAvoidingView>
+
+      {/* Modals */}
+      <ConversationHistoryModal
+        visible={showHistoryModal}
+        activeConversationId={activeConversationId || undefined}
+        onSelectConversation={(id) => setActiveConversationId(id)}
+        onNewConversation={handleStartNewChat}
+        onClose={() => setShowHistoryModal(false)}
+      />
+
+      <CompanionSettingsModal
+        visible={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -131,74 +189,13 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  scrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 40,
-  },
-  header: {
-    alignItems: 'center',
-    textAlign: 'center',
-    marginBottom: 20,
-    gap: 6,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    marginTop: 4,
-    textAlign: 'center',
-  },
-  subtitle: {
-    textAlign: 'center',
-    fontSize: 14,
-    lineHeight: 20,
-    paddingHorizontal: 12,
-  },
-  mascotWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 18,
-  },
-  infoCard: {
-    padding: 20,
-    borderRadius: 20,
-    marginBottom: 24,
-  },
-  cardHeading: {
-    fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 6,
-  },
-  cardDescription: {
-    fontSize: 13,
-    lineHeight: 18,
-    marginBottom: 16,
-  },
-  featureList: {
-    gap: 14,
-  },
-  featureItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
-  },
-  featureIconBadge: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 2,
-  },
-  featureTexts: {
+  keyboardContainer: {
     flex: 1,
   },
-  featureTitle: {
-    fontWeight: '600',
-    marginBottom: 2,
-  },
-  buttonWrapper: {
-    marginTop: 8,
+  messagesList: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexGrow: 1,
+    justifyContent: 'flex-end',
   },
 });
-

@@ -8,3 +8,5 @@ export * from './useProgress';
 export * from './useResources';
 export * from './useWellnessPlan';
 export * from './useNotifications';
+export * from './useConversations';
+export * from './useCompanion';

@@ -9,6 +9,8 @@ import { progressRoutes } from '../modules/progress/progress.routes';
 import { resourceRoutes } from '../modules/resources/resource.routes';
 import { wellnessPlanRoutes } from '../modules/wellness-plans/wellnessPlan.routes';
 import { notificationRoutes } from '../modules/notifications/notification.routes';
+import { companionRoutes } from '../modules/companion/companion.routes';
+import { conversationRoutes } from '../modules/conversations/conversation.routes';
 
 const router = Router();
 
@@ -27,5 +29,7 @@ router.use('/progress', progressRoutes);
 router.use('/resources', resourceRoutes);
 router.use('/wellness-plans', wellnessPlanRoutes);
 router.use('/notifications', notificationRoutes);
+router.use('/companion', companionRoutes);
+router.use('/conversations', conversationRoutes);
 
 export const v1Routes = router;

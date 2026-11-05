@@ -43,4 +43,13 @@ export const QUERY_KEYS = {
   NOTIFICATIONS: {
     UNREAD_COUNT: ['notifications', 'unread-count'] as const,
   },
+  CONVERSATIONS: {
+    ALL: ['conversations'] as const,
+    LIST: (page?: number) => ['conversations', 'list', page || 1] as const,
+    DETAIL: (id: string) => ['conversations', 'detail', id] as const,
+    MESSAGES: (id: string) => ['conversations', id, 'messages'] as const,
+  },
+  COMPANION: {
+    SETTINGS: ['companion', 'settings'] as const,
+  },
 } as const;

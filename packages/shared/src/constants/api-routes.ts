@@ -47,7 +47,13 @@ export const API_ROUTES = {
     UNREAD_COUNT: '/api/v1/notifications/unread-count',
   },
   COMPANION: {
+    SETTINGS: '/api/v1/companion/settings',
     CHAT: '/api/v1/companion/chat',
     HISTORY: '/api/v1/companion/history',
+  },
+  CONVERSATIONS: {
+    BASE: '/api/v1/conversations',
+    MESSAGES: (id: string) => `/api/v1/conversations/${id}/messages`,
+    STREAM: (id: string) => `/api/v1/conversations/${id}/messages/stream`,
   },
 } as const;

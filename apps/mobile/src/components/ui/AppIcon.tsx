@@ -52,6 +52,10 @@ import {
   Phone,
   Star,
   Wind,
+  Send,
+  Copy,
+  Trash2,
+  History,
   LucideIcon,
 } from 'lucide-react-native';
 import { useTheme } from '../../hooks/useTheme';
@@ -109,6 +113,10 @@ export const ICON_MAP = {
   'file-text': FileText,
   phone: Phone,
   star: Star,
+  send: Send,
+  copy: Copy,
+  trash: Trash2,
+  history: History,
   'chevron-right': ChevronRight,
   'chevron-left': ChevronLeft,
   'message-circle': MessageCircle,

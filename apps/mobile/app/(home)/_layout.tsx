@@ -44,11 +44,7 @@ export default function HomeLayout(): React.JSX.Element {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <AppIcon
-              name="home"
-              size={focused ? 24 : 22}
-              color={typeof color === 'string' ? color : colors.primaryDark}
-            />
+            <AppIcon name="home" size={focused ? 24 : 22} color={String(color)} />
           ),
         }}
         listeners={{
@@ -61,11 +57,7 @@ export default function HomeLayout(): React.JSX.Element {
         options={{
           title: 'Companion',
           tabBarIcon: ({ color, focused }) => (
-            <AppIcon
-              name="messageCircle"
-              size={focused ? 24 : 22}
-              color={typeof color === 'string' ? color : colors.primaryDark}
-            />
+            <AppIcon name="messageCircle" size={focused ? 24 : 22} color={String(color)} />
           ),
         }}
         listeners={{
@@ -78,11 +70,7 @@ export default function HomeLayout(): React.JSX.Element {
         options={{
           title: 'Activities',
           tabBarIcon: ({ color, focused }) => (
-            <AppIcon
-              name="compass"
-              size={focused ? 24 : 22}
-              color={typeof color === 'string' ? color : colors.primaryDark}
-            />
+            <AppIcon name="compass" size={focused ? 24 : 22} color={String(color)} />
           ),
         }}
         listeners={{
@@ -95,11 +83,7 @@ export default function HomeLayout(): React.JSX.Element {
         options={{
           title: 'Progress',
           tabBarIcon: ({ color, focused }) => (
-            <AppIcon
-              name="trendingUp"
-              size={focused ? 24 : 22}
-              color={typeof color === 'string' ? color : colors.primaryDark}
-            />
+            <AppIcon name="trendingUp" size={focused ? 24 : 22} color={String(color)} />
           ),
         }}
         listeners={{
@@ -112,11 +96,7 @@ export default function HomeLayout(): React.JSX.Element {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
-            <AppIcon
-              name="user"
-              size={focused ? 24 : 22}
-              color={typeof color === 'string' ? color : colors.primaryDark}
-            />
+            <AppIcon name="user" size={focused ? 24 : 22} color={String(color)} />
           ),
         }}
         listeners={{
