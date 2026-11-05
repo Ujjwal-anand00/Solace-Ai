@@ -44,7 +44,6 @@ import {
   Feather,
   Zap,
   LucideIcon,
-  LucideProps,
 } from 'lucide-react-native';
 import { useTheme } from '../../hooks/useTheme';
 
@@ -143,13 +142,15 @@ export const AppIcon: React.FC<AppIconProps> = ({
 
   const IconComponent: LucideIcon = typeof name === 'string' ? ICON_MAP[name] || Heart : name;
 
-  const iconProps: LucideProps = {
-    size: resolvedSize,
-    color: resolvedColor,
-    strokeWidth,
-    accessibilityLabel,
-    style,
-  };
-
-  return <IconComponent {...iconProps} />;
+  return (
+    <IconComponent
+      size={resolvedSize}
+      color={resolvedColor}
+      strokeWidth={strokeWidth}
+      accessibilityLabel={accessibilityLabel}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      style={style as any}
+    />
+  );
 };
+

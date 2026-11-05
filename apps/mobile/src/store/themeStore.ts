@@ -38,3 +38,4 @@ export const useThemeStore = create<ThemeState>((set) => ({
     set({ isHydrated: true });
   },
 }));
+

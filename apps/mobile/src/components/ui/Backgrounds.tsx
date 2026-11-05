@@ -48,15 +48,19 @@ export const SoftGradientBackground: React.FC<SoftGradientBackgroundProps> = ({
     }
   }, [colors, isDark, variant]);
 
+  // Expo SDK 58 / React 19 JSX type bridge for LinearGradient
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const GradientComponent = LinearGradient as React.ComponentType<any>;
+
   return (
-    <LinearGradient
+    <GradientComponent
       colors={gradientColors}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={[styles.container, style]}
     >
       {children}
-    </LinearGradient>
+    </GradientComponent>
   );
 };
 

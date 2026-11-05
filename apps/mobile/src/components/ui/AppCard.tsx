@@ -108,8 +108,11 @@ export const AppCard: React.FC<AppCardProps> = ({
   );
 
   if (variant === 'gradient') {
+    // Expo SDK 58 / React 19 JSX type bridge for LinearGradient
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const GradientComponent = LinearGradient as React.ComponentType<any>;
     const cardBody = (
-      <LinearGradient
+      <GradientComponent
         colors={gradientColors || defaultGradients}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -121,10 +124,9 @@ export const AppCard: React.FC<AppCardProps> = ({
           variantStyles.shadow,
           style,
         ]}
-        {...rest}
       >
         {content}
-      </LinearGradient>
+      </GradientComponent>
     );
 
     if (onPress) {
@@ -198,3 +200,4 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+

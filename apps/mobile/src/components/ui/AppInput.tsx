@@ -8,8 +8,6 @@ import {
   ViewStyle,
   TextStyle,
   TouchableOpacity,
-  NativeSyntheticEvent,
-  TextInputFocusEventData,
 } from 'react-native';
 import { LucideIcon } from 'lucide-react-native';
 import { useTheme } from '../../hooks/useTheme';
@@ -51,12 +49,12 @@ export const AppInput: React.FC<AppInputProps> = ({
   const { colors, layout, radius, isDark } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+  const handleFocus: TextInputProps['onFocus'] = (e) => {
     setIsFocused(true);
     onFocus?.(e);
   };
 
-  const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+  const handleBlur: TextInputProps['onBlur'] = (e) => {
     setIsFocused(false);
     onBlur?.(e);
   };
