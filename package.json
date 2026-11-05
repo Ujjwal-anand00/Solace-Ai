@@ -1,0 +1,41 @@
+{
+  "name": "solace-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Solace AI - Premium AI-powered mental wellness companion monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -p \"[{name}]\" -n \"SERVER,MOBILE\" -c \"blue.bold,magenta.bold\" \"npm run server:dev\" \"npm run mobile\"",
+    "mobile": "npm run start --workspace=@solace/mobile",
+    "mobile:android": "npm run android --workspace=@solace/mobile",
+    "mobile:ios": "npm run ios --workspace=@solace/mobile",
+    "mobile:web": "npm run web --workspace=@solace/mobile",
+    "server": "npm run start --workspace=@solace/server",
+    "server:dev": "npm run dev --workspace=@solace/server",
+    "server:build": "npm run build --workspace=@solace/server",
+    "build:shared": "npm run build --workspace=@solace/shared",
+    "lint": "eslint \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\" --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md}\"",
+    "typecheck": "npm run typecheck:shared && npm run typecheck:server && npm run typecheck:mobile",
+    "typecheck:mobile": "npm run typecheck --workspace=@solace/mobile",
+    "typecheck:server": "npm run typecheck --workspace=@solace/server",
+    "typecheck:shared": "npm run typecheck --workspace=@solace/shared",
+    "clean": "rimraf node_modules apps/*/node_modules packages/*/node_modules apps/server/dist packages/shared/dist"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.2",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1"
+  }
+}
