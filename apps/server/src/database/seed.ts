@@ -334,68 +334,115 @@ export const SEED_AFFIRMATIONS = [
 ];
 
 export const SEED_ACHIEVEMENTS = [
-  {
-    criteria: 'first_checkin',
-    title: 'First Step',
-    description: 'Checked in with your inner emotional world for the very first time.',
-    icon: 'heart',
-    category: 'mood',
-    isActive: true,
-  },
-  {
-    criteria: 'first_journal',
-    title: 'Soul Reflector',
-    description: 'Put your authentic thoughts and feelings into words in your private journal.',
-    icon: 'book-open',
-    category: 'journal',
-    isActive: true,
-  },
+  // 1. CONSISTENCY
   {
     criteria: 'first_activity',
-    title: 'Mindful Seeker',
-    description: 'Completed your first guided wellness exercise in Solace AI.',
+    title: 'First Step',
+    description: 'Complete your very first wellness activity.',
     icon: 'sparkles',
-    category: 'wellness',
+    category: 'consistency',
     isActive: true,
   },
   {
-    criteria: 'first_breathing',
-    title: 'Deep Breather',
-    description: 'Centered your autonomic nervous system through a complete breathing session.',
-    icon: 'wind',
-    category: 'breathing',
-    isActive: true,
-  },
-  {
-    criteria: 'streak_3_days',
-    title: 'Consistency Spark',
-    description: 'Maintained your personal wellness practice for 3 continuous days.',
-    icon: 'flame',
-    category: 'streak',
+    criteria: 'active_3_days',
+    title: 'Three Days of Care',
+    description: 'Be active for three distinct calendar days.',
+    icon: 'calendar',
+    category: 'consistency',
     isActive: true,
   },
   {
     criteria: 'streak_7_days',
-    title: 'Week of Serenity',
-    description: 'Dedicated time to your mental wellness every day for a full week.',
+    title: 'One Week Together',
+    description: 'Reach an inspiring seven-day wellness streak.',
+    icon: 'flame',
+    category: 'consistency',
+    isActive: true,
+  },
+  {
+    criteria: 'streak_30_days',
+    title: 'Growing Together',
+    description: 'Reach a remarkable 30-day streak of mindful presence.',
     icon: 'sun',
-    category: 'streak',
+    category: 'consistency',
+    isActive: true,
+  },
+
+  // 2. EMOTIONAL AWARENESS
+  {
+    criteria: 'first_checkin',
+    title: 'First Check-in',
+    description: 'Complete your first emotional check-in with Solace.',
+    icon: 'heart',
+    category: 'emotional_awareness',
     isActive: true,
   },
   {
-    criteria: 'streak_14_days',
-    title: 'Rooted Oak',
-    description: 'Reached a remarkable 14-day continuous self-care streak.',
-    icon: 'shield',
-    category: 'streak',
+    criteria: 'checkin_10',
+    title: 'Understanding Yourself',
+    description: 'Complete ten reflective mood check-ins.',
+    icon: 'smile',
+    category: 'emotional_awareness',
     isActive: true,
   },
   {
-    criteria: 'all_categories',
-    title: 'Solace Explorer',
-    description: 'Engaged with mood, breathwork, journaling, and mindful meditations.',
+    criteria: 'emotions_5',
+    title: 'Emotional Explorer',
+    description: 'Record five different emotions across your journey.',
+    icon: 'compass',
+    category: 'emotional_awareness',
+    isActive: true,
+  },
+
+  // 3. MINDFULNESS
+  {
+    criteria: 'first_breathing',
+    title: 'First Breath',
+    description: 'Complete your first guided breathing session.',
+    icon: 'wind',
+    category: 'mindfulness',
+    isActive: true,
+  },
+  {
+    criteria: 'breathing_5',
+    title: 'Calm Moments',
+    description: 'Complete five soothing breathing sessions.',
+    icon: 'activity',
+    category: 'mindfulness',
+    isActive: true,
+  },
+  {
+    criteria: 'mindfulness_10',
+    title: 'Mindful Journey',
+    description: 'Complete ten mindfulness and relaxation practices.',
     icon: 'award',
-    category: 'milestone',
+    category: 'mindfulness',
+    isActive: true,
+  },
+
+  // 4. PERSONAL GROWTH
+  {
+    criteria: 'first_assessment',
+    title: 'Reflection Starter',
+    description: 'Complete your first self-reflection assessment.',
+    icon: 'book-open',
+    category: 'personal_growth',
+    isActive: true,
+  },
+  {
+    criteria: 'first_plan_task',
+    title: 'Plan in Action',
+    description: 'Complete your first daily wellness plan task.',
+    icon: 'check-circle',
+    category: 'personal_growth',
+    isActive: true,
+  },
+  {
+    criteria: 'plan_tasks_20',
+    title: 'Consistent Growth',
+    description: 'Complete 20 wellness plan tasks on your path.',
+    icon: 'shield',
+    category: 'personal_growth',
     isActive: true,
   },
 ];
@@ -488,6 +535,8 @@ export const seedDatabase = async (): Promise<void> => {
 
   // 3. Seed Achievements
   logger.info(`Seeding ${SEED_ACHIEVEMENTS.length} Achievements...`);
+  const validCriteria = SEED_ACHIEVEMENTS.map((a) => a.criteria);
+  await AchievementModel.deleteMany({ criteria: { $nin: validCriteria } });
   for (const ach of SEED_ACHIEVEMENTS) {
     await AchievementModel.findOneAndUpdate(
       { criteria: ach.criteria },

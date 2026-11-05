@@ -27,6 +27,22 @@ export interface Achievement {
   updatedAt: string;
 }
 
+export interface UserAchievement {
+  id: string;
+  criteria: string;
+  title: string;
+  description: string;
+  icon: string;
+  category: string;
+  unlocked: boolean;
+  unlockedAt?: string;
+  progress: {
+    current: number;
+    target: number;
+    percentage: number;
+  };
+}
+
 export type ResourceContentType = 'article' | 'audio' | 'guide' | 'helpline' | 'exercise';
 
 export interface WellnessResource {

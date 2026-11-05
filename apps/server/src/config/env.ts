@@ -2,7 +2,9 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { z } from 'zod';
 
-// Load environment variables from .env file
+// Load environment variables from .env file (supports monorepo root and package directories)
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config({ path: path.resolve(process.cwd(), 'apps/server/.env') });
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 const envSchema = z.object({

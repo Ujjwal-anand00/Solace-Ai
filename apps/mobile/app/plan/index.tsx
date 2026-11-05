@@ -17,9 +17,9 @@ import {
   AppCard,
   AppButton,
   AppIcon,
+  IconName,
   AppBadge,
   AppProgressBar,
-  IconName,
 } from '../../src/components/ui';
 import {
   useCurrentWellnessPlan,
@@ -330,8 +330,8 @@ export default function WellnessPlanScreen(): React.JSX.Element {
                       backgroundColor: isSelected
                         ? colors.primary
                         : isDark
-                        ? colors.surfaceSecondary
-                        : colors.surface,
+                          ? colors.surfaceSecondary
+                          : colors.surface,
                       borderColor: isSelected ? colors.primary : colors.border,
                     },
                   ]}
@@ -727,4 +727,3 @@ const styles = StyleSheet.create({
     borderColor: '#C6E8C9',
   },
 });
-

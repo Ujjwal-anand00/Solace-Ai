@@ -33,7 +33,18 @@ export const API_ROUTES = {
   },
   PROGRESS: {
     BASE: '/api/v1/progress',
+    OVERVIEW: '/api/v1/progress/overview',
+    SUMMARY: '/api/v1/progress/summary',
+    TRENDS: '/api/v1/progress/trends',
     HISTORY: '/api/v1/progress/history',
+    STREAK: '/api/v1/progress/streak',
+    REPORTS_WEEKLY: '/api/v1/progress/reports/weekly',
+    REPORTS_MONTHLY: '/api/v1/progress/reports/monthly',
+  },
+  ACHIEVEMENTS: {
+    BASE: '/api/v1/achievements',
+    MINE: '/api/v1/achievements/mine',
+    DETAIL: (id: string) => `/api/v1/achievements/${id}`,
   },
   RESOURCES: {
     BASE: '/api/v1/resources',

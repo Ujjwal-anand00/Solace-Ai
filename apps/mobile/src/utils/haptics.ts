@@ -26,6 +26,9 @@ export const triggerHaptic = {
   success: (): void => {
     safeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)).catch(() => {});
   },
+  notification: (): void => {
+    safeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)).catch(() => {});
+  },
   warning: (): void => {
     safeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)).catch(() => {});
   },

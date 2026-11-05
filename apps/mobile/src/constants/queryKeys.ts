@@ -27,8 +27,22 @@ export const QUERY_KEYS = {
     DAILY: (category?: string) => ['affirmations', 'daily', category || 'all'] as const,
   },
   PROGRESS: {
+    ALL: ['progress'] as const,
     CURRENT: ['progress', 'current'] as const,
+    OVERVIEW: ['progress', 'overview'] as const,
+    SUMMARY: (period?: string) => ['progress', 'summary', period || 'week'] as const,
+    TRENDS: (period?: string) => ['progress', 'trends', period || 'week'] as const,
+    TIMELINE: (category?: string, page?: number) =>
+      ['progress', 'timeline', category || 'all', page || 1] as const,
+    STREAK: ['progress', 'streak'] as const,
     HISTORY: ['progress', 'history'] as const,
+    REPORT_WEEKLY: ['progress', 'report', 'weekly'] as const,
+    REPORT_MONTHLY: ['progress', 'report', 'monthly'] as const,
+  },
+  ACHIEVEMENTS: {
+    ALL: ['achievements'] as const,
+    MINE: ['achievements', 'mine'] as const,
+    DETAIL: (id: string) => ['achievements', 'detail', id] as const,
   },
   USER: {
     PROFILE: ['user', 'profile'] as const,

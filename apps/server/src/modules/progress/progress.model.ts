@@ -9,6 +9,9 @@ export interface IUserProgressDocument extends Document {
   totalMoodCheckIns: number;
   totalJournalEntries: number;
   totalBreathingSessions: number;
+  totalPlanTasksCompleted: number;
+  totalAssessmentsCompleted: number;
+  activeDates: string[]; // YYYY-MM-DD
   earnedAchievements: string[];
   lastActivityDate?: Date;
   createdAt: Date;
@@ -55,6 +58,20 @@ const UserProgressSchema = new Schema<IUserProgressDocument>(
       default: 0,
       min: 0,
     },
+    totalPlanTasksCompleted: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    totalAssessmentsCompleted: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    activeDates: {
+      type: [String],
+      default: [],
+    },
     earnedAchievements: {
       type: [String],
       default: [],
@@ -78,6 +95,9 @@ UserProgressSchema.methods.toDto = function (): UserProgress {
     totalMoodCheckIns: obj.totalMoodCheckIns || 0,
     totalJournalEntries: obj.totalJournalEntries || 0,
     totalBreathingSessions: obj.totalBreathingSessions || 0,
+    totalPlanTasksCompleted: obj.totalPlanTasksCompleted || 0,
+    totalAssessmentsCompleted: obj.totalAssessmentsCompleted || 0,
+    activeDaysCount: (obj.activeDates || []).length,
     earnedAchievements: obj.earnedAchievements || [],
     lastActivityDate: obj.lastActivityDate?.toISOString?.(),
     createdAt: obj.createdAt.toISOString(),
