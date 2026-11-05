@@ -26,7 +26,8 @@
     "typecheck:mobile": "npm run typecheck --workspace=@solace/mobile",
     "typecheck:server": "npm run typecheck --workspace=@solace/server",
     "typecheck:shared": "npm run typecheck --workspace=@solace/shared",
-    "clean": "rimraf node_modules apps/*/node_modules packages/*/node_modules apps/server/dist packages/shared/dist"
+    "clean": "rimraf node_modules apps/*/node_modules packages/*/node_modules apps/server/dist packages/shared/dist",
+    "postinstall": "node scripts/link-expo-router.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
