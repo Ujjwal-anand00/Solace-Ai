@@ -37,3 +37,4 @@ router.patch('/me', requireAuth, validateBody(updateProfileSchema), AuthControll
 router.delete('/me', requireAuth, AuthController.deleteMe);
 
 export const authRoutes = router;
+

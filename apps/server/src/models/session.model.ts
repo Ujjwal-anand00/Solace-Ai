@@ -51,3 +51,4 @@ const SessionSchema = new Schema<ISessionDocument>(
 SessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export const Session = model<ISessionDocument>('Session', SessionSchema);
+

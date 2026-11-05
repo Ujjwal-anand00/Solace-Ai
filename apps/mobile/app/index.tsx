@@ -94,7 +94,7 @@ export default function SplashScreen(): React.JSX.Element {
     if (isAnimationDone && isHydrated && !isRestoringSession) {
       if (isAuthenticated) {
         // Authenticated user -> navigate directly to home
-        router.replace('/(home)/index');
+        router.replace('/(home)');
       } else if (hasCompletedOnboarding) {
         // Returning user -> skip onboarding, navigate to auth landing
         router.replace('/(auth)');

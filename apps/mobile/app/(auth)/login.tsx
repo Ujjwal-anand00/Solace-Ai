@@ -76,7 +76,7 @@ export default function LoginScreen(): React.JSX.Element {
 
       triggerHaptic.success();
       // Navigate to protected home screen
-      router.replace('/(home)/index');
+      router.replace('/(home)');
     } catch {
       triggerHaptic.error();
     }

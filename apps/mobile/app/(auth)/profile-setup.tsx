@@ -78,16 +78,16 @@ export default function ProfileSetupScreen(): React.JSX.Element {
       });
 
       triggerHaptic.success();
-      router.replace('/(home)/index');
+      router.replace('/(home)');
     } catch {
       // If error occurs, still proceed to home to keep UX smooth
-      router.replace('/(home)/index');
+      router.replace('/(home)');
     }
   };
 
   const handleSkipForNow = () => {
     triggerHaptic.light();
-    router.replace('/(home)/index');
+    router.replace('/(home)');
   };
 
   return (

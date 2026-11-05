@@ -3,8 +3,21 @@ import { ENV } from '../../config/env';
 import { secureStorage } from '../storage/secureStore';
 import { API_ROUTES, AuthResponse, ApiResponse } from '@solace/shared';
 
+/**
+ * Normalize base URL:
+ * Since API_ROUTES in @solace/shared already include the '/api/v1' prefix (e.g. '/api/v1/auth/register'),
+ * if ENV.API_URL also includes '/api/v1', strip it from baseURL so Axios doesn't produce
+ * duplicated paths like '/api/v1/api/v1/auth/register'.
+ */
+const getBaseUrl = (): string => {
+  const url = (ENV.API_URL || 'http://127.0.0.1:5000').replace(/\/+$/, '');
+  return url.endsWith('/api/v1') ? url.slice(0, -'/api/v1'.length) : url;
+};
+
+export const API_BASE_URL = getBaseUrl();
+
 export const apiClient = axios.create({
-  baseURL: ENV.API_URL,
+  baseURL: API_BASE_URL,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
@@ -79,7 +92,7 @@ apiClient.interceptors.response.use(
 
         // Use raw axios instance to prevent recursive interceptors
         const refreshResponse = await axios.post<ApiResponse<AuthResponse>>(
-          `${ENV.API_URL}${API_ROUTES.AUTH.REFRESH}`,
+          `${API_BASE_URL}${API_ROUTES.AUTH.REFRESH}`,
           { refreshToken },
           { headers: { 'Content-Type': 'application/json' } },
         );

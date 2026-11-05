@@ -37,7 +37,9 @@ export const createApp = (): Application => {
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-  // API v1 Routes
+  // API v1 Routes:
+  // Register /api/v1/api/v1 first so accidental client double-prefixing gets stripped to /auth/...
+  app.use('/api/v1/api/v1', v1Routes);
   app.use('/api/v1', v1Routes);
 
   // 404 Not Found Handler

@@ -130,3 +130,4 @@ UserSchema.methods.toProfileJSON = function (): UserProfile {
 };
 
 export const User = model<IUserDocument>('User', UserSchema);
+
