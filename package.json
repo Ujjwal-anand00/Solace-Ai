@@ -17,6 +17,7 @@
     "server": "npm run start --workspace=@solace/server",
     "server:dev": "npm run dev --workspace=@solace/server",
     "server:build": "npm run build --workspace=@solace/server",
+    "seed": "npm run seed --workspace=@solace/server",
     "build:shared": "npm run build --workspace=@solace/shared",
     "lint": "eslint \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\" --fix",

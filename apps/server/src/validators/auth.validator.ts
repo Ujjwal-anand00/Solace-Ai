@@ -86,3 +86,32 @@ export const validateBody = (schema: z.ZodSchema) => {
   };
 };
 
+/**
+ * Higher-order middleware to validate incoming request query parameters against a Zod schema
+ */
+export const validateQuery = (schema: z.ZodSchema) => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      req.query = (await schema.parseAsync(req.query)) as typeof req.query;
+      next();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const issues = error.issues.map((issue) => ({
+          field: issue.path.join('.'),
+          message: issue.message,
+        }));
+        ApiResponseUtil.error(
+          res,
+          'Query validation failed. Please check your query parameters.',
+          422,
+          ERROR_CODES.VALIDATION_ERROR,
+          issues,
+        );
+        return;
+      }
+      next(error);
+    }
+  };
+};
+
+

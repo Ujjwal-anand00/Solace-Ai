@@ -1,15 +1,32 @@
 import { Response } from 'express';
-import { ApiResponse } from '@solace/shared';
+import { ApiResponse, PaginationMeta } from '@solace/shared';
 
 export class ApiResponseUtil {
-  public static success<T>(res: Response, message: string, data?: T, statusCode = 200): Response {
-    const payload: ApiResponse<T> = {
+  public static success<T>(
+    res: Response,
+    message: string,
+    data?: T,
+    statusCode = 200,
+    meta?: PaginationMeta,
+  ): Response {
+    const payload: ApiResponse<T> & { meta?: PaginationMeta } = {
       success: true,
       message,
       data,
+      meta,
       timestamp: new Date().toISOString(),
     };
     return res.status(statusCode).json(payload);
+  }
+
+  public static paginated<T>(
+    res: Response,
+    message: string,
+    data: T[],
+    meta: PaginationMeta,
+    statusCode = 200,
+  ): Response {
+    return ApiResponseUtil.success(res, message, data, statusCode, meta);
   }
 
   public static error(

@@ -269,7 +269,19 @@ Solace AI requires a running MongoDB database.
 
 ---
 
-## 9. How to Start the Backend
+## 9. Database Seeding
+
+Populate the database with curated wellness activities, affirmations, achievements, and mental health resources using the safe, idempotent seed script:
+
+```bash
+npm run seed
+```
+
+*Note: The seed script uses unique slug/criteria upserts so it is completely safe to run repeatedly without creating duplicates or affecting user-generated data.*
+
+---
+
+## 10. How to Start the Backend
 
 From the monorepo root, execute:
 
@@ -285,11 +297,19 @@ You will see:
 [INFO] MongoDB connection established successfully.
 [INFO]  Solace AI API server running at http://localhost:5000
 [INFO]  Health endpoint available at http://localhost:5000/api/v1/health
+[INFO]  Readiness check available at http://localhost:5000/api/v1/health/ready
 ```
 
 ---
 
-## 10. How to Start Expo
+## 11. API Documentation & Postman Collection
+
+- Complete API Reference: [`docs/api.md`](./docs/api.md)
+- Postman Collection: [`docs/solace-ai.postman_collection.json`](./docs/solace-ai.postman_collection.json)
+
+---
+
+## 12. How to Start Expo
 
 From the monorepo root, run:
 

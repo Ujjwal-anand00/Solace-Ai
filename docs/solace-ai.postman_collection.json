@@ -1,0 +1,232 @@
+{
+  "info": {
+    "name": "Solace AI - REST API Collection",
+    "description": "Production-grade API collection for Solace AI Mental Wellness Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:5000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          }
+        },
+        {
+          "name": "Database Readiness Check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health/ready"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"SolacePass123!\",\n  \"wellnessGoals\": [\"reduce_stress\"]\n}"
+            },
+            "url": "{{baseUrl}}/auth/register"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"SolacePass123!\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Get Profile (/me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mood Tracking",
+      "item": [
+        {
+          "name": "Create Mood Check-in",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mood\": \"calm\",\n  \"moodIntensity\": 8,\n  \"emotions\": [\"grounded\", \"relaxed\"],\n  \"note\": \"Morning tea and quiet breathing.\",\n  \"tags\": [\"morning\"]\n}"
+            },
+            "url": "{{baseUrl}}/mood"
+          }
+        },
+        {
+          "name": "List Mood Entries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/mood?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["mood"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mood Summary & Statistics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/mood/summary"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Journaling",
+      "item": [
+        {
+          "name": "Create Journal Entry",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Evening Reflection\",\n  \"content\": \"Taking time to pause and breathe today allowed me to feel grounded.\",\n  \"prompt\": \"What made you smile today?\",\n  \"tags\": [\"mindfulness\"],\n  \"isFavorite\": true\n}"
+            },
+            "url": "{{baseUrl}}/journal"
+          }
+        },
+        {
+          "name": "List Journal Entries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/journal?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["journal"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wellness Activities",
+      "item": [
+        {
+          "name": "List Activities",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/activities"
+          }
+        },
+        {
+          "name": "Complete Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"durationCompleted\": 240,\n  \"feedback\": \"Felt deeply relaxed.\"\n}"
+            },
+            "url": "{{baseUrl}}/activities/:id/complete"
+          }
+        },
+        {
+          "name": "Completed Activities History",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/activities/completed/history"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Affirmations",
+      "item": [
+        {
+          "name": "List Affirmations",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/affirmations"
+          }
+        },
+        {
+          "name": "Daily Affirmation",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/affirmations/daily"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Progress",
+      "item": [
+        {
+          "name": "Get Progress & Streaks",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/progress"
+          }
+        },
+        {
+          "name": "Get Progress History (14-Day)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/progress/history"
+          }
+        }
+      ]
+    }
+  ]
+}

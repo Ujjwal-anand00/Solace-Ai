@@ -1,0 +1,34 @@
+/**
+ * Centralized React Query Keys
+ */
+export const QUERY_KEYS = {
+  MOOD: {
+    ALL: ['moods'] as const,
+    LIST: (filters?: Record<string, unknown>) => ['moods', 'list', filters || {}] as const,
+    DETAIL: (id: string) => ['moods', 'detail', id] as const,
+    SUMMARY: ['moods', 'summary'] as const,
+  },
+  JOURNAL: {
+    ALL: ['journals'] as const,
+    LIST: (filters?: Record<string, unknown>) => ['journals', 'list', filters || {}] as const,
+    DETAIL: (id: string) => ['journals', 'detail', id] as const,
+  },
+  ACTIVITIES: {
+    ALL: ['activities'] as const,
+    LIST: (filters?: Record<string, unknown>) => ['activities', 'list', filters || {}] as const,
+    DETAIL: (id: string) => ['activities', 'detail', id] as const,
+    HISTORY: (page?: number) => ['activities', 'history', page || 1] as const,
+  },
+  AFFIRMATIONS: {
+    ALL: ['affirmations'] as const,
+    LIST: (filters?: Record<string, unknown>) => ['affirmations', 'list', filters || {}] as const,
+    DAILY: (category?: string) => ['affirmations', 'daily', category || 'all'] as const,
+  },
+  PROGRESS: {
+    CURRENT: ['progress', 'current'] as const,
+    HISTORY: ['progress', 'history'] as const,
+  },
+  USER: {
+    PROFILE: ['user', 'profile'] as const,
+  },
+} as const;

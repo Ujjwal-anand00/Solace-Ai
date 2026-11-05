@@ -4,6 +4,7 @@
 export const API_ROUTES = {
   BASE_V1: '/api/v1',
   HEALTH: '/api/v1/health',
+  HEALTH_READY: '/api/v1/health/ready',
   AUTH: {
     REGISTER: '/api/v1/auth/register',
     LOGIN: '/api/v1/auth/login',
@@ -13,16 +14,27 @@ export const API_ROUTES = {
     RESET_PASSWORD: '/api/v1/auth/reset-password',
     ME: '/api/v1/auth/me',
   },
+  MOOD: {
+    BASE: '/api/v1/mood',
+    SUMMARY: '/api/v1/mood/summary',
+  },
+  JOURNAL: {
+    BASE: '/api/v1/journal',
+  },
+  ACTIVITIES: {
+    BASE: '/api/v1/activities',
+    COMPLETED_HISTORY: '/api/v1/activities/completed/history',
+  },
+  AFFIRMATIONS: {
+    BASE: '/api/v1/affirmations',
+    DAILY: '/api/v1/affirmations/daily',
+  },
+  PROGRESS: {
+    BASE: '/api/v1/progress',
+    HISTORY: '/api/v1/progress/history',
+  },
   COMPANION: {
     CHAT: '/api/v1/companion/chat',
     HISTORY: '/api/v1/companion/history',
-  },
-  MOOD: {
-    BASE: '/api/v1/mood',
-    LOG: '/api/v1/mood/log',
-    STATS: '/api/v1/mood/stats',
-  },
-  WELLNESS: {
-    EXERCISES: '/api/v1/wellness/exercises',
   },
 } as const;

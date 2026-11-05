@@ -8,6 +8,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "rimraf dist && tsc",
     "start": "node dist/server.js",
+    "seed": "tsx src/database/runSeed.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
