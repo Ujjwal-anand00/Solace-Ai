@@ -1,10 +1,16 @@
 import '../global.css';
 import React from 'react';
+import { LogBox } from 'react-native';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { ThemeProvider, useTheme } from '@/theme';
+
+// Suppress known upstream deprecation warning triggered by react-native-css-interop / nativewind
+LogBox.ignoreLogs([
+  'ImageBackground is deprecated',
+]);
 
 const queryClient = new QueryClient({
   defaultOptions: {

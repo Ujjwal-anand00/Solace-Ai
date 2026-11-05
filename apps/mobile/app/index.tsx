@@ -14,7 +14,6 @@ import { SolaceLogo } from '../src/components/ui/SolaceLogo';
 import { AppText } from '../src/components/ui/AppText';
 import { useOnboardingStore } from '../src/store/onboardingStore';
 import { useAuthStore } from '../src/store/authStore';
-import { triggerHaptic } from '../src/utils/haptics';
 
 export default function SplashScreen(): React.JSX.Element {
   const router = useRouter();
@@ -82,7 +81,6 @@ export default function SplashScreen(): React.JSX.Element {
 
     // After animation holds gently, mark animation as finished
     const timer = setTimeout(() => {
-      triggerHaptic.light();
       setIsAnimationDone(true);
     }, 2200);
 

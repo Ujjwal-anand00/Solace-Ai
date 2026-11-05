@@ -62,22 +62,22 @@ export const CompanionSettingsModal: React.FC<CompanionSettingsModalProps> = ({
     title: string;
     desc: string;
   }> = [
-    {
-      key: 'gentle',
-      title: 'Gentle',
-      desc: 'Soothing, soft, patient, giving ample space to feel.',
-    },
-    {
-      key: 'balanced',
-      title: 'Balanced',
-      desc: 'Warm, thoughtful, emotionally grounding, and conversational.',
-    },
-    {
-      key: 'direct',
-      title: 'Direct',
-      desc: 'Caring, structured, clear, and solution-focused.',
-    },
-  ];
+      {
+        key: 'gentle',
+        title: 'Gentle',
+        desc: 'Soothing, soft, patient, giving ample space to feel.',
+      },
+      {
+        key: 'balanced',
+        title: 'Balanced',
+        desc: 'Warm, thoughtful, emotionally grounding, and conversational.',
+      },
+      {
+        key: 'direct',
+        title: 'Direct',
+        desc: 'Caring, structured, clear, and solution-focused.',
+      },
+    ];
 
   return (
     <Modal

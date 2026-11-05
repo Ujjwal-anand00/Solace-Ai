@@ -55,3 +55,4 @@ export const CompanionSettingsModel = model<ICompanionSettingsDocument>(
   'CompanionSettings',
   CompanionSettingsSchema,
 );
+

@@ -25,3 +25,4 @@ router.post('/:id/messages', validateBody(sendMessageSchema), ConversationContro
 router.post('/:id/messages/stream', validateBody(sendMessageSchema), ConversationController.streamMessage);
 
 export const conversationRoutes = router;
+

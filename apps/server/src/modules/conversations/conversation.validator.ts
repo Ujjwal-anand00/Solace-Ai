@@ -13,3 +13,4 @@ export const updateConversationSchema = z.object({
 export const sendMessageSchema = z.object({
   content: z.string().min(1, 'Message content cannot be empty').max(3000, 'Message cannot exceed 3000 characters').trim(),
 });
+

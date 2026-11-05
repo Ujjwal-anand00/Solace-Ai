@@ -5,3 +5,4 @@ export const updateCompanionSettingsSchema = z.object({
   journalPersonalizationConsent: z.boolean().optional(),
   preferredTone: z.enum(['gentle', 'balanced', 'direct']).optional(),
 });
+

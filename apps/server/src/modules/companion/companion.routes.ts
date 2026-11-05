@@ -13,3 +13,4 @@ router.get('/settings', CompanionController.getSettings);
 router.patch('/settings', validateBody(updateCompanionSettingsSchema), CompanionController.updateSettings);
 
 export const companionRoutes = router;
+

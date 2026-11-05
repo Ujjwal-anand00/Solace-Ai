@@ -1,40 +1,35 @@
 import * as Haptics from 'expo-haptics';
 import { Platform } from 'react-native';
 
+const safeHaptic = async (fn: () => Promise<void>): Promise<void> => {
+  if (Platform.OS === 'web') return;
+  try {
+    await fn();
+  } catch {
+    // Gracefully ignore haptic feedback errors when hardware or async context is unavailable
+  }
+};
+
 export const triggerHaptic = {
-  selection: async (): Promise<void> => {
-    if (Platform.OS !== 'web') {
-      await Haptics.selectionAsync();
-    }
+  selection: (): void => {
+    safeHaptic(() => Haptics.selectionAsync()).catch(() => {});
   },
-  light: async (): Promise<void> => {
-    if (Platform.OS !== 'web') {
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    }
+  light: (): void => {
+    safeHaptic(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)).catch(() => {});
   },
-  medium: async (): Promise<void> => {
-    if (Platform.OS !== 'web') {
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    }
+  medium: (): void => {
+    safeHaptic(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)).catch(() => {});
   },
-  heavy: async (): Promise<void> => {
-    if (Platform.OS !== 'web') {
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    }
+  heavy: (): void => {
+    safeHaptic(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)).catch(() => {});
   },
-  success: async (): Promise<void> => {
-    if (Platform.OS !== 'web') {
-      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    }
+  success: (): void => {
+    safeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)).catch(() => {});
   },
-  warning: async (): Promise<void> => {
-    if (Platform.OS !== 'web') {
-      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-    }
+  warning: (): void => {
+    safeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)).catch(() => {});
   },
-  error: async (): Promise<void> => {
-    if (Platform.OS !== 'web') {
-      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    }
+  error: (): void => {
+    safeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)).catch(() => {});
   },
 };

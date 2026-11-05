@@ -34,3 +34,4 @@ export const companionService = {
     return res.data.data;
   },
 };
+
