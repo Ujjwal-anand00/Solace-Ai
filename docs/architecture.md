@@ -17,7 +17,7 @@ solace-ai/
 ├── docs/               # Architecture and setup documentation
 ├── .gitignore
 ├── .prettierrc
-├── eslint.config.js
+├── eslint.config.mjs
 ├── package.json
 └── README.md
 ```
@@ -28,14 +28,21 @@ solace-ai/
 
 - **Framework**: React Native 0.76 with Expo SDK 52.
 - **Routing**: File-based routing via `expo-router` v4.
+- **Design System & Theme**:
+  - Centralized color tokens with light and dark themes (Warm Linen & Cream `#F8F6EF`, Deep Forest Midnight `#131814`, Sage Primary `#829B83`, Soft Pastels: Lavender, Peach, Mint, Butter).
+  - Spacing scale (`4, 8, 12, 16, 20, 24, 32, 40, 48, 56`) and radius tokens (`xs: 6, sm: 10, md: 14, lg: 20, xl: 28, pill: 9999`).
+  - Soft ambient shadows (`subtle`, `card`, `elevated`, `glowPrimary`).
+  - Typography scale (`displayLarge`, `displayMedium`, `h1`, `h2`, `h3`, `bodyLarge`, `bodyMedium`, `bodySmall`, `caption`, `label`, `button`).
+  - Theme provider with persistence via `AsyncStorage` and Zustand store (`system`, `light`, `dark`).
+  - Reusable UI component library (`AppButton`, `AppText`, `AppCard`, `AppInput`, `AppAvatar`, `AppBadge`, `AppChip`, `AppDivider`, `AppProgressBar`, `AppIcon`, `ScreenContainer`, `SectionHeader`, `BottomSheet`, `LoadingIndicator`, `EmptyState`, `ErrorState`, `Backgrounds`).
 - **State Management**:
   - Global client state: Zustand.
   - Server state, query caching & mutation: TanStack Query (React Query v5).
-- **Styling**: NativeWind v4 (Tailwind CSS) + custom typed theme token system (`src/theme/`).
-- **Animations**: React Native Reanimated v3.
+- **Animations**: React Native Reanimated v3 (`FadeInView`, `SlideUpView`, `ScalePressable`, `FloatingView`).
+- **Sensory Feedback**: Expo Haptics.
 - **Security & Storage**:
   - `expo-secure-store` for sensitive authentication credentials (JWTs, tokens).
-  - `@react-native-async-storage/async-storage` for non-sensitive local application state and cached data.
+  - `@react-native-async-storage/async-storage` for non-sensitive local application state, theme preference, and cached data.
 - **Validation & Forms**: React Hook Form with Zod schemas.
 - **API Client**: Axios instance configured with environment-driven base URLs and automatic bearer token injection.
 
@@ -51,7 +58,7 @@ solace-ai/
   - bcrypt password hashing infrastructure.
   - JWT token verification and signing infrastructure.
 - **AI Integration**:
-  - Dedicated provider in `src/integrations/gemini/` for Google Gemini AI.
+  - Dedicated provider in `src/integrations/gemini/` for Google Gemini AI (`@google/genai`).
   - Lazy initialization ensuring zero unnecessary network calls on cold startup.
   - Secret isolation: Gemini API keys and credentials are strictly kept on the server and never sent to mobile clients.
 - **Reliability & Lifecycle**:
