@@ -74,6 +74,14 @@ export const API_ROUTES = {
   NOTIFICATIONS: {
     BASE: '/api/v1/notifications',
     UNREAD_COUNT: '/api/v1/notifications/unread-count',
+    READ: (id: string) => `/api/v1/notifications/${id}/read`,
+    READ_ALL: '/api/v1/notifications/read-all',
+    DETAIL: (id: string) => `/api/v1/notifications/${id}`,
+    DEVICES_REGISTER: '/api/v1/notifications/devices/register',
+    DEVICES_REMOVE: (id: string) => `/api/v1/notifications/devices/${id}`,
+    PREFERENCES: '/api/v1/notifications/preferences',
+    REMINDERS: '/api/v1/notifications/reminders',
+    REMINDER_DETAIL: (id: string) => `/api/v1/notifications/reminders/${id}`,
   },
   COMPANION: {
     SETTINGS: '/api/v1/companion/settings',

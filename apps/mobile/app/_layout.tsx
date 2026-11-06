@@ -6,6 +6,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { ThemeProvider, useTheme } from '@/theme';
+import { useAuthStore } from '@/store/authStore';
+import { usePushRegistration } from '@/hooks/usePushRegistration';
 
 // Suppress known upstream deprecation warning triggered by react-native-css-interop / nativewind
 LogBox.ignoreLogs([
@@ -24,6 +26,8 @@ const queryClient = new QueryClient({
 
 function AppNavigation(): React.JSX.Element {
   const { colors } = useTheme();
+  const { isAuthenticated } = useAuthStore();
+  usePushRegistration(isAuthenticated);
 
   return (
     <Stack
@@ -38,6 +42,7 @@ function AppNavigation(): React.JSX.Element {
       <Stack.Screen name="(auth)" />
       <Stack.Screen name="(home)" />
       <Stack.Screen name="mood" options={{ animation: 'slide_from_bottom' }} />
+      <Stack.Screen name="notifications" options={{ animation: 'slide_from_right' }} />
       <Stack.Screen name="design-system" />
     </Stack>
   );

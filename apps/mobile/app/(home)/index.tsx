@@ -142,11 +142,8 @@ export default function HomeScreen(): React.JSX.Element {
   };
 
   const handleNotificationsPress = () => {
-    Alert.alert(
-      'Sanctuary Notifications',
-      'All calm here! You are up to date on your reminders and mindful check-ins.',
-      [{ text: 'Understood' }]
-    );
+    triggerHaptic.selection();
+    router.push('/notifications' as Href);
   };
 
   return (

@@ -58,6 +58,14 @@ export const QUERY_KEYS = {
     DETAIL: (id: string) => ['wellness-plans', 'detail', id] as const,
     RECOMMENDATIONS: ['wellness-plans', 'recommendations'] as const,
   },
+  NOTIFICATIONS: {
+    ALL: ['notifications'] as const,
+    INBOX: (page?: number, limit?: number, type?: string, status?: string) =>
+      ['notifications', 'inbox', page || 1, limit || 20, type || 'all', status || 'all'] as const,
+    UNREAD_COUNT: ['notifications', 'unread-count'] as const,
+    PREFERENCES: ['notifications', 'preferences'] as const,
+    REMINDERS: ['notifications', 'reminders'] as const,
+  },
   ASSESSMENTS: {
     ALL: ['assessments'] as const,
     TYPES: ['assessments', 'types'] as const,
@@ -65,9 +73,6 @@ export const QUERY_KEYS = {
     HISTORY: (page?: number) => ['assessments', 'history', page || 1] as const,
     LATEST: (type: string) => ['assessments', 'latest', type] as const,
     DETAIL: (id: string) => ['assessments', 'detail', id] as const,
-  },
-  NOTIFICATIONS: {
-    UNREAD_COUNT: ['notifications', 'unread-count'] as const,
   },
   CONVERSATIONS: {
     ALL: ['conversations'] as const,

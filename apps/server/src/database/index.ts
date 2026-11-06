@@ -53,6 +53,20 @@ export class Database {
         logger.error(`Failed to connect to MongoDB on attempt ${attempt}:`, error);
 
         if (attempt >= maxRetries) {
+          if (!mongoUri.includes('127.0.0.1') && !mongoUri.includes('localhost')) {
+            logger.warn('Primary MongoDB URI unreachable. Attempting fallback to local MongoDB instance...');
+            try {
+              const fallbackConnection = await mongoose.connect('mongodb://127.0.0.1:27017/solace-ai', {
+                serverSelectionTimeoutMS: 3000,
+              });
+              Database.isConnected = true;
+              logger.info('Connected to local MongoDB instance fallback successfully.');
+              return fallbackConnection;
+            } catch (fallbackError) {
+              logger.error('Local fallback MongoDB connection failed:', fallbackError);
+            }
+          }
+
           throw new Error(
             `Unable to establish MongoDB connection after ${maxRetries} attempts at ${mongoUri}. ` +
               'Please verify that MongoDB is running and reachable.',

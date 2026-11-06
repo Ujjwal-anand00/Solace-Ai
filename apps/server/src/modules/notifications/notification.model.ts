@@ -10,6 +10,11 @@ export interface INotificationDocument extends Document {
   sentAt?: Date;
   status: NotificationStatus;
   relatedResourceId?: string;
+  deepLink?: string;
+  metadata?: Record<string, unknown>;
+  deliveryAttempts: number;
+  lastDeliveryError?: string;
+  claimedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
   toDto(): SolaceNotification;
@@ -35,7 +40,19 @@ const NotificationSchema = new Schema<INotificationDocument>(
     },
     type: {
       type: String,
-      enum: ['reminder', 'affirmation', 'streak_alert', 'checkin', 'system'],
+      enum: [
+        'reminder',
+        'daily_wellness',
+        'mood_checkin',
+        'checkin',
+        'plan_task',
+        'breathing',
+        'streak_alert',
+        'achievement',
+        'weekly_summary',
+        'affirmation',
+        'system',
+      ],
       default: 'reminder',
       index: true,
     },
@@ -55,6 +72,22 @@ const NotificationSchema = new Schema<INotificationDocument>(
     relatedResourceId: {
       type: String,
     },
+    deepLink: {
+      type: String,
+    },
+    metadata: {
+      type: Schema.Types.Mixed,
+    },
+    deliveryAttempts: {
+      type: Number,
+      default: 0,
+    },
+    lastDeliveryError: {
+      type: String,
+    },
+    claimedAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
@@ -62,6 +95,7 @@ const NotificationSchema = new Schema<INotificationDocument>(
 );
 
 NotificationSchema.index({ userId: 1, scheduledAt: 1, status: 1 });
+NotificationSchema.index({ status: 1, scheduledAt: 1, claimedAt: 1 });
 
 NotificationSchema.methods.toDto = function (): SolaceNotification {
   const obj = this.toObject();
@@ -75,6 +109,8 @@ NotificationSchema.methods.toDto = function (): SolaceNotification {
     sentAt: obj.sentAt?.toISOString?.(),
     status: obj.status,
     relatedResourceId: obj.relatedResourceId,
+    deepLink: obj.deepLink,
+    metadata: obj.metadata,
     createdAt: obj.createdAt.toISOString(),
     updatedAt: obj.updatedAt.toISOString(),
   };

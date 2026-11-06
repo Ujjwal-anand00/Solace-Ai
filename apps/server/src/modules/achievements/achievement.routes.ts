@@ -11,3 +11,4 @@ router.get('/mine', AchievementController.getMine);
 router.get('/:id', AchievementController.getById);
 
 export const achievementRoutes = router;
+

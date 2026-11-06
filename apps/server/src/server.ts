@@ -3,6 +3,7 @@ import { createApp } from './app';
 import { env } from './config/env';
 import { Database } from './database';
 import { logger } from './utils/logger';
+import { NotificationScheduler } from './modules/notifications/notification.scheduler';
 
 let server: Server | null = null;
 
@@ -21,6 +22,9 @@ const startServer = async (): Promise<void> => {
     server = app.listen(env.PORT, () => {
       logger.info(` Solace AI API server running at http://localhost:${env.PORT}`);
       logger.info(` Health endpoint available at http://localhost:${env.PORT}/api/v1/health`);
+
+      // Step 4: Start Notification Background Scheduler
+      NotificationScheduler.start();
     });
   } catch (error) {
     logger.error(' Fatal error during server startup sequence:', error);
@@ -31,6 +35,9 @@ const startServer = async (): Promise<void> => {
 
 const gracefulShutdown = async (signal: string): Promise<void> => {
   logger.info(`Received ${signal}. Initiating graceful shutdown...`);
+
+  // Stop background scheduler
+  NotificationScheduler.stop();
 
   if (server) {
     await new Promise<void>((resolve) => {

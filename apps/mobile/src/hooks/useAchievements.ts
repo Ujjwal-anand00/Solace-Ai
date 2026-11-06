@@ -24,3 +24,4 @@ export const useAchievementDetail = (id: string) => {
     enabled: Boolean(id),
   });
 };
+

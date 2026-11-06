@@ -11,5 +11,8 @@ export * from '../modules/affirmations/affirmation.model';
 export * from '../modules/wellness-plans/wellnessPlan.model';
 export * from '../modules/progress/progress.model';
 export * from '../modules/notifications/notification.model';
+export * from '../modules/notifications/device.model';
+export * from '../modules/notifications/notification-preferences.model';
+export * from '../modules/notifications/reminder.model';
 export * from '../modules/achievements/achievement.model';
 export * from '../modules/resources/resource.model';
