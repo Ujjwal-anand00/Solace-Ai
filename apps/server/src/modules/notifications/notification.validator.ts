@@ -91,3 +91,4 @@ export const updateReminderSchema = z.object({
   relatedResourceId: z.string().optional(),
   isEnabled: z.boolean().optional(),
 });
+

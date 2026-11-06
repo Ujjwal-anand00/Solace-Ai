@@ -18,3 +18,4 @@ export default function NotificationsLayout(): React.JSX.Element {
     </Stack>
   );
 }
+

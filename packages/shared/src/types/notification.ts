@@ -150,3 +150,4 @@ export interface PushDeliveryTicket {
   message?: string;
   details?: { error?: 'DeviceNotRegistered' | 'InvalidCredentials' | 'MessageTooBig' | 'MessageRateExceeded' | string };
 }
+

@@ -16,4 +16,11 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, 'node_modules'),
 ];
 
+// 3. Explicit resolution fallbacks for monorepo hoisted packages
+config.resolver.extraNodeModules = {
+  ...(config.resolver.extraNodeModules || {}),
+  'expo-notifications': path.resolve(monorepoRoot, 'node_modules/expo-notifications'),
+  'expo-device': path.resolve(monorepoRoot, 'node_modules/expo-device'),
+};
+
 module.exports = withNativeWind(config, { input: './global.css' });

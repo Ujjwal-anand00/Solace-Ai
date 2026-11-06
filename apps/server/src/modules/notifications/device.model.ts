@@ -80,3 +80,4 @@ DeviceSchema.methods.toDto = function (): UserDevice {
 };
 
 export const DeviceModel = model<IDeviceDocument>('Device', DeviceSchema);
+

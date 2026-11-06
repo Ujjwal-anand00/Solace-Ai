@@ -104,3 +104,4 @@ ReminderSchema.methods.toDto = function (): ScheduledReminder {
 };
 
 export const ReminderModel = model<IReminderDocument>('Reminder', ReminderSchema);
+

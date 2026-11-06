@@ -72,3 +72,4 @@ export const usePushRegistration = (isAuthenticated: boolean) => {
     };
   }, [isAuthenticated, router]);
 };
+
