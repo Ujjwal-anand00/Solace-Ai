@@ -10,3 +10,4 @@ export * from './assessment';
 export * from './wellness-plan';
 export * from './notification';
 export * from './extra';
+export * from './resource';

@@ -34,3 +34,32 @@ export const requireAuth = async (
   }
 };
 
+export const optionalAuth = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      try {
+        const decoded = AuthService.verifyAccessToken(token);
+        const user = await User.findById(decoded.userId);
+        if (user && user.isActive) {
+          req.user = {
+            id: user._id.toString(),
+            email: user.email,
+          };
+        }
+      } catch {
+        // Token invalid or expired, continue as guest
+      }
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+

@@ -70,6 +70,22 @@ export const API_ROUTES = {
   },
   RESOURCES: {
     BASE: '/api/v1/resources',
+    FEATURED: '/api/v1/resources/featured',
+    RECOMMENDED: '/api/v1/resources/recommended',
+    CATEGORIES: '/api/v1/resources/categories',
+    SEARCH: '/api/v1/resources/search',
+    FAVORITES: '/api/v1/resources/favorites',
+    PROGRESS: '/api/v1/resources/progress',
+    DETAIL: (id: string) => `/api/v1/resources/${id}`,
+    TOGGLE_FAVORITE: (id: string) => `/api/v1/resources/${id}/favorite`,
+    UPDATE_PROGRESS: (id: string) => `/api/v1/resources/${id}/progress`,
+    COMPLETE: (id: string) => `/api/v1/resources/${id}/complete`,
+  },
+  ADMIN_RESOURCES: {
+    BASE: '/api/v1/admin/resources',
+    DETAIL: (id: string) => `/api/v1/admin/resources/${id}`,
+    PUBLISH: (id: string) => `/api/v1/admin/resources/${id}/publish`,
+    FEATURE: (id: string) => `/api/v1/admin/resources/${id}/feature`,
   },
   ASSESSMENTS: {
     BASE: '/api/v1/assessments',

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl, Alert } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { useRouter, Href } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -61,8 +61,9 @@ export default function HomeScreen(): React.JSX.Element {
   const latestAssessment = assessmentData?.data?.[0];
   const { data: progress, isLoading: isProgressLoading, refetch: refetchProgress } = useProgress();
   const { data: history = [], refetch: refetchHistory } = useProgressHistory();
-  const { data: resources = [], isLoading: isResourcesLoading, refetch: refetchResources } =
+  const { data: resourceData, isLoading: isResourcesLoading, refetch: refetchResources } =
     useResources();
+  const resources = resourceData?.data || [];
   const { refetch: refetchNotifications } = useUnreadNotificationCount();
 
   // Determine if user has already checked in today
@@ -133,12 +134,8 @@ export default function HomeScreen(): React.JSX.Element {
   };
 
   const handleResourcePress = (resource: WellnessResource) => {
-    triggerHaptic.light();
-    Alert.alert(
-      resource.title,
-      `${resource.description}\n\nFormat: ${resource.contentType.toUpperCase()}\n\nFull resource viewer scheduled for next phase.`,
-      [{ text: 'Close' }]
-    );
+    triggerHaptic.selection();
+    router.push({ pathname: '/resources/[id]', params: { id: resource.id } } as any);
   };
 
   const handleNotificationsPress = () => {
@@ -289,11 +286,8 @@ export default function HomeScreen(): React.JSX.Element {
             isLoading={isResourcesLoading}
             onResourcePress={handleResourcePress}
             onSeeAllPress={() => {
-              triggerHaptic.light();
-              Alert.alert(
-                'Mindful Library',
-                'Access the complete collection of articles, sleep meditations, and soothing sounds in the upcoming release.'
-              );
+              triggerHaptic.selection();
+              router.push('/resources' as any);
             }}
           />
         </Animated.View>

@@ -46,7 +46,15 @@ export const QUERY_KEYS = {
   },
   RESOURCES: {
     ALL: ['resources'] as const,
-    LIST: (category?: string) => ['resources', 'list', category || 'all'] as const,
+    LIST: (params?: Record<string, unknown>) => ['resources', 'list', params || {}] as const,
+    FEATURED: ['resources', 'featured'] as const,
+    RECOMMENDED: ['resources', 'recommended'] as const,
+    CATEGORIES: ['resources', 'categories'] as const,
+    SEARCH: (query: string, filter?: Record<string, unknown>) =>
+      ['resources', 'search', query, filter || {}] as const,
+    DETAIL: (id: string) => ['resources', 'detail', id] as const,
+    FAVORITES: ['resources', 'favorites'] as const,
+    PROGRESS: ['resources', 'progress'] as const,
   },
   WELLNESS_PLANS: {
     ALL: ['wellness-plans'] as const,
