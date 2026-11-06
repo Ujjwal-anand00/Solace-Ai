@@ -22,6 +22,12 @@ export const API_ROUTES = {
   },
   JOURNAL: {
     BASE: '/api/v1/journal',
+    PROMPTS: '/api/v1/journal/prompts',
+    STATS: '/api/v1/journal/stats',
+    CALENDAR: '/api/v1/journal/calendar',
+    DETAIL: (id: string) => `/api/v1/journal/${id}`,
+    TOGGLE_FAVORITE: (id: string) => `/api/v1/journal/${id}/favorite`,
+    REQUEST_INSIGHT: (id: string) => `/api/v1/journal/${id}/insight`,
   },
   ACTIVITIES: {
     BASE: '/api/v1/activities',

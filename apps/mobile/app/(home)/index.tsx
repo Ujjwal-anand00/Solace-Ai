@@ -247,6 +247,31 @@ export default function HomeScreen(): React.JSX.Element {
           </AppCard>
         </Animated.View>
 
+        {/* Section G2: Private Journal Sanctuary */}
+        <Animated.View entering={FadeInDown.duration(400).delay(335)}>
+          <AppCard style={styles.assessmentCard}>
+            <View style={styles.assessmentCardHeader}>
+              <View style={[styles.assessmentIconBadge, { backgroundColor: '#E9E2F5' }]}>
+                <AppIcon name="book-open" size={20} color="#553C9A" />
+              </View>
+              <View style={{ flex: 1 }}>
+                <AppHeading level="h4">Private Journal 🌿</AppHeading>
+                <AppText variant="caption" color="secondary">
+                  Write freely, practice gratitude, or explore guided prompts
+                </AppText>
+              </View>
+              <AppButton
+                title="Write"
+                size="sm"
+                onPress={() => {
+                  triggerHaptic.selection();
+                  router.push('/journal' as Href);
+                }}
+              />
+            </View>
+          </AppCard>
+        </Animated.View>
+
         {/* Section H: Progress Overview & 7-Day Dots */}
         <Animated.View entering={FadeInDown.duration(400).delay(350)}>
           <ProgressOverview

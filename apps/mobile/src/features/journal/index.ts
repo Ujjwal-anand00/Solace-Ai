@@ -1,7 +1,4 @@
-/**
- * Journal Feature Module
- *
- * Expressive cognitive journaling, AI-guided reflective prompts,
- * and mood correlation analysis will be implemented in subsequent steps.
- */
-export const JOURNAL_FEATURE_KEY = 'journal';
+export * from './components/JournalEntryCard';
+export * from './components/JournalPromptCard';
+export * from './components/AIConsentModal';
+export * from './journalDraftStorage';

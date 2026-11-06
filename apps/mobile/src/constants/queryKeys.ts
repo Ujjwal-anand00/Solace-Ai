@@ -10,11 +10,6 @@ export const QUERY_KEYS = {
     CALENDAR: (year?: number, month?: number) => ['moods', 'calendar', year, month] as const,
     INSIGHTS: (days?: number) => ['moods', 'insights', days || 30] as const,
   },
-  JOURNAL: {
-    ALL: ['journals'] as const,
-    LIST: (filters?: Record<string, unknown>) => ['journals', 'list', filters || {}] as const,
-    DETAIL: (id: string) => ['journals', 'detail', id] as const,
-  },
   ACTIVITIES: {
     ALL: ['activities'] as const,
     LIST: (filters?: Record<string, unknown>) => ['activities', 'list', filters || {}] as const,
@@ -82,5 +77,14 @@ export const QUERY_KEYS = {
   },
   COMPANION: {
     SETTINGS: ['companion', 'settings'] as const,
+  },
+  JOURNAL: {
+    ALL: ['journal'] as const,
+    LIST: (filters?: Record<string, unknown>) => ['journal', 'list', filters || {}] as const,
+    DETAIL: (id: string) => ['journal', 'detail', id] as const,
+    PROMPTS: (category?: string) => ['journal', 'prompts', category || 'all'] as const,
+    RANDOM_PROMPT: (category?: string) => ['journal', 'prompt', 'random', category || 'all'] as const,
+    STATS: ['journal', 'stats'] as const,
+    CALENDAR: (year?: number, month?: number) => ['journal', 'calendar', year, month] as const,
   },
 } as const;
