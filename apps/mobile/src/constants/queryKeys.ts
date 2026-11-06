@@ -41,6 +41,8 @@ export const QUERY_KEYS = {
   },
   USER: {
     PROFILE: ['user', 'profile'] as const,
+    PREFERENCES: ['user', 'preferences'] as const,
+    SESSIONS: ['user', 'sessions'] as const,
   },
   RESOURCES: {
     ALL: ['resources'] as const,

@@ -1,5 +1,10 @@
 import { Schema, model, Document } from 'mongoose';
-import { UserProfile, UserNotificationPreferences } from '@solace/shared';
+import {
+  UserProfile,
+  UserNotificationPreferences,
+  UserWellnessPreferences,
+  UserAccessibilityPreferences,
+} from '@solace/shared';
 
 export interface IUserDocument extends Document {
   name: string;
@@ -8,7 +13,12 @@ export interface IUserDocument extends Document {
   passwordHash: string;
   avatarUrl?: string;
   dateOfBirth?: Date;
+  bio?: string;
+  timezone?: string;
+  language?: 'en' | 'hi' | 'pa';
   wellnessGoals: string[];
+  wellnessPreferences?: UserWellnessPreferences;
+  accessibilityPreferences?: UserAccessibilityPreferences;
   onboardingCompleted: boolean;
   isEmailVerified: boolean;
   isActive: boolean;
@@ -59,9 +69,36 @@ const UserSchema = new Schema<IUserDocument>(
       type: Date,
       default: null,
     },
+    bio: {
+      type: String,
+      maxlength: 300,
+      default: '',
+    },
+    timezone: {
+      type: String,
+      default: 'UTC',
+    },
+    language: {
+      type: String,
+      enum: ['en', 'hi', 'pa'],
+      default: 'en',
+    },
     wellnessGoals: {
       type: [String],
       default: [],
+    },
+    wellnessPreferences: {
+      goals: { type: [String], default: [] },
+      preferredActivityDurationMinutes: { type: Number, default: 10 },
+      preferredCategories: { type: [String], default: ['breathing', 'mindfulness'] },
+      preferredDailyTime: { type: String, default: '09:00' },
+      reminderDays: { type: [Number], default: [1, 2, 3, 4, 5] },
+    },
+    accessibilityPreferences: {
+      reduceMotion: { type: Boolean, default: false },
+      highContrast: { type: Boolean, default: false },
+      hapticFeedback: { type: Boolean, default: true },
+      fontScale: { type: Number, default: 1.0 },
     },
     onboardingCompleted: {
       type: Boolean,
@@ -115,7 +152,23 @@ UserSchema.methods.toProfileJSON = function (): UserProfile {
     email: this.email,
     avatarUrl: this.avatarUrl,
     dateOfBirth: this.dateOfBirth ? this.dateOfBirth.toISOString() : undefined,
+    bio: this.bio || '',
+    timezone: this.timezone || 'UTC',
+    language: this.language || 'en',
     wellnessGoals: this.wellnessGoals || [],
+    wellnessPreferences: this.wellnessPreferences || {
+      goals: this.wellnessGoals || [],
+      preferredActivityDurationMinutes: 10,
+      preferredCategories: ['breathing', 'mindfulness'],
+      preferredDailyTime: '09:00',
+      reminderDays: [1, 2, 3, 4, 5],
+    },
+    accessibilityPreferences: this.accessibilityPreferences || {
+      reduceMotion: false,
+      highContrast: false,
+      hapticFeedback: true,
+      fontScale: 1.0,
+    },
     onboardingCompleted: this.onboardingCompleted,
     isEmailVerified: this.isEmailVerified,
     notificationPreferences: this.notificationPreferences || {
@@ -130,4 +183,3 @@ UserSchema.methods.toProfileJSON = function (): UserProfile {
 };
 
 export const User = model<IUserDocument>('User', UserSchema);
-

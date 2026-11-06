@@ -14,6 +14,22 @@ export const API_ROUTES = {
     RESET_PASSWORD: '/api/v1/auth/reset-password',
     ME: '/api/v1/auth/me',
   },
+  USERS: {
+    ME: '/api/v1/users/me',
+    AVATAR: '/api/v1/users/me/avatar',
+    PREFERENCES: '/api/v1/users/me/preferences',
+    PRIVACY: '/api/v1/users/me/privacy',
+    SESSIONS: '/api/v1/users/me/sessions',
+    SESSION_DETAIL: (id: string) => `/api/v1/users/me/sessions/${id}`,
+    LOGOUT_ALL: '/api/v1/users/me/logout-all',
+    CHANGE_PASSWORD: '/api/v1/users/me/change-password',
+    DATA_EXPORT: '/api/v1/users/me/data-export',
+    DATA_EXPORT_DETAIL: (id: string) => `/api/v1/users/me/data-export/${id}`,
+    ACCOUNT: '/api/v1/users/me/account',
+  },
+  FEEDBACK: {
+    BASE: '/api/v1/feedback',
+  },
   MOOD: {
     BASE: '/api/v1/mood',
     SUMMARY: '/api/v1/mood/summary',

@@ -13,6 +13,8 @@ import { wellnessPlanRoutes } from '../modules/wellness-plans/wellnessPlan.route
 import { notificationRoutes } from '../modules/notifications/notification.routes';
 import { companionRoutes } from '../modules/companion/companion.routes';
 import { conversationRoutes } from '../modules/conversations/conversation.routes';
+import { userRoutes } from '../modules/users/user.routes';
+import { feedbackRoutes } from './feedback.routes';
 
 const router = Router();
 
@@ -35,5 +37,7 @@ router.use('/wellness-plans', wellnessPlanRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/companion', companionRoutes);
 router.use('/conversations', conversationRoutes);
+router.use('/users', userRoutes);
+router.use('/feedback', feedbackRoutes);
 
 export const v1Routes = router;

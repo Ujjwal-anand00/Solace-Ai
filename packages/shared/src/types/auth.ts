@@ -77,6 +77,9 @@ export interface UpdateProfileDto {
   preferredName?: string;
   avatarUrl?: string;
   dateOfBirth?: string;
+  bio?: string;
+  timezone?: string;
+  language?: 'en' | 'hi' | 'pa';
   wellnessGoals?: string[];
   notificationPreferences?: Partial<UserNotificationPreferences>;
   themePreference?: 'light' | 'dark' | 'system';
