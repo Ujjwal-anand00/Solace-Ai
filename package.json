@@ -8,9 +8,13 @@
     "packages/*"
   ],
   "scripts": {
+    "predev": "node scripts/link-expo-router.js",
     "dev": "concurrently -k -p \"[{name}]\" -n \"SERVER,MOBILE\" -c \"blue.bold,magenta.bold\" \"npm run server:dev\" \"npm run mobile\"",
+    "premobile": "node scripts/link-expo-router.js",
     "mobile": "npm run start --workspace=@solace/mobile",
+    "premobile:clear": "node scripts/link-expo-router.js",
     "mobile:clear": "npm run start:clear --workspace=@solace/mobile",
+    "premobile:android": "node scripts/link-expo-router.js",
     "mobile:android": "npm run android --workspace=@solace/mobile",
     "mobile:ios": "npm run ios --workspace=@solace/mobile",
     "mobile:web": "npm run web --workspace=@solace/mobile",
