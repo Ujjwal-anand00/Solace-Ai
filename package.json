@@ -23,6 +23,8 @@
     "server:build": "npm run build --workspace=@solace/server",
     "seed": "npm run seed --workspace=@solace/server",
     "build:shared": "npm run build --workspace=@solace/shared",
+    "build": "npm run build:shared && npm run server:build && node scripts/copy-dist.js",
+    "start": "node dist/server.js",
     "lint": "eslint \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\" --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
