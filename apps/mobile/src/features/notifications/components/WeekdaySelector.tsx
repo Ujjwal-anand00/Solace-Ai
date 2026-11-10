@@ -41,11 +41,11 @@ export const WeekdaySelector: React.FC<WeekdaySelectorProps> = ({
               styles.dayPill,
               {
                 backgroundColor: isSelected
-                  ? '#829B83'
+                  ? colors.accent
                   : isDark
                   ? colors.surfaceSecondary
-                  : '#EFECE6',
-                borderColor: isSelected ? '#536B58' : colors.border,
+                  : '#F0EAF7',
+                borderColor: isSelected ? colors.accentDark : colors.border,
               },
             ]}
           >
@@ -54,7 +54,7 @@ export const WeekdaySelector: React.FC<WeekdaySelectorProps> = ({
               style={[
                 styles.dayText,
                 {
-                  color: isSelected ? '#FFFFFF' : colors.textSecondary,
+                  color: isSelected ? '#292431' : colors.textSecondary,
                   fontWeight: isSelected ? '700' : '500',
                 },
               ]}

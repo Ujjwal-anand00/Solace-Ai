@@ -3,7 +3,7 @@ import { MoodCategory } from '@solace/shared';
 export interface PrimaryMoodConfig {
   key: MoodCategory;
   label: string;
-  emoji: string;
+  emoji?: string;
   description: string;
   color: string;
   bgColor: string;
@@ -14,47 +14,42 @@ export const PRIMARY_MOODS: PrimaryMoodConfig[] = [
   {
     key: 'ecstatic',
     label: 'Amazing',
-    emoji: '😊',
     description: 'Vibrant, joyful & uplifted',
-    color: '#D97706',
-    bgColor: '#FEF9C3',
-    borderColor: '#FDE047',
+    color: '#9678BD',
+    bgColor: '#F5ECFF',
+    borderColor: '#CBB3E8',
   },
   {
     key: 'happy',
     label: 'Good',
-    emoji: '🙂',
     description: 'Pleasant, content & positive',
-    color: '#15803D',
-    bgColor: '#DCFCE7',
-    borderColor: '#86EFAC',
+    color: '#6B8E70',
+    bgColor: '#EAF7EE',
+    borderColor: '#D4FF3F',
   },
   {
     key: 'calm',
     label: 'Okay',
-    emoji: '😐',
     description: 'Balanced, steady & reflective',
-    color: '#0369A1',
-    bgColor: '#E0F2FE',
-    borderColor: '#7DD3FC',
+    color: '#7A7289',
+    bgColor: '#F0EAF7',
+    borderColor: '#CBB3E8',
   },
   {
     key: 'sad',
     label: 'Low',
-    emoji: '😔',
     description: 'Heavy, sorrowful or depleted',
-    color: '#7E22CE',
-    bgColor: '#F3E8FF',
-    borderColor: '#D8B4FE',
+    color: '#68607A',
+    bgColor: '#EDE8F5',
+    borderColor: '#CBB3E8',
   },
   {
     key: 'anxious',
     label: 'Stressed',
-    emoji: '😣',
     description: 'Tense, overwhelmed or restless',
-    color: '#DC2626',
-    bgColor: '#FEE2E2',
-    borderColor: '#FCA5A5',
+    color: '#E34234',
+    bgColor: '#FDF0EE',
+    borderColor: '#F8D8D4',
   },
 ];
 

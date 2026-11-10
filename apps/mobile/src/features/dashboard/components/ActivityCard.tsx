@@ -39,8 +39,8 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onPress })
 
   const iconName = CATEGORY_ICONS[activity.category.toLowerCase()] || 'sparkles';
   const categoryStyle = CATEGORY_COLORS[activity.category.toLowerCase()] || {
-    bg: '#E9E2F5',
-    text: '#536B58',
+    bg: '#E8DDF5',
+    text: '#9678BD',
   };
 
   const durationMin = Math.round(activity.duration / 60);

@@ -164,7 +164,7 @@ export default function NotificationsScreen(): React.JSX.Element {
             ]}
           >
             <View style={styles.emptyIconCircle}>
-              <AppIcon name="bell" size={28} color="#829B83" />
+              <AppIcon name="bell" size={28} color={colors.primaryDark} />
             </View>
             <AppHeading level="h4" style={styles.emptyTitle}>
               All Caught Up

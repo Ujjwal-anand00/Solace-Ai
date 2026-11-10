@@ -70,7 +70,7 @@ export const WellnessTrendChart: React.FC<WellnessTrendChartProps> = ({
           <View
             style={[
               styles.periodToggle,
-              { backgroundColor: isDark ? colors.surface : '#F1F5F0' },
+              { backgroundColor: isDark ? colors.surface : '#F0EAF7' },
             ]}
           >
             <TouchableOpacity
@@ -114,7 +114,7 @@ export const WellnessTrendChart: React.FC<WellnessTrendChartProps> = ({
       {/* Legend */}
       <View style={styles.legendRow}>
         <View style={styles.legendItem}>
-          <View style={[styles.legendIndicator, { backgroundColor: '#829B83' }]} />
+          <View style={[styles.legendIndicator, { backgroundColor: colors.primaryDark }]} />
           <AppText variant="caption" style={{ color: colors.textSecondary }}>
             Activities & Practices
           </AppText>
@@ -135,7 +135,7 @@ export const WellnessTrendChart: React.FC<WellnessTrendChartProps> = ({
         </View>
       ) : !hasData ? (
         <View style={styles.emptyContainer}>
-          <AppIcon name="feather" size={32} color="#829B83" />
+          <AppIcon name="feather" size={32} color={colors.primaryDark} />
           <AppText
             variant="bodyMedium"
             style={[styles.emptyTitle, { color: colors.text }]}
@@ -158,8 +158,8 @@ export const WellnessTrendChart: React.FC<WellnessTrendChartProps> = ({
               style={[
                 styles.tooltip,
                 {
-                  backgroundColor: isDark ? colors.surface : '#F8F6EF',
-                  borderColor: isDark ? colors.border : '#E2DFD2',
+                  backgroundColor: isDark ? colors.surface : '#F0EAF7',
+                  borderColor: isDark ? colors.border : '#E8DDF5',
                 },
               ]}
             >
@@ -226,7 +226,7 @@ export const WellnessTrendChart: React.FC<WellnessTrendChartProps> = ({
                         styles.barFill,
                         {
                           height: `${barHeightPct}%`,
-                          backgroundColor: isSelected ? '#536B58' : '#829B83',
+                          backgroundColor: isSelected ? colors.primaryDark : colors.primary,
                           opacity: pt.activitiesCount > 0 ? (isSelected ? 1 : 0.8) : 0.25,
                         },
                       ]}
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     borderRadius: 9,
   },
   toggleBtnActive: {
-    backgroundColor: '#829B83',
+    backgroundColor: '#CBB3E8',
   },
   toggleText: {
     fontSize: 11,
@@ -291,7 +291,8 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   toggleTextActive: {
-    color: '#FFFFFF',
+    color: '#292431',
+    fontWeight: '700',
   },
   legendRow: {
     flexDirection: 'row',

@@ -19,7 +19,7 @@ const envSchema = z.object({
     .min(16, 'JWT_SECRET must be at least 16 characters')
     .default('solace_ai_default_development_secret_key_32chars!'),
   GEMINI_API_KEY: z.string().optional().default(''),
-  GEMINI_MODEL: z.string().default('gemini-1.5-flash'),
+  GEMINI_MODEL: z.string().default('gemini-3.5-flash-lite'),
   CLIENT_URL: z.string().default('*'),
 });
 

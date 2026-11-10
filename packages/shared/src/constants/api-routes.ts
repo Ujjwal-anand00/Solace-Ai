@@ -123,6 +123,7 @@ export const API_ROUTES = {
   },
   COMPANION: {
     SETTINGS: '/api/v1/companion/settings',
+    STATUS: '/api/v1/companion/status',
     CHAT: '/api/v1/companion/chat',
     HISTORY: '/api/v1/companion/history',
   },
@@ -130,5 +131,6 @@ export const API_ROUTES = {
     BASE: '/api/v1/conversations',
     MESSAGES: (id: string) => `/api/v1/conversations/${id}/messages`,
     STREAM: (id: string) => `/api/v1/conversations/${id}/messages/stream`,
+    REGENERATE: (id: string) => `/api/v1/conversations/${id}/messages/regenerate`,
   },
 } as const;

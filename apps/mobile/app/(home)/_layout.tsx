@@ -1,8 +1,9 @@
 import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../src/hooks/useTheme';
-import { AppIcon } from '../../src/components/ui';
+import { AppIcon, IconName } from '../../src/components/ui';
 import { triggerHaptic } from '../../src/utils/haptics';
 
 export default function HomeLayout(): React.JSX.Element {
@@ -13,24 +14,47 @@ export default function HomeLayout(): React.JSX.Element {
     triggerHaptic.selection();
   };
 
+  const renderTabIcon = (name: IconName, focused: boolean) => (
+    <View style={styles.tabIconContainer}>
+      <View
+        style={[
+          styles.tabIconPill,
+          focused && {
+            backgroundColor: isDark ? 'rgba(203, 179, 232, 0.25)' : '#E8DDF5',
+          },
+        ]}
+      >
+        <AppIcon
+          name={name}
+          size={20}
+          color={focused ? colors.primaryDark : colors.textSecondary}
+        />
+      </View>
+      {focused && (
+        <View style={[styles.activeIndicator, { backgroundColor: colors.accent }]} />
+      )}
+    </View>
+  );
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: colors.primaryDark,
         tabBarInactiveTintColor: colors.textSecondary,
         tabBarStyle: {
           backgroundColor: isDark ? colors.surfaceSecondary : colors.surface,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          height: 56 + Math.max(insets.bottom, 8),
+          height: 60 + Math.max(insets.bottom, 8),
           paddingBottom: Math.max(insets.bottom, 6),
-          paddingTop: 6,
+          paddingTop: 8,
           elevation: 8,
-          shadowColor: '#000',
+          shadowColor: '#292431',
           shadowOffset: { width: 0, height: -2 },
-          shadowOpacity: 0.05,
-          shadowRadius: 6,
+          shadowOpacity: 0.06,
+          shadowRadius: 8,
         },
         tabBarLabelStyle: {
           fontSize: 11,
@@ -43,9 +67,7 @@ export default function HomeLayout(): React.JSX.Element {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <AppIcon name="home" size={focused ? 24 : 22} color={String(color)} />
-          ),
+          tabBarIcon: ({ focused }) => renderTabIcon('home', focused),
         }}
         listeners={{
           tabPress: handleTabPress,
@@ -56,9 +78,7 @@ export default function HomeLayout(): React.JSX.Element {
         name="companion"
         options={{
           title: 'Companion',
-          tabBarIcon: ({ color, focused }) => (
-            <AppIcon name="messageCircle" size={focused ? 24 : 22} color={String(color)} />
-          ),
+          tabBarIcon: ({ focused }) => renderTabIcon('messageCircle', focused),
         }}
         listeners={{
           tabPress: handleTabPress,
@@ -69,9 +89,7 @@ export default function HomeLayout(): React.JSX.Element {
         name="activities"
         options={{
           title: 'Activities',
-          tabBarIcon: ({ color, focused }) => (
-            <AppIcon name="compass" size={focused ? 24 : 22} color={String(color)} />
-          ),
+          tabBarIcon: ({ focused }) => renderTabIcon('compass', focused),
         }}
         listeners={{
           tabPress: handleTabPress,
@@ -82,9 +100,7 @@ export default function HomeLayout(): React.JSX.Element {
         name="progress"
         options={{
           title: 'Progress',
-          tabBarIcon: ({ color, focused }) => (
-            <AppIcon name="trendingUp" size={focused ? 24 : 22} color={String(color)} />
-          ),
+          tabBarIcon: ({ focused }) => renderTabIcon('trendingUp', focused),
         }}
         listeners={{
           tabPress: handleTabPress,
@@ -95,9 +111,7 @@ export default function HomeLayout(): React.JSX.Element {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color, focused }) => (
-            <AppIcon name="user" size={focused ? 24 : 22} color={String(color)} />
-          ),
+          tabBarIcon: ({ focused }) => renderTabIcon('user', focused),
         }}
         listeners={{
           tabPress: handleTabPress,
@@ -106,3 +120,24 @@ export default function HomeLayout(): React.JSX.Element {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 32,
+  },
+  tabIconPill: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  activeIndicator: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    marginTop: 2,
+  },
+});

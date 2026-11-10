@@ -78,3 +78,4 @@ export interface CreateResourceAdminDto {
 }
 
 export interface UpdateResourceAdminDto extends Partial<CreateResourceAdminDto> {}
+

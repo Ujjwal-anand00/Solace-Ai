@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { AppText, AppHeading, AppCard, AppBadge, AppIcon } from '../../../components/ui';
+import { MoodCharacter } from '../../../components/mood';
 import { useTheme } from '../../../hooks/useTheme';
 import { triggerHaptic } from '../../../utils/haptics';
 import { MoodEntry } from '@solace/shared';
@@ -22,11 +23,10 @@ export const MoodTimelineCard: React.FC<MoodTimelineCardProps> = ({
   const moodConfig = PRIMARY_MOODS.find((m) => m.key === entry.mood.toLowerCase()) || {
     key: entry.mood,
     label: entry.mood.charAt(0).toUpperCase() + entry.mood.slice(1),
-    emoji: '🌿',
     description: '',
     color: colors.primary,
-    bgColor: '#E0F2FE',
-    borderColor: '#7DD3FC',
+    bgColor: '#F0EAF7',
+    borderColor: '#CBB3E8',
   };
 
   const intensityInfo = INTENSITY_LEVELS[entry.moodIntensity] || {
@@ -80,7 +80,12 @@ export const MoodTimelineCard: React.FC<MoodTimelineCardProps> = ({
               { backgroundColor: moodConfig.bgColor, borderColor: moodConfig.borderColor },
             ]}
           >
-            <AppText style={styles.emojiText}>{moodConfig.emoji}</AppText>
+            <MoodCharacter
+              mood={entry.mood}
+              size={36}
+              showShadow={false}
+              isInteractive={false}
+            />
           </View>
           <View>
             <AppHeading level={3} style={[styles.moodLabel, { color: moodConfig.color }]}>

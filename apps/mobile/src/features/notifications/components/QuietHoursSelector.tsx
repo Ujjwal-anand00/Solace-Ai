@@ -68,7 +68,7 @@ export const QuietHoursSelector: React.FC<QuietHoursSelectorProps> = ({
         <Switch
           value={quietHours.enabled}
           onValueChange={handleToggle}
-          trackColor={{ false: colors.border, true: '#829B83' }}
+          trackColor={{ false: colors.border, true: colors.primaryDark }}
           thumbColor="#FFFFFF"
         />
       </View>

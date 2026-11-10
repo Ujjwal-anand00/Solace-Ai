@@ -56,7 +56,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
       case 'assessment':
         return { icon: 'file-text', color: '#4338CA', bg: '#E0E7FF' };
       default:
-        return { icon: 'sparkles', color: '#829B83', bg: '#E9E2F5' };
+        return { icon: 'sparkles', color: '#9678BD', bg: '#F0EAF7' };
     }
   };
 
@@ -101,11 +101,11 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                 styles.chip,
                 {
                   backgroundColor: isSelected
-                    ? '#829B83'
+                    ? colors.accent
                     : isDark
                     ? colors.surface
                     : '#FFFFFF',
-                  borderColor: isSelected ? '#829B83' : colors.border,
+                  borderColor: isSelected ? colors.accentDark : colors.border,
                 },
               ]}
             >
@@ -115,7 +115,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                   styles.chipText,
                   {
                     color: isSelected
-                      ? '#FFFFFF'
+                      ? '#292431'
                       : colors.textSecondary,
                     fontWeight: isSelected ? '700' : '500',
                   },
@@ -139,7 +139,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
             },
           ]}
         >
-          <AppIcon name="clock" size={28} color="#829B83" />
+          <AppIcon name="clock" size={28} color={colors.primaryDark} />
           <AppText variant="bodySmall" style={{ color: colors.textSecondary }}>
             No activities recorded in this category yet.
           </AppText>
@@ -168,7 +168,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                     <View
                       style={[
                         styles.connectorLine,
-                        { backgroundColor: isDark ? colors.border : '#E2DFD2' },
+                        { backgroundColor: isDark ? colors.border : '#E7DFED' },
                       ]}
                     />
                   )}

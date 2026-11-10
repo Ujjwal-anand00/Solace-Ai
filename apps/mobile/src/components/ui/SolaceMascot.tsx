@@ -169,7 +169,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Left Eye: Peaceful curved resting crescent */}
             <Path
               d="M38 52 C42 56 48 56 52 52"
-              stroke="#303A34"
+              stroke="#292431"
               strokeWidth="3.2"
               strokeLinecap="round"
               fill="none"
@@ -177,7 +177,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Right Eye */}
             <Path
               d="M68 52 C72 56 78 56 82 52"
-              stroke="#303A34"
+              stroke="#292431"
               strokeWidth="3.2"
               strokeLinecap="round"
               fill="none"
@@ -185,7 +185,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Gentle serene smile */}
             <Path
               d="M56 64 C58 66 62 66 64 64"
-              stroke="#536B58"
+              stroke="#9678BD"
               strokeWidth="2.5"
               strokeLinecap="round"
               fill="none"
@@ -197,15 +197,15 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
         return (
           <G id="face-listening">
             {/* Left Eye: Open attentive with catchlight */}
-            <Ellipse cx="45" cy="51" rx="4.5" ry="5.5" fill="#303A34" />
+            <Ellipse cx="45" cy="51" rx="4.5" ry="5.5" fill="#292431" />
             <Circle cx="46.5" cy="49" r="1.8" fill="#FFFFFF" />
             {/* Right Eye: Curious slightly larger */}
-            <Ellipse cx="75" cy="51" rx="4.5" ry="5.5" fill="#303A34" />
+            <Ellipse cx="75" cy="51" rx="4.5" ry="5.5" fill="#292431" />
             <Circle cx="76.5" cy="49" r="1.8" fill="#FFFFFF" />
             {/* Curious friendly smile */}
             <Path
               d="M55 64 C58 67 62 67 65 64"
-              stroke="#536B58"
+              stroke="#9678BD"
               strokeWidth="2.5"
               strokeLinecap="round"
               fill="none"
@@ -217,15 +217,15 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
         return (
           <G id="face-thinking">
             {/* Left Eye: Looking up-right */}
-            <Ellipse cx="45" cy="50" rx="4.2" ry="5.2" fill="#303A34" />
+            <Ellipse cx="45" cy="50" rx="4.2" ry="5.2" fill="#292431" />
             <Circle cx="46.8" cy="48" r="1.8" fill="#FFFFFF" />
             {/* Right Eye: Looking up-right */}
-            <Ellipse cx="75" cy="50" rx="4.2" ry="5.2" fill="#303A34" />
+            <Ellipse cx="75" cy="50" rx="4.2" ry="5.2" fill="#292431" />
             <Circle cx="76.8" cy="48" r="1.8" fill="#FFFFFF" />
             {/* Thinking slight puckered smile */}
             <Path
               d="M56 64 C58 63 62 65 64 63"
-              stroke="#536B58"
+              stroke="#9678BD"
               strokeWidth="2.5"
               strokeLinecap="round"
               fill="none"
@@ -241,7 +241,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Left Eye: Warm rounded crescent */}
             <Path
               d="M38 52 C42 48 48 48 52 52"
-              stroke="#303A34"
+              stroke="#292431"
               strokeWidth="3.4"
               strokeLinecap="round"
               fill="none"
@@ -249,7 +249,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Right Eye: Warm rounded crescent */}
             <Path
               d="M68 52 C72 48 78 48 82 52"
-              stroke="#303A34"
+              stroke="#292431"
               strokeWidth="3.4"
               strokeLinecap="round"
               fill="none"
@@ -257,7 +257,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Warm reassuring smile */}
             <Path
               d="M54 63 C58 68 62 68 66 63"
-              stroke="#536B58"
+              stroke="#9678BD"
               strokeWidth="2.8"
               strokeLinecap="round"
               fill="none"
@@ -278,7 +278,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Left Eye: Happy upward arc ^ */}
             <Path
               d="M38 53 C42 47 48 47 52 53"
-              stroke="#303A34"
+              stroke="#292431"
               strokeWidth="3.4"
               strokeLinecap="round"
               fill="none"
@@ -286,7 +286,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Right Eye: Happy upward arc ^ */}
             <Path
               d="M68 53 C72 47 78 47 82 53"
-              stroke="#303A34"
+              stroke="#292431"
               strokeWidth="3.4"
               strokeLinecap="round"
               fill="none"
@@ -294,7 +294,7 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
             {/* Sweet joyful smile */}
             <Path
               d="M54 62 C57 67 63 67 66 62"
-              stroke="#536B58"
+              stroke="#9678BD"
               strokeWidth="2.8"
               strokeLinecap="round"
               fill="none"
@@ -312,8 +312,8 @@ export const SolaceMascot: React.FC<SolaceMascotProps> = ({
           <Svg width={dimension} height={dimension} viewBox="0 0 120 120">
             <Defs>
               <SvgRadialGradient id="mascotGlow" cx="50%" cy="50%" rx="50%" ry="50%">
-                <Stop offset="0%" stopColor={colors.lavender} stopOpacity="0.55" />
-                <Stop offset="45%" stopColor={colors.mint} stopOpacity="0.35" />
+                <Stop offset="0%" stopColor={colors.primary} stopOpacity="0.45" />
+                <Stop offset="50%" stopColor={colors.accent} stopOpacity="0.2" />
                 <Stop offset="85%" stopColor={colors.primaryLight} stopOpacity="0.1" />
                 <Stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
               </SvgRadialGradient>

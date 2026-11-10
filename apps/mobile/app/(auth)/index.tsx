@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
-    backgroundColor: 'rgba(130, 155, 131, 0.12)',
+    backgroundColor: 'rgba(203, 179, 232, 0.18)',
   },
   privacyText: {
     fontWeight: '600',
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   primaryBtn: {
-    shadowColor: '#829B83',
+    shadowColor: '#CBB3E8',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 10,

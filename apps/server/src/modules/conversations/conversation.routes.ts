@@ -23,6 +23,7 @@ router.delete('/:id', ConversationController.delete);
 router.get('/:id/messages', ConversationController.getMessages);
 router.post('/:id/messages', validateBody(sendMessageSchema), ConversationController.sendMessage);
 router.post('/:id/messages/stream', validateBody(sendMessageSchema), ConversationController.streamMessage);
+router.post('/:id/messages/regenerate', ConversationController.regenerate);
 
 export const conversationRoutes = router;
 

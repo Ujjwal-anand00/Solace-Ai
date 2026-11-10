@@ -34,3 +34,4 @@ export const ResourceBookmarkModel = model<IResourceBookmarkDocument>(
   'ResourceBookmark',
   ResourceBookmarkSchema,
 );
+

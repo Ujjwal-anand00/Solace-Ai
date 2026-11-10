@@ -272,7 +272,7 @@ export const MonthlyReportModal: React.FC<MonthlyReportModalProps> = ({
                         },
                       ]}
                     >
-                      <AppIcon name="sparkles" size={16} color="#829B83" />
+                      <AppIcon name="sparkles" size={16} color={colors.primaryDark} />
                       <AppText
                         variant="bodySmall"
                         style={{ flex: 1, lineHeight: 20 }}

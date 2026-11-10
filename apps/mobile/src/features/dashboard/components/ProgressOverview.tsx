@@ -107,12 +107,12 @@ export const ProgressOverview: React.FC<ProgressOverviewProps> = ({
             style={[
               styles.streakBanner,
               {
-                backgroundColor: isDark ? colors.surfaceSecondary : '#FAF7F2',
-                borderColor: isDark ? colors.border : '#EDE4D8',
+                backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7',
+                borderColor: isDark ? colors.border : '#E7DFED',
               },
             ]}
           >
-            <View style={styles.streakIconWrapper}>
+            <View style={[styles.streakIconWrapper, { backgroundColor: isDark ? '#4A1D1B' : '#F8D8D4' }]}>
               <AppText style={styles.flameEmoji}>🔥</AppText>
             </View>
             <View style={styles.streakTextWrapper}>
@@ -147,10 +147,10 @@ export const ProgressOverview: React.FC<ProgressOverviewProps> = ({
                     style={[
                       styles.dotCircle,
                       day.active
-                        ? { backgroundColor: colors.primary, borderColor: colors.primary }
+                        ? { backgroundColor: colors.accent, borderColor: colors.accentDark }
                         : {
-                            backgroundColor: isDark ? colors.surfaceSecondary : '#EBF0EB',
-                            borderColor: isDark ? colors.border : '#DCE5DC',
+                            backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7',
+                            borderColor: isDark ? colors.border : '#E7DFED',
                           },
                       day.isToday && {
                         borderWidth: 2,
@@ -159,7 +159,7 @@ export const ProgressOverview: React.FC<ProgressOverviewProps> = ({
                     ]}
                   >
                     {day.active ? (
-                      <AppIcon name="check" size={10} color="#FFFFFF" />
+                      <AppIcon name="check" size={10} color="#292431" />
                     ) : (
                       day.isToday && (
                         <View
@@ -188,7 +188,7 @@ export const ProgressOverview: React.FC<ProgressOverviewProps> = ({
             <View
               style={[
                 styles.statCard,
-                { backgroundColor: isDark ? colors.surfaceSecondary : '#F7F9F7' },
+                { backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7' },
               ]}
             >
               <AppIcon name="smile" size={18} color={colors.primary} />

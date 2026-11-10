@@ -317,22 +317,22 @@ export const GrowthIllustration: React.FC<IllustrationProps> = ({ size = 260, st
 
           {/* Balanced Zen Stones Gradients */}
           <SvgGradient id="stoneGrad1" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0%" stopColor="#829B83" stopOpacity="0.9" />
-            <Stop offset="100%" stopColor="#536B58" stopOpacity="1" />
+            <Stop offset="0%" stopColor="#CBB3E8" stopOpacity="0.95" />
+            <Stop offset="100%" stopColor="#9678BD" stopOpacity="1" />
           </SvgGradient>
           <SvgGradient id="stoneGrad2" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0%" stopColor="#AFC5B0" stopOpacity="0.9" />
-            <Stop offset="100%" stopColor="#829B83" stopOpacity="1" />
+            <Stop offset="0%" stopColor="#E8DDF5" stopOpacity="0.95" />
+            <Stop offset="100%" stopColor="#CBB3E8" stopOpacity="1" />
           </SvgGradient>
           <SvgGradient id="stoneGrad3" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0%" stopColor="#DCE9DD" stopOpacity="0.95" />
-            <Stop offset="100%" stopColor="#AFC5B0" stopOpacity="1" />
+            <Stop offset="0%" stopColor="#F0EAF7" stopOpacity="0.95" />
+            <Stop offset="100%" stopColor="#E8DDF5" stopOpacity="1" />
           </SvgGradient>
 
           {/* Sprout Leaf Gradient */}
           <SvgGradient id="sproutGrad" x1="0" y1="1" x2="0" y2="0">
-            <Stop offset="0%" stopColor="#536B58" stopOpacity="1" />
-            <Stop offset="100%" stopColor="#AFC5B0" stopOpacity="1" />
+            <Stop offset="0%" stopColor="#9678BD" stopOpacity="1" />
+            <Stop offset="100%" stopColor="#D4FF3F" stopOpacity="1" />
           </SvgGradient>
         </Defs>
 

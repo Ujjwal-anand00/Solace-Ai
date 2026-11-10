@@ -8,6 +8,7 @@ import {
   AppButton,
   SolaceMascot,
 } from '../../../components/ui';
+import { MoodCharacter } from '../../../components/mood';
 import { useTheme } from '../../../hooks/useTheme';
 import { PRIMARY_MOODS, INTENSITY_LEVELS, MoodCheckInDraft } from '../types';
 
@@ -85,7 +86,12 @@ export const CheckInConfirmation: React.FC<CheckInConfirmationProps> = ({
               { backgroundColor: moodConfig.bgColor, borderColor: moodConfig.borderColor },
             ]}
           >
-            <AppText style={styles.emoji}>{moodConfig.emoji}</AppText>
+            <MoodCharacter
+              mood={moodConfig.key}
+              size={50}
+              isSelected={true}
+              showShadow={false}
+            />
           </View>
           <View style={styles.moodTexts}>
             <AppText variant="caption" style={{ color: colors.textSecondary }}>

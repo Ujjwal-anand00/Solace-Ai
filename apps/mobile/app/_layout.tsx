@@ -43,6 +43,8 @@ function AppNavigation(): React.JSX.Element {
       <Stack.Screen name="(home)" />
       <Stack.Screen name="mood" options={{ animation: 'slide_from_bottom' }} />
       <Stack.Screen name="journal" options={{ animation: 'slide_from_right' }} />
+      <Stack.Screen name="plan" options={{ animation: 'slide_from_right' }} />
+      <Stack.Screen name="assessments" options={{ animation: 'slide_from_right' }} />
       <Stack.Screen name="resources" options={{ animation: 'slide_from_right' }} />
       <Stack.Screen name="settings" options={{ animation: 'slide_from_right' }} />
       <Stack.Screen name="notifications" options={{ animation: 'slide_from_right' }} />

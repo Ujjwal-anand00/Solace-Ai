@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     maxWidth: 340,
   },
   continueBtn: {
-    shadowColor: '#829B83',
+    shadowColor: '#CBB3E8',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 10,

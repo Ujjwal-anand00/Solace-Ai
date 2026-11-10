@@ -80,21 +80,24 @@ export const DailyAffirmationCard: React.FC<DailyAffirmationCardProps> = ({
       style={[
         styles.card,
         {
-          backgroundColor: isDark ? colors.surfaceSecondary : '#FAF7F2',
-          borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(233, 226, 245, 0.6)',
+          backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7',
+          borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(203, 179, 232, 0.5)',
         },
       ]}
     >
       {/* Category and Actions row */}
       <View style={styles.topRow}>
-        <AppBadge
-          variant="lavender"
-          size="sm"
-          label={categoryLabel}
-          style={{
-            backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : '#E9E2F5',
-          }}
-        />
+        <View style={styles.badgeWrapper}>
+          <AppBadge
+            variant="lavender"
+            size="sm"
+            label={categoryLabel}
+            style={{
+              backgroundColor: isDark ? 'rgba(203, 179, 232, 0.2)' : '#E8DDF5',
+            }}
+          />
+          <View style={[styles.limeSparkle, { backgroundColor: colors.accent }]} />
+        </View>
 
         <View style={styles.actionsGroup}>
           {/* Favorite Action */}
@@ -108,7 +111,7 @@ export const DailyAffirmationCard: React.FC<DailyAffirmationCardProps> = ({
             <AppIcon
               name="heart"
               size={18}
-              color={isFavorite ? '#E11D48' : colors.textSecondary}
+              color={isFavorite ? colors.secondary : colors.textSecondary}
             />
           </TouchableOpacity>
 
@@ -170,6 +173,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 12,
+  },
+  badgeWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  limeSparkle: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
   actionsGroup: {
     flexDirection: 'row',

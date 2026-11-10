@@ -6,7 +6,7 @@ import { ScalePressable } from '../../utils/animations';
 import { AppText } from './AppText';
 import { AppIcon, IconName } from './AppIcon';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'icon';
+export type ButtonVariant = 'primary' | 'secondary' | 'accent' | 'danger' | 'outline' | 'ghost' | 'icon';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface AppButtonProps {
@@ -80,12 +80,28 @@ export const AppButton: React.FC<AppButtonProps> = ({
   // Resolve Colors & Background by Variant
   const variantStyles = React.useMemo(() => {
     switch (variant) {
-      case 'secondary':
+      case 'accent':
         return {
-          backgroundColor: colors.surfaceSecondary,
-          textColor: colors.textPrimary,
+          backgroundColor: colors.accent,
+          textColor: colors.accentText || '#292431',
           borderColor: 'transparent',
           borderWidth: 0,
+          shadow: isInteractive ? (shadows.glowAccent || shadows.elevated) : shadows.none,
+        };
+      case 'danger':
+        return {
+          backgroundColor: colors.secondary,
+          textColor: '#FFFFFF',
+          borderColor: 'transparent',
+          borderWidth: 0,
+          shadow: isInteractive ? (shadows.glowSecondary || shadows.subtle) : shadows.none,
+        };
+      case 'secondary':
+        return {
+          backgroundColor: isDark ? colors.surfaceSecondary : colors.surfaceSecondary,
+          textColor: colors.textPrimary,
+          borderColor: colors.border,
+          borderWidth: 1,
           shadow: shadows.subtle,
         };
       case 'outline':
@@ -106,7 +122,7 @@ export const AppButton: React.FC<AppButtonProps> = ({
         };
       case 'icon':
         return {
-          backgroundColor: colors.surfaceSecondary,
+          backgroundColor: isDark ? colors.surfaceSecondary : colors.surfaceSecondary,
           textColor: colors.textPrimary,
           borderColor: 'transparent',
           borderWidth: 0,
@@ -116,7 +132,7 @@ export const AppButton: React.FC<AppButtonProps> = ({
       default:
         return {
           backgroundColor: colors.primary,
-          textColor: '#FFFFFF',
+          textColor: '#292431',
           borderColor: 'transparent',
           borderWidth: 0,
           shadow: isInteractive ? shadows.glowPrimary : shadows.none,
@@ -200,8 +216,16 @@ export const PrimaryButton: React.FC<Omit<AppButtonProps, 'variant'>> = (props) 
   <AppButton variant="primary" {...props} />
 );
 
+export const AccentButton: React.FC<Omit<AppButtonProps, 'variant'>> = (props) => (
+  <AppButton variant="accent" {...props} />
+);
+
 export const SecondaryButton: React.FC<Omit<AppButtonProps, 'variant'>> = (props) => (
   <AppButton variant="secondary" {...props} />
+);
+
+export const DangerButton: React.FC<Omit<AppButtonProps, 'variant'>> = (props) => (
+  <AppButton variant="danger" {...props} />
 );
 
 export const OutlineButton: React.FC<Omit<AppButtonProps, 'variant'>> = (props) => (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AppText, AppHeading, AppCard, AppProgressBar } from '../../../components/ui';
+import { MoodCharacter } from '../../../components/mood';
 import { useTheme } from '../../../hooks/useTheme';
 import { MoodSummary } from '@solace/shared';
 import { PRIMARY_MOODS } from '../types';
@@ -29,7 +30,9 @@ export const MoodAnalyticsCharts: React.FC<MoodAnalyticsChartsProps> = ({
   if (!summary || summary.totalEntries === 0) {
     return (
       <AppCard style={styles.emptyCard}>
-        <AppText style={{ fontSize: 32, textAlign: 'center' }}>🌱</AppText>
+        <View style={{ alignItems: 'center', marginBottom: 12 }}>
+          <MoodCharacter mood="calm" size={60} isInteractive={true} />
+        </View>
         <AppHeading level={3} style={styles.emptyTitle}>
           Your Analytics Will Bloom Here
         </AppHeading>
@@ -46,8 +49,8 @@ export const MoodAnalyticsCharts: React.FC<MoodAnalyticsChartsProps> = ({
   const dominantMoodConfig = PRIMARY_MOODS.find(
     (m) => m.key === summary.dominantMood?.toLowerCase()
   ) || {
+    key: (summary.dominantMood || 'calm') as any,
     label: summary.dominantMood || 'Neutral',
-    emoji: '🌿',
     color: colors.primary,
   };
 
@@ -74,7 +77,12 @@ export const MoodAnalyticsCharts: React.FC<MoodAnalyticsChartsProps> = ({
             DOMINANT MOOD
           </AppText>
           <View style={styles.dominantRow}>
-            <AppText style={{ fontSize: 20 }}>{dominantMoodConfig.emoji}</AppText>
+            <MoodCharacter
+              mood={dominantMoodConfig.key}
+              size={26}
+              showShadow={false}
+              isInteractive={false}
+            />
             <AppHeading level={3} style={[styles.dominantText, { color: dominantMoodConfig.color }]}>
               {dominantMoodConfig.label}
             </AppHeading>
@@ -128,7 +136,12 @@ export const MoodAnalyticsCharts: React.FC<MoodAnalyticsChartsProps> = ({
             return (
               <View key={mood.key} style={styles.distRow}>
                 <View style={styles.distLabelGroup}>
-                  <AppText style={styles.distEmoji}>{mood.emoji}</AppText>
+                  <MoodCharacter
+                    mood={mood.key}
+                    size={24}
+                    showShadow={false}
+                    isInteractive={false}
+                  />
                   <AppText variant="bodySmall" style={styles.distLabel}>
                     {mood.label}
                   </AppText>

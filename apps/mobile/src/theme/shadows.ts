@@ -1,9 +1,8 @@
 import { ViewStyle } from 'react-native';
 
 /**
- * Solace AI - Soft & Ambient Shadow Tokens
- *
- * Avoids harsh dark shadows in favor of soft, natural ambient depth.
+ * Solace AI - Modern Depth & Glow Shadows
+ * Uses soft ambient shadows and signature Lavender & Lime glow highlights.
  */
 
 export interface ShadowToken {
@@ -23,31 +22,45 @@ export const SHADOWS_LIGHT: Record<string, ViewStyle> = {
     elevation: 0,
   },
   subtle: {
-    shadowColor: '#303A34',
+    shadowColor: '#292431',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
+    shadowOpacity: 0.05,
     shadowRadius: 6,
     elevation: 1,
   },
   card: {
-    shadowColor: '#303A34',
+    shadowColor: '#292431',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.07,
     shadowRadius: 12,
     elevation: 2,
   },
   elevated: {
-    shadowColor: '#303A34',
+    shadowColor: '#292431',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.1,
     shadowRadius: 20,
     elevation: 4,
   },
   glowPrimary: {
-    shadowColor: '#829B83',
+    shadowColor: '#CBB3E8',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.45,
     shadowRadius: 14,
+    elevation: 4,
+  },
+  glowAccent: {
+    shadowColor: '#D4FF3F',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 14,
+    elevation: 4,
+  },
+  glowSecondary: {
+    shadowColor: '#E34234',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.35,
+    shadowRadius: 12,
     elevation: 3,
   },
 };
@@ -63,31 +76,43 @@ export const SHADOWS_DARK: Record<string, ViewStyle> = {
   subtle: {
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.25,
     shadowRadius: 6,
     elevation: 1,
   },
   card: {
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.35,
     shadowRadius: 12,
     elevation: 2,
   },
   elevated: {
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.5,
     shadowRadius: 20,
-    elevation: 4,
+    elevation: 5,
   },
   glowPrimary: {
-    shadowColor: '#9BB49C',
+    shadowColor: '#CBB3E8',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  glowAccent: {
+    shadowColor: '#D4FF3F',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  glowSecondary: {
+    shadowColor: '#E34234',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.35,
     shadowRadius: 14,
     elevation: 3,
   },
 };
-
-export type ShadowLevel = 'none' | 'subtle' | 'card' | 'elevated' | 'glowPrimary';

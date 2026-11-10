@@ -6,6 +6,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { AppText, AppHeading, AppCard } from '../../../components/ui';
+import { MoodCharacter } from '../../../components/mood';
 import { useTheme } from '../../../hooks/useTheme';
 import { triggerHaptic } from '../../../utils/haptics';
 import { PRIMARY_MOODS, PrimaryMoodConfig } from '../types';
@@ -121,7 +122,13 @@ const MoodCardItem: React.FC<MoodCardItemProps> = ({
                 },
               ]}
             >
-              <AppText style={styles.emoji}>{config.emoji}</AppText>
+              <MoodCharacter
+                mood={config.key}
+                size={44}
+                isSelected={isSelected}
+                isInteractive={false}
+                showShadow={false}
+              />
             </View>
 
             <View style={styles.textColumn}>

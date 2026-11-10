@@ -309,6 +309,7 @@ const styles = StyleSheet.create({
     height: 16,
   },
   assessmentCard: {
+    marginHorizontal: 20,
     padding: 16,
     borderRadius: 16,
     marginBottom: 16,

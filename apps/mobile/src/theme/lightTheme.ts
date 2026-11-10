@@ -7,23 +7,41 @@ import { ViewStyle } from 'react-native';
 
 export interface ThemeColors {
   [key: string]: string;
+  // Brand Triad
   primary: string;
   primaryDark: string;
   primaryLight: string;
   primaryTint: string;
 
+  accent: string;
+  accentDark: string;
+  accentLight: string;
+  accentText: string;
+
+  secondary: string;
+  secondaryDark: string;
+  secondaryLight: string;
+  secondaryText: string;
+
+  // Backgrounds & Surfaces
   background: string;
   surface: string;
   surfaceSecondary: string;
   surfaceTertiary: string;
 
+  // Text
   textPrimary: string;
   textSecondary: string;
   textMuted: string;
   textInverse: string;
 
+  // Accents & Pastels
   lavender: string;
   lavenderText: string;
+  lime: string;
+  limeText: string;
+  red: string;
+  redText: string;
   peach: string;
   peachText: string;
   mint: string;
@@ -31,10 +49,12 @@ export interface ThemeColors {
   butter: string;
   butterText: string;
 
+  // Borders
   border: string;
   borderLight: string;
   borderStrong: string;
 
+  // Functional
   success: string;
   successLight: string;
   successText: string;
@@ -52,6 +72,16 @@ export interface ThemeColors {
   infoText: string;
 
   overlay: string;
+
+  // Compatibility aliases (mapped to modern brand colors)
+  sage: string;
+  sageDark: string;
+  sageLight: string;
+  cream: string;
+  creamDark: string;
+  text: string;
+  textLight: string;
+  card: string;
 }
 
 export interface Theme {
@@ -72,6 +102,16 @@ export const lightTheme: Theme = {
     primaryLight: PALETTE.PRIMARY_LIGHT,
     primaryTint: PALETTE.PRIMARY_TINT,
 
+    accent: PALETTE.ACCENT,
+    accentDark: PALETTE.ACCENT_DARK,
+    accentLight: PALETTE.ACCENT_LIGHT,
+    accentText: PALETTE.ACCENT_TEXT,
+
+    secondary: PALETTE.SECONDARY,
+    secondaryDark: PALETTE.SECONDARY_DARK,
+    secondaryLight: PALETTE.SECONDARY_LIGHT,
+    secondaryText: PALETTE.SECONDARY_TEXT,
+
     background: PALETTE.BACKGROUND,
     surface: PALETTE.SURFACE,
     surfaceSecondary: PALETTE.SURFACE_SECONDARY,
@@ -84,6 +124,10 @@ export const lightTheme: Theme = {
 
     lavender: PALETTE.LAVENDER,
     lavenderText: PALETTE.LAVENDER_TEXT,
+    lime: PALETTE.LIME,
+    limeText: PALETTE.LIME_TEXT,
+    red: PALETTE.RED,
+    redText: PALETTE.RED_TEXT,
     peach: PALETTE.PEACH,
     peachText: PALETTE.PEACH_TEXT,
     mint: PALETTE.MINT,
@@ -112,6 +156,16 @@ export const lightTheme: Theme = {
     infoText: PALETTE.INFO_TEXT,
 
     overlay: PALETTE.OVERLAY_LIGHT,
+
+    // Compatibility aliases mapped to modern brand palette
+    sage: PALETTE.PRIMARY,
+    sageDark: PALETTE.PRIMARY_DARK,
+    sageLight: PALETTE.PRIMARY_LIGHT,
+    cream: PALETTE.SURFACE_SECONDARY,
+    creamDark: PALETTE.SURFACE_TERTIARY,
+    text: PALETTE.TEXT_PRIMARY,
+    textLight: PALETTE.TEXT_MUTED,
+    card: PALETTE.SURFACE,
   },
   typography: TYPOGRAPHY_SCALE,
   spacing: SPACING,

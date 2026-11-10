@@ -67,8 +67,8 @@ export const WellnessPlanCard: React.FC<WellnessPlanCardProps> = ({
           style={[
             styles.card,
             {
-              backgroundColor: isDark ? colors.surfaceSecondary : '#F4F7F4',
-              borderColor: isDark ? colors.border : '#E2EBE2',
+              backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7',
+              borderColor: isDark ? colors.border : '#E7DFED',
               borderWidth: 1,
             },
           ]}
@@ -156,7 +156,7 @@ export const WellnessPlanCard: React.FC<WellnessPlanCardProps> = ({
           <AppProgressBar
             progress={progressPercent}
             height={6}
-            color={colors.primary}
+            color={colors.accent}
             style={styles.progressBar}
           />
         </View>
@@ -175,9 +175,9 @@ export const WellnessPlanCard: React.FC<WellnessPlanCardProps> = ({
                     backgroundColor: isDark
                       ? colors.surfaceSecondary
                       : isDone
-                      ? '#F6FAF6'
+                      ? '#F0EAF7'
                       : colors.surface,
-                    borderColor: isDone ? colors.primaryLight : colors.border,
+                    borderColor: isDone ? colors.primary : colors.border,
                   },
                 ]}
                 activeOpacity={0.7}
@@ -187,10 +187,10 @@ export const WellnessPlanCard: React.FC<WellnessPlanCardProps> = ({
                 <View
                   style={[
                     styles.checkbox,
-                    isDone && { backgroundColor: colors.primary, borderColor: colors.primary },
+                    isDone && { backgroundColor: colors.accent, borderColor: colors.accentDark },
                   ]}
                 >
-                  {isDone && <AppIcon name="check" size={12} color="#FFFFFF" />}
+                  {isDone && <AppIcon name="check" size={12} color="#292431" />}
                 </View>
 
                 <View style={styles.taskContent}>

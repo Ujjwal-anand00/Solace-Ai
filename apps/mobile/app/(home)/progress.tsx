@@ -176,8 +176,8 @@ export default function ProgressScreen(): React.JSX.Element {
             style={[
               styles.reportBannerCard,
               {
-                backgroundColor: isDark ? colors.surfaceSecondary : '#F2F8F4',
-                borderColor: '#D2E3D6',
+                backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7',
+                borderColor: '#E8DDF5',
               },
             ]}
             activeOpacity={0.8}
@@ -187,7 +187,7 @@ export default function ProgressScreen(): React.JSX.Element {
             }}
           >
             <View style={styles.reportBannerIcon}>
-              <AppIcon name="calendar" size={18} color="#536B58" />
+              <AppIcon name="calendar" size={18} color={colors.primaryDark} />
             </View>
             <View style={styles.reportBannerTexts}>
               <AppText variant="bodySmall" style={{ fontWeight: '700' }}>
@@ -235,7 +235,7 @@ export default function ProgressScreen(): React.JSX.Element {
             style={[
               styles.periodPillContainer,
               {
-                backgroundColor: isDark ? colors.surfaceSecondary : '#EFECE6',
+                backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7',
               },
             ]}
           >

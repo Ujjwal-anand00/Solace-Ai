@@ -112,8 +112,8 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
         style={[
           styles.masterCard,
           {
-            backgroundColor: isDark ? colors.surfaceSecondary : '#F2F8F4',
-            borderColor: '#D2E3D6',
+            backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7',
+            borderColor: '#E8DDF5',
           },
         ]}
       >
@@ -132,7 +132,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
               triggerHaptic.selection();
               updateField('masterEnabled', val);
             }}
-            trackColor={{ false: colors.border, true: '#829B83' }}
+            trackColor={{ false: colors.border, true: colors.primaryDark }}
             thumbColor="#FFFFFF"
           />
         </View>
@@ -154,7 +154,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
             <View style={styles.cardHeader}>
               <View style={styles.headerTextCol}>
                 <View style={styles.titleWithIcon}>
-                  <AppIcon name="feather" size={16} color="#536B58" />
+                  <AppIcon name="feather" size={16} color={colors.primaryDark} />
                   <AppHeading level="h4" style={styles.cardTitle}>
                     Daily Wellness Pause
                   </AppHeading>
@@ -169,7 +169,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
                   triggerHaptic.selection();
                   updateField('dailyWellness', { ...form.dailyWellness, enabled: val });
                 }}
-                trackColor={{ false: colors.border, true: '#829B83' }}
+                trackColor={{ false: colors.border, true: colors.primaryDark }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -232,7 +232,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
                   triggerHaptic.selection();
                   updateField('moodCheckin', { ...form.moodCheckin, enabled: val });
                 }}
-                trackColor={{ false: colors.border, true: '#829B83' }}
+                trackColor={{ false: colors.border, true: colors.primaryDark }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -279,7 +279,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
                   triggerHaptic.selection();
                   updateField('planReminders', { ...form.planReminders, enabled: val });
                 }}
-                trackColor={{ false: colors.border, true: '#829B83' }}
+                trackColor={{ false: colors.border, true: colors.primaryDark }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -329,7 +329,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
                     enabled: val,
                   });
                 }}
-                trackColor={{ false: colors.border, true: '#829B83' }}
+                trackColor={{ false: colors.border, true: colors.primaryDark }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -379,7 +379,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
                   triggerHaptic.selection();
                   updateField('milestones', { enabled: val });
                 }}
-                trackColor={{ false: colors.border, true: '#829B83' }}
+                trackColor={{ false: colors.border, true: colors.primaryDark }}
                 thumbColor="#FFFFFF"
               />
             </View>
@@ -413,7 +413,7 @@ export const NotificationPreferences: React.FC<NotificationPreferencesProps> = (
                   triggerHaptic.selection();
                   updateField('weeklySummary', { ...form.weeklySummary, enabled: val });
                 }}
-                trackColor={{ false: colors.border, true: '#829B83' }}
+                trackColor={{ false: colors.border, true: colors.primaryDark }}
                 thumbColor="#FFFFFF"
               />
             </View>

@@ -36,14 +36,14 @@ export const SoftGradientBackground: React.FC<SoftGradientBackgroundProps> = ({
     } else {
       switch (variant) {
         case 'warm':
-          return ['#FAF7F0', '#F5EFE6', '#F8F6EF'];
+          return [colors.background, colors.surfaceSecondary, colors.background];
         case 'calm':
-          return ['#F8F9F4', '#EFF4F0', '#F8F6EF'];
+          return [colors.background, colors.surface, colors.surfaceSecondary];
         case 'surface':
           return [colors.surface, colors.surfaceSecondary];
         case 'subtle':
         default:
-          return ['#FAF9F5', '#F5F3EB', '#F8F6EF'];
+          return [colors.background, colors.surfaceSecondary, colors.background];
       }
     }
   }, [colors, isDark, variant]);

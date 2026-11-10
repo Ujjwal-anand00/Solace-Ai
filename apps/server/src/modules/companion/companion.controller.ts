@@ -29,5 +29,18 @@ export class CompanionController {
       next(err);
     }
   }
+
+  public static async getStatus(
+    _req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const status = await CompanionService.checkStatus();
+      ApiResponseUtil.success(res, 'Companion connection status retrieved', status);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 

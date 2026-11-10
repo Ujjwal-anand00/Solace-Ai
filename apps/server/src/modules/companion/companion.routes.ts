@@ -11,6 +11,7 @@ router.use(requireAuth);
 
 router.get('/settings', CompanionController.getSettings);
 router.patch('/settings', validateBody(updateCompanionSettingsSchema), CompanionController.updateSettings);
+router.get('/status', CompanionController.getStatus);
 
 export const companionRoutes = router;
 

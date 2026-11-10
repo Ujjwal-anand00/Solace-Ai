@@ -37,9 +37,9 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
       case 'weekly_summary':
         return { icon: 'calendar', color: '#15803D', bg: '#DCFCE7' };
       case 'daily_wellness':
-        return { icon: 'feather', color: '#536B58', bg: '#E9E2F5' };
+        return { icon: 'feather', color: '#9678BD', bg: '#F0EAF7' };
       default:
-        return { icon: 'bell', color: '#536B58', bg: '#F1F5F0' };
+        return { icon: 'bell', color: '#9678BD', bg: '#F0EAF7' };
     }
   };
 
@@ -98,8 +98,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
                 : colors.surface
               : isUnread
               ? '#FFFFFF'
-              : '#FBF9F5',
-            borderColor: isUnread ? '#829B83' : colors.border,
+              : '#F8F6FA',
+            borderColor: isUnread ? colors.primary : colors.border,
           },
         ]}
       >
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#829B83',
+    backgroundColor: '#D4FF3F',
   },
   deleteButton: {
     padding: 2,

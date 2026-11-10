@@ -14,7 +14,7 @@ export function evaluatePasswordStrength(password: string): PasswordStrengthResu
       score: 0,
       level: 'weak',
       label: 'Too short',
-      color: '#E07A5F', // error
+      color: '#E34234', // Bold Red
       feedback: 'Password must be at least 8 characters.',
     };
   }
@@ -36,7 +36,7 @@ export function evaluatePasswordStrength(password: string): PasswordStrengthResu
         score: 1,
         level: 'weak',
         label: 'Weak',
-        color: '#E07A5F', // error coral
+        color: '#E34234', // Bold Red
         feedback: 'Use at least 8 characters with letters and numbers.',
       };
     case 2:
@@ -44,7 +44,7 @@ export function evaluatePasswordStrength(password: string): PasswordStrengthResu
         score: 2,
         level: 'fair',
         label: 'Fair',
-        color: '#E9C46A', // warning yellow
+        color: '#D99A36', // warning amber
         feedback: 'Add uppercase letters or special characters to strengthen.',
       };
     case 3:
@@ -52,7 +52,7 @@ export function evaluatePasswordStrength(password: string): PasswordStrengthResu
         score: 3,
         level: 'good',
         label: 'Good',
-        color: '#829B83', // primary sage
+        color: '#9678BD', // primary lavender dark
         feedback: 'Solid password! Meets all standard security guidelines.',
       };
     case 4:
@@ -61,7 +61,7 @@ export function evaluatePasswordStrength(password: string): PasswordStrengthResu
         score: 4,
         level: 'strong',
         label: 'Strong',
-        color: '#536B58', // primary dark
+        color: '#41865B', // success green
         feedback: 'Excellent! Your account is safe and well protected.',
       };
   }

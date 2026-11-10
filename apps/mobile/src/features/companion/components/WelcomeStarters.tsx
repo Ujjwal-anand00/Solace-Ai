@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { AppHeading, AppText, SolaceMascot, AppIcon, IconName } from '../../../components/ui';
 import { useTheme } from '../../../hooks/useTheme';
 import { triggerHaptic } from '../../../utils/haptics';
@@ -44,9 +44,11 @@ export const WelcomeStarters: React.FC<WelcomeStartersProps> = ({
 
   return (
     <ScrollView
+      style={styles.scrollView}
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
+      keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
     >
       <View style={styles.mascotContainer}>
         <SolaceMascot
@@ -104,6 +106,10 @@ export const WelcomeStarters: React.FC<WelcomeStartersProps> = ({
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
   container: {
     paddingHorizontal: 20,
     paddingTop: 16,

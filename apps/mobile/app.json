@@ -7,22 +7,24 @@
     "icon": "./assets/images/icon.png",
     "scheme": "solace",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0F172A"
+      "backgroundColor": "#F8F6FA"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.solaceai.companion"
+      "bundleIdentifier": "com.solaceai.companion",
+      "newArchEnabled": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#0F172A"
+        "backgroundColor": "#CBB3E8"
       },
-      "package": "com.solaceai.companion"
+      "package": "com.solaceai.companion",
+      "newArchEnabled": true,
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "bundler": "metro",

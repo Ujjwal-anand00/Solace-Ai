@@ -40,7 +40,7 @@ export const CompanionHeader: React.FC<CompanionHeaderProps> = ({
               <View
                 style={[
                   styles.statusDot,
-                  { backgroundColor: isOnline ? '#48BB78' : colors.textTertiary },
+                  { backgroundColor: isOnline ? colors.accent : colors.textMuted },
                 ]}
               />
               <AppText variant="caption" style={[styles.statusText, { color: colors.textSecondary }]}>

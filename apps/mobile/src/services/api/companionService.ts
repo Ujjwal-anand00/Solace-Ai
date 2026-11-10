@@ -33,5 +33,15 @@ export const companionService = {
     }
     return res.data.data;
   },
+
+  /**
+   * Check companion AI status and readiness
+   */
+  async getStatus(): Promise<{ isOnline: boolean; model: string; latencyMs?: number }> {
+    const res = await apiClient.get<
+      ApiResponse<{ isOnline: boolean; model: string; latencyMs?: number }>
+    >(API_ROUTES.COMPANION.STATUS);
+    return res.data.data || { isOnline: false, model: 'unknown' };
+  },
 };
 

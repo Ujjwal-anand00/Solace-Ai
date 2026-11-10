@@ -50,4 +50,12 @@ export class AppError extends Error {
   public static internal(message = 'Internal server error'): AppError {
     return new AppError(message, 500, ERROR_CODES.INTERNAL_SERVER_ERROR, false);
   }
+
+  public static serviceUnavailable(message = 'Service temporarily unavailable', details?: unknown): AppError {
+    return new AppError(message, 503, ERROR_CODES.SERVICE_UNAVAILABLE, true, details);
+  }
+
+  public static tooManyRequests(message = 'Rate limit exceeded', details?: unknown): AppError {
+    return new AppError(message, 429, ERROR_CODES.RATE_LIMIT_EXCEEDED, true, details);
+  }
 }

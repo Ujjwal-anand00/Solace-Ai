@@ -87,6 +87,7 @@ export const QUERY_KEYS = {
   },
   COMPANION: {
     SETTINGS: ['companion', 'settings'] as const,
+    STATUS: ['companion', 'status'] as const,
   },
   JOURNAL: {
     ALL: ['journal'] as const,

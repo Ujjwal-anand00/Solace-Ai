@@ -121,5 +121,19 @@ export const conversationService = {
     }
     return res.data.data;
   },
+
+  /**
+   * Regenerate the last assistant response for a conversation
+   */
+  async regenerateMessage(conversationId: string): Promise<SendMessageResponse> {
+    const res = await apiClient.post<ApiResponse<SendMessageResponse>>(
+      API_ROUTES.CONVERSATIONS.REGENERATE(conversationId),
+      {},
+    );
+    if (!res.data.data) {
+      throw new Error(res.data.message || 'Failed to regenerate response');
+    }
+    return res.data.data;
+  },
 };
 

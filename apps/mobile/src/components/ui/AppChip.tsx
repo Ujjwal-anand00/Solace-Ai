@@ -32,14 +32,14 @@ export const AppChip: React.FC<AppChipProps> = ({
   const { colors, radius, isDark } = useTheme();
 
   const backgroundColor = selected
-    ? colors.primary
+    ? colors.accent
     : isDark
       ? colors.surfaceSecondary
       : colors.surface;
 
-  const textColor = selected ? '#FFFFFF' : colors.textPrimary;
+  const textColor = selected ? (colors.accentText || '#292431') : colors.textPrimary;
 
-  const borderColor = selected ? colors.primary : isDark ? colors.border : colors.border;
+  const borderColor = selected ? (colors.accentDark || '#A7CE16') : isDark ? colors.border : colors.border;
 
   return (
     <ScalePressable

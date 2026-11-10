@@ -39,40 +39,40 @@ export const SolaceLogo: React.FC<SolaceLogoProps> = ({
 
   const primaryColor = color || colors.primary;
   const darkColor = colors.primaryDark;
-  const mintColor = colors.mint;
-  const lavenderColor = colors.lavender;
+  const limeColor = colors.accent;
+  const redColor = colors.secondary;
 
-  // The organic emblem: 3 harmonic curved leaves/droplets meeting at center with glowing spark
+  // The modern emblem: 3 harmonic curved droplets meeting at center with glowing brand spark
   const emblem = (
     <Svg width={dimension} height={dimension} viewBox="0 0 100 100" fill="none">
       <Defs>
         <SvgGradient id="leafGrad1" x1="0" y1="0" x2="1" y2="1">
-          <Stop offset="0%" stopColor={primaryColor} stopOpacity="0.9" />
+          <Stop offset="0%" stopColor={primaryColor} stopOpacity="0.95" />
           <Stop offset="100%" stopColor={darkColor} stopOpacity="1" />
         </SvgGradient>
         <SvgGradient id="leafGrad2" x1="0" y1="1" x2="1" y2="0">
-          <Stop offset="0%" stopColor={lavenderColor} stopOpacity="0.8" />
-          <Stop offset="100%" stopColor={primaryColor} stopOpacity="0.9" />
+          <Stop offset="0%" stopColor={limeColor} stopOpacity="0.9" />
+          <Stop offset="100%" stopColor={primaryColor} stopOpacity="0.95" />
         </SvgGradient>
         <SvgGradient id="leafGrad3" x1="1" y1="0" x2="0" y2="1">
-          <Stop offset="0%" stopColor={mintColor} stopOpacity="0.8" />
+          <Stop offset="0%" stopColor={redColor} stopOpacity="0.9" />
           <Stop offset="100%" stopColor={primaryColor} stopOpacity="0.85" />
         </SvgGradient>
       </Defs>
 
-      {/* Top Petal (Sprout / Leaf) */}
+      {/* Top Petal (Lavender Brand Identity) */}
       <Path
         d="M50 16 C50 16 68 28 64 48 C60 62 50 64 50 64 C50 64 40 62 36 48 C32 28 50 16 50 16 Z"
         fill="url(#leafGrad1)"
       />
 
-      {/* Bottom Right Petal */}
+      {/* Bottom Right Petal (Neon Lime Energy) */}
       <Path
         d="M78 68 C78 68 62 82 48 74 C36 67 42 56 42 56 C42 56 50 52 64 54 C80 56 78 68 78 68 Z"
         fill="url(#leafGrad2)"
       />
 
-      {/* Bottom Left Petal */}
+      {/* Bottom Left Petal (Bold Red Heart / Pulse) */}
       <Path
         d="M22 68 C22 68 38 82 52 74 C64 67 58 56 58 56 C58 56 50 52 36 54 C20 56 22 68 22 68 Z"
         fill="url(#leafGrad3)"
@@ -80,7 +80,7 @@ export const SolaceLogo: React.FC<SolaceLogoProps> = ({
 
       {/* Center glowing pearl of harmony */}
       <Circle cx="50" cy="56" r="6" fill="#FFFFFF" opacity="0.95" />
-      <Circle cx="50" cy="56" r="3" fill={primaryColor} />
+      <Circle cx="50" cy="56" r="3" fill={limeColor} />
     </Svg>
   );
 
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   aiBadge: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#829B83',
+    color: '#9678BD',
     letterSpacing: 1,
   },
   tagline: {

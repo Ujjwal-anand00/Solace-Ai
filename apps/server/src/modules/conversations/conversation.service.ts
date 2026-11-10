@@ -59,26 +59,30 @@ export class ConversationService {
       });
       userMessage = initialUserMsg.toDto();
 
-      const aiResponse = await CompanionService.generateResponse(
-        userId,
-        dto.initialMessage.trim(),
-        [],
-      );
+      try {
+        const aiResponse = await CompanionService.generateResponse(
+          userId,
+          dto.initialMessage.trim(),
+          [],
+        );
 
-      const initialAiMsg = await ChatMessageModel.create({
-        conversationId: conversation._id,
-        userId: userObjectId,
-        role: 'assistant',
-        content: aiResponse.content,
-        metadata: {
-          ...aiResponse.metadata,
-          ...(aiResponse.safetyAlert && { safetyAlert: aiResponse.safetyAlert }),
-        },
-      });
-      assistantMessage = initialAiMsg.toDto();
+        const initialAiMsg = await ChatMessageModel.create({
+          conversationId: conversation._id,
+          userId: userObjectId,
+          role: 'assistant',
+          content: aiResponse.content,
+          metadata: {
+            ...aiResponse.metadata,
+            ...(aiResponse.safetyAlert && { safetyAlert: aiResponse.safetyAlert }),
+          },
+        });
+        assistantMessage = initialAiMsg.toDto();
 
-      conversation.lastMessageAt = new Date();
-      await conversation.save();
+        conversation.lastMessageAt = new Date();
+        await conversation.save();
+      } catch (aiErr) {
+        logger.warn('Initial message AI response failed, conversation created with user message:', aiErr);
+      }
     }
 
     return {
@@ -255,15 +259,15 @@ export class ConversationService {
       content,
     });
 
-    // 2. Fetch recent conversation history
+    // 2. Fetch recent conversation history (most recent 20 in chronological order)
     const historyDocs = await ChatMessageModel.find({
       conversationId: conversation._id,
       _id: { $ne: userMsg._id },
     })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .limit(20);
 
-    const history = historyDocs.map((m) => m.toDto());
+    const history = historyDocs.reverse().map((m) => m.toDto());
 
     // 3. Update title if it's default
     if (conversation.title === 'New Conversation' || conversation.title === 'Untitled Conversation') {
@@ -272,16 +276,98 @@ export class ConversationService {
     }
 
     // 4. Generate AI response
-    const aiResult = await CompanionService.generateResponse(userId, content, history);
+    try {
+      const aiResult = await CompanionService.generateResponse(userId, content, history);
 
-    // 5. Save assistant message
-    const assistantMsg = await ChatMessageModel.create({
+      // 5. Save assistant message only on genuine AI success
+      const assistantMsg = await ChatMessageModel.create({
+        conversationId: conversation._id,
+        userId: userObjectId,
+        role: 'assistant',
+        content: aiResult.content,
+        metadata: {
+          ...aiResult.metadata,
+          ...(aiResult.safetyAlert && { safetyAlert: aiResult.safetyAlert }),
+        },
+      });
+
+      conversation.lastMessageAt = new Date();
+      await conversation.save();
+
+      return {
+        userMessage: userMsg.toDto(),
+        assistantMessage: assistantMsg.toDto(),
+        safetyAlert: aiResult.safetyAlert,
+      };
+    } catch (aiErr: any) {
+      logger.error('Companion AI generation failed in sendMessage:', aiErr);
+      // Re-throw so controller returns transparent error status
+      throw aiErr;
+    }
+  }
+
+  /**
+   * Regenerate the last assistant response for a conversation.
+   */
+  public static async regenerateResponse(
+    conversationId: string,
+    userId: string,
+  ): Promise<SendMessageResponse> {
+    if (!Types.ObjectId.isValid(conversationId)) {
+      throw AppError.badRequest('Invalid conversation ID format');
+    }
+
+    const conversation = await ConversationModel.findById(conversationId);
+    if (!conversation) {
+      throw AppError.notFound('Conversation not found');
+    }
+
+    assertOwnership(conversation.userId, userId, 'conversation');
+
+    const messages = await ChatMessageModel.find({
       conversationId: conversation._id,
-      userId: userObjectId,
+    }).sort({ createdAt: 1 });
+
+    if (messages.length === 0) {
+      throw AppError.badRequest('No messages in this conversation to regenerate');
+    }
+
+    const reversed = [...messages].reverse();
+    const lastMsg = reversed[0];
+    const userMsgDoc = reversed.find((m) => m.role === 'user');
+
+    if (!userMsgDoc) {
+      throw AppError.badRequest('No previous user message found to regenerate response for');
+    }
+
+    // If the last message was an assistant message, delete it to cleanly replace
+    if (lastMsg.role === 'assistant') {
+      await ChatMessageModel.findByIdAndDelete(lastMsg._id);
+    }
+
+    const historyDocs = await ChatMessageModel.find({
+      conversationId: conversation._id,
+      _id: { $ne: userMsgDoc._id },
+    })
+      .sort({ createdAt: -1 })
+      .limit(20);
+
+    const history = historyDocs.reverse().map((m) => m.toDto());
+
+    const aiResult = await CompanionService.generateResponse(
+      userId,
+      userMsgDoc.content,
+      history,
+    );
+
+    const newAssistantMsg = await ChatMessageModel.create({
+      conversationId: conversation._id,
+      userId: new Types.ObjectId(userId),
       role: 'assistant',
       content: aiResult.content,
       metadata: {
         ...aiResult.metadata,
+        isRegenerated: true,
         ...(aiResult.safetyAlert && { safetyAlert: aiResult.safetyAlert }),
       },
     });
@@ -290,8 +376,8 @@ export class ConversationService {
     await conversation.save();
 
     return {
-      userMessage: userMsg.toDto(),
-      assistantMessage: assistantMsg.toDto(),
+      userMessage: userMsgDoc.toDto(),
+      assistantMessage: newAssistantMsg.toDto(),
       safetyAlert: aiResult.safetyAlert,
     };
   }

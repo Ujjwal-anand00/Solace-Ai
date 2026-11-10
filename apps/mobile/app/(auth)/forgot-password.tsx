@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   },
   boldEmail: {
     fontWeight: '700',
-    color: '#303A34',
+    color: '#292431',
   },
   noticeCard: {
     padding: 16,

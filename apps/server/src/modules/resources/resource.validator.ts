@@ -51,3 +51,4 @@ export const createResourceAdminSchema = z.object({
 });
 
 export const updateResourceAdminSchema = createResourceAdminSchema.partial();
+

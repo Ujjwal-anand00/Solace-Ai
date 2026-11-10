@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   getStartedButton: {
-    shadowColor: '#829B83',
+    shadowColor: '#CBB3E8',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 10,

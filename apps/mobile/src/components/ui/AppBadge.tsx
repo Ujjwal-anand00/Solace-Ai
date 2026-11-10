@@ -7,6 +7,10 @@ import { AppIcon, IconName } from './AppIcon';
 
 export type BadgeVariant =
   | 'primary'
+  | 'accent'
+  | 'secondary'
+  | 'lime'
+  | 'red'
   | 'success'
   | 'warning'
   | 'error'
@@ -41,6 +45,20 @@ export const AppBadge: React.FC<AppBadgeProps> = ({
 
   const variantStyles = React.useMemo(() => {
     switch (variant) {
+      case 'accent':
+      case 'lime':
+        return {
+          bg: colors.accent,
+          text: colors.accentText || '#292431',
+          dot: colors.accentDark || '#A7CE16',
+        };
+      case 'secondary':
+      case 'red':
+        return {
+          bg: colors.secondaryLight,
+          text: colors.secondary,
+          dot: colors.secondary,
+        };
       case 'success':
         return {
           bg: colors.successLight,

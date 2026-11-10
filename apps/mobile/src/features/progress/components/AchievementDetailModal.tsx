@@ -97,7 +97,7 @@ export const AchievementDetailModal: React.FC<AchievementDetailModalProps> = ({
               size="sm"
             />
             {isUnlocked ? (
-              <AppBadge label="EARNED ✨" variant="primary" size="sm" />
+              <AppBadge label="EARNED ✨" variant="lime" size="sm" />
             ) : (
               <AppBadge label="IN PROGRESS" variant="neutral" size="sm" />
             )}
@@ -119,8 +119,8 @@ export const AchievementDetailModal: React.FC<AchievementDetailModalProps> = ({
             style={[
               styles.infoBox,
               {
-                backgroundColor: isDark ? colors.surface : '#F8F6EF',
-                borderColor: isDark ? colors.border : '#E2DFD2',
+                backgroundColor: isDark ? colors.surface : '#F0EAF7',
+                borderColor: isDark ? colors.border : '#E8DDF5',
               },
             ]}
           >
@@ -177,7 +177,7 @@ export const AchievementDetailModal: React.FC<AchievementDetailModalProps> = ({
                       styles.progressBarFill,
                       {
                         width: `${Math.min(100, Math.max(0, progressPct))}%`,
-                        backgroundColor: '#829B83',
+                        backgroundColor: colors.accent,
                       },
                     ]}
                   />

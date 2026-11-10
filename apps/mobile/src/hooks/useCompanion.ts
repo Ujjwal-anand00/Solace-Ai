@@ -22,3 +22,12 @@ export const useUpdateCompanionSettings = () => {
   });
 };
 
+export const useCompanionStatus = () => {
+  return useQuery<{ isOnline: boolean; model: string; latencyMs?: number }, Error>({
+    queryKey: QUERY_KEYS.COMPANION.STATUS,
+    queryFn: () => companionService.getStatus(),
+    staleTime: 1000 * 30, // 30 seconds
+    refetchInterval: 1000 * 60, // 1 minute background poll
+  });
+};
+

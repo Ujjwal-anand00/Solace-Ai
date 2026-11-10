@@ -37,14 +37,14 @@ export class LocalNotificationService {
         name: 'General Sanctuary',
         importance: Notifications.AndroidImportance.DEFAULT,
         vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#829B83',
+        lightColor: '#CBB3E8',
       });
 
       await Notifications.setNotificationChannelAsync('reminders', {
         name: 'Wellness Reminders',
         importance: Notifications.AndroidImportance.HIGH,
         vibrationPattern: [0, 300, 200, 300],
-        lightColor: '#829B83',
+        lightColor: '#CBB3E8',
         sound: 'default',
       });
 
@@ -52,7 +52,7 @@ export class LocalNotificationService {
         name: 'Milestones & Celebrations',
         importance: Notifications.AndroidImportance.HIGH,
         vibrationPattern: [0, 400, 200, 400],
-        lightColor: '#FBBF24',
+        lightColor: '#D4FF3F',
         sound: 'default',
       });
 
@@ -60,7 +60,7 @@ export class LocalNotificationService {
         name: 'Mindfulness & Breathing',
         importance: Notifications.AndroidImportance.DEFAULT,
         vibrationPattern: [0, 200, 200, 200],
-        lightColor: '#829B83',
+        lightColor: '#CBB3E8',
       });
 
       this.channelsInitialized = true;
@@ -137,7 +137,7 @@ export class LocalNotificationService {
         body: params.body,
         data: params.data,
         sound: 'default',
-        color: '#829B83',
+        color: '#CBB3E8',
       },
       trigger: params.trigger || null,
     });

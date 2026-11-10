@@ -93,3 +93,19 @@ export const useSendMessage = (conversationId: string) => {
   });
 };
 
+export const useRegenerateMessage = (conversationId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation<SendMessageResponse, Error, void>({
+    mutationFn: () => conversationService.regenerateMessage(conversationId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.CONVERSATIONS.MESSAGES(conversationId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.CONVERSATIONS.ALL,
+      });
+    },
+  });
+};
+

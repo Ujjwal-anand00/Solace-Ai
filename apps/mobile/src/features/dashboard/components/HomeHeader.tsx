@@ -43,7 +43,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
       <View style={styles.textContainer}>
         <View style={styles.greetingRow}>
           <AppHeading level="h2" style={[styles.greetingText, { color: colors.textPrimary }]}>
-            {greeting}, {displayName} 🌿
+            {greeting}, {displayName} ✨
           </AppHeading>
         </View>
         <AppText variant="bodySmall" style={[styles.subtitle, { color: colors.textSecondary }]}>
@@ -68,10 +68,10 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
             <View
               style={[
                 styles.badge,
-                { backgroundColor: colors.accentLavender || '#E9E2F5' },
+                { backgroundColor: colors.accent },
               ]}
             >
-              <View style={[styles.badgeDot, { backgroundColor: colors.primary }]} />
+              <View style={[styles.badgeDot, { backgroundColor: colors.textPrimary }]} />
             </View>
           )}
         </TouchableOpacity>
@@ -86,8 +86,8 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
           <AppAvatar
             name={user?.name || 'User'}
             size="md"
-            backgroundColor={colors.primaryLight}
-            textColor={colors.primaryDark}
+            backgroundColor={colors.primary}
+            textColor={colors.textPrimary}
           />
         </TouchableOpacity>
       </View>

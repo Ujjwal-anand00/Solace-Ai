@@ -1,124 +1,148 @@
 /**
- * Solace AI - Color Palette
+ * Solace AI - Modern Brand Color Palette
  *
- * Centralized, calm, natural color tokens as specified:
- * - Primary Sage palette
- * - Warm natural backgrounds
- * - Muted natural text tones
- * - Soft pastel accents (Lavender, Peach, Mint, Butter)
- * - Accessible functional tones
+ * Core Brand Colors:
+ * - Primary Lavender: #CBB3E8
+ * - Neon Lime (Accent): #D4FF3F
+ * - Bold Red (Emphasis): #E34234
+ *
+ * Supporting Accessible Neutrals (Light & Dark)
  */
 
 export const PALETTE = {
-  // Primary Palette (Sage Greens)
-  PRIMARY: '#829B83',
-  PRIMARY_DARK: '#536B58',
-  PRIMARY_LIGHT: '#AFC5B0',
-  PRIMARY_TINT: '#E8EFE8',
+  // Brand Triad
+  PRIMARY: '#CBB3E8',          // Primary Lavender
+  PRIMARY_DARK: '#9678BD',     // Deep Lavender Purple
+  PRIMARY_LIGHT: '#E8DDF5',    // Soft Lavender Tint
+  PRIMARY_TINT: '#F0EAF7',     // Ultra-light Lavender Surface
 
-  // Light Backgrounds & Surfaces (Warm Linen & Cream)
-  BACKGROUND: '#F8F6EF',
-  SURFACE: '#FFFFFF',
-  SURFACE_SECONDARY: '#F0F1E9',
-  SURFACE_TERTIARY: '#E7E9DF',
+  ACCENT: '#D4FF3F',           // Neon Lime (High-priority CTAs & active states)
+  ACCENT_DARK: '#A7CE16',      // Deep Lime
+  ACCENT_LIGHT: '#F4FFC2',     // Soft Lime Glow
+  ACCENT_TEXT: '#292431',      // Dark contrast text for Lime backgrounds
 
-  // Text Colors
-  TEXT_PRIMARY: '#303A34',
-  TEXT_SECONDARY: '#737D75',
-  TEXT_MUTED: '#A0A79F',
-  TEXT_INVERSE: '#FFFFFF',
+  SECONDARY: '#E34234',        // Bold Red (Emphasis & special highlights)
+  SECONDARY_DARK: '#B8281C',   // Deep Crimson
+  SECONDARY_LIGHT: '#F8D8D4',  // Soft Coral Red Tint
+  SECONDARY_TEXT: '#FFFFFF',   // High-contrast text for Red
 
-  // Accent Colors (Calm & Organic Pastels)
-  LAVENDER: '#E9E2F5',
-  LAVENDER_TEXT: '#5B4E7A',
-  PEACH: '#F5DFD2',
-  PEACH_TEXT: '#804D36',
-  MINT: '#DCE9DD',
-  MINT_TEXT: '#446849',
-  BUTTER: '#F5EDCF',
-  BUTTER_TEXT: '#6B5A24',
+  // Light Backgrounds & Surfaces
+  BACKGROUND: '#F8F6FA',       // Modern cool-tinted neutral
+  SURFACE: '#FFFFFF',          // Pure clean card surface
+  SURFACE_SECONDARY: '#F0EAF7',// Lavender-tinted surface
+  SURFACE_TERTIARY: '#E7DFED', // Structural surface
 
-  // Borders & Dividers
-  BORDER: '#E3E5DC',
-  BORDER_LIGHT: '#EDEDE6',
-  BORDER_STRONG: '#C8CCC0',
+  // Text Colors (High Contrast AAA)
+  TEXT_PRIMARY: '#292431',     // Deep Obsidian Purple
+  TEXT_SECONDARY: '#716B78',   // Muted Charcoal
+  TEXT_MUTED: '#A39BA9',       // Subtle Grey Purple
+  TEXT_INVERSE: '#FFFFFF',     // Clean White
 
-  // Functional Colors (Accessible, Soft, Non-Harsh)
-  SUCCESS: '#4E7F57',
-  SUCCESS_LIGHT: '#E2EFE4',
-  SUCCESS_TEXT: '#23522C',
+  // Supporting Functional & Semantic Tones
+  BORDER: '#E7DFED',
+  BORDER_LIGHT: '#F2ECF7',
+  BORDER_STRONG: '#CBB3E8',
 
-  WARNING: '#C27424',
-  WARNING_LIGHT: '#FBECD9',
-  WARNING_TEXT: '#6E3E0C',
+  SUCCESS: '#41865B',
+  SUCCESS_LIGHT: '#E5F4EC',
+  SUCCESS_TEXT: '#225836',
 
-  ERROR: '#C74B4B',
-  ERROR_LIGHT: '#FCEBEB',
-  ERROR_TEXT: '#6E1D1D',
+  WARNING: '#D99A36',
+  WARNING_LIGHT: '#FDF2E2',
+  WARNING_TEXT: '#7A4F0F',
 
-  INFO: '#4E738B',
-  INFO_LIGHT: '#E3EDF3',
-  INFO_TEXT: '#214358',
+  ERROR: '#E34234',
+  ERROR_LIGHT: '#F8D8D4',
+  ERROR_TEXT: '#8F1D14',
 
-  // Overlay / Translucency
-  OVERLAY_LIGHT: 'rgba(48, 58, 52, 0.35)',
-  OVERLAY_DARK: 'rgba(10, 15, 12, 0.65)',
+  INFO: '#6C7CE0',
+  INFO_LIGHT: '#ECEFFE',
+  INFO_TEXT: '#2F3C9E',
+
+  // Mood & Activity Accent Pastels
+  LAVENDER: '#CBB3E8',
+  LAVENDER_TEXT: '#4E3875',
+  LIME: '#D4FF3F',
+  LIME_TEXT: '#292431',
+  RED: '#E34234',
+  RED_TEXT: '#FFFFFF',
+  PEACH: '#F5D5C6',
+  PEACH_TEXT: '#7E3B20',
+  MINT: '#D2F0E0',
+  MINT_TEXT: '#1F613B',
+  BUTTER: '#FDF1C7',
+  BUTTER_TEXT: '#705915',
+
+  // Overlays
+  OVERLAY_LIGHT: 'rgba(41, 36, 49, 0.45)',
+  OVERLAY_DARK: 'rgba(25, 21, 31, 0.75)',
 } as const;
 
 export const DARK_PALETTE = {
-  // Primary Palette in Dark Mode (Illuminated Sage)
-  PRIMARY: '#9BB49C',
-  PRIMARY_DARK: '#738C74',
-  PRIMARY_LIGHT: '#B9CCBA',
-  PRIMARY_TINT: '#233025',
+  // Brand Triad in Dark Mode
+  PRIMARY: '#CBB3E8',          // Radiant Lavender
+  PRIMARY_DARK: '#9678BD',     // Rich Deep Purple
+  PRIMARY_LIGHT: '#E8DDF5',    // Luminous Lavender
+  PRIMARY_TINT: '#30273A',     // Dark Lavender Tint
 
-  // Dark Backgrounds & Surfaces (Deep Forest Midnight)
-  BACKGROUND: '#131814',
-  SURFACE: '#1B221D',
-  SURFACE_SECONDARY: '#242D26',
-  SURFACE_TERTIARY: '#2E3830',
+  ACCENT: '#D4FF3F',           // Electric Neon Lime
+  ACCENT_DARK: '#A7CE16',      // Focused Lime
+  ACCENT_LIGHT: '#2C380C',     // Dark Lime Surface
+  ACCENT_TEXT: '#292431',      // Dark contrast text
+
+  SECONDARY: '#E34234',        // Vibrant Crimson Red
+  SECONDARY_DARK: '#991B1B',   // Deep Burgundy
+  SECONDARY_LIGHT: '#54201E',  // Dark Red Surface
+  SECONDARY_TEXT: '#FFFFFF',
+
+  // Dark Backgrounds & Surfaces
+  BACKGROUND: '#19151F',       // Deep Velvet Night
+  SURFACE: '#241E2C',          // Raised Charcoal Purple
+  SURFACE_SECONDARY: '#30273A',// Illuminated Surface
+  SURFACE_TERTIARY: '#3D3249', // Border Surface
 
   // Text Colors in Dark Mode
-  TEXT_PRIMARY: '#F0F4F1',
-  TEXT_SECONDARY: '#A8B3AA',
-  TEXT_MUTED: '#6F7B71',
-  TEXT_INVERSE: '#131814',
+  TEXT_PRIMARY: '#F8F5FC',     // Crisp Pearlescent White
+  TEXT_SECONDARY: '#C4BACD',   // Soft Muted Lavender
+  TEXT_MUTED: '#80738C',       // Subdued Ash
+  TEXT_INVERSE: '#19151F',
 
-  // Accent Colors (Subdued Luminous Pastels)
-  LAVENDER: '#2E273A',
-  LAVENDER_TEXT: '#D9D0ED',
-  PEACH: '#3B2A22',
-  PEACH_TEXT: '#F7CEBE',
-  MINT: '#233326',
-  MINT_TEXT: '#C3E3C6',
-  BUTTER: '#342F1E',
-  BUTTER_TEXT: '#F3E5B5',
+  // Supporting Functional Tones
+  BORDER: '#42384D',
+  BORDER_LIGHT: '#342B3E',
+  BORDER_STRONG: '#635473',
 
-  // Borders & Dividers
-  BORDER: '#2B352E',
-  BORDER_LIGHT: '#232B25',
-  BORDER_STRONG: '#3F4D43',
+  SUCCESS: '#4E9F6E',
+  SUCCESS_LIGHT: '#1B3426',
+  SUCCESS_TEXT: '#A3E2BB',
 
-  // Functional Colors (Accessible for Dark Mode)
-  SUCCESS: '#6FA378',
-  SUCCESS_LIGHT: '#1B2D20',
-  SUCCESS_TEXT: '#CBE5D0',
+  WARNING: '#E5AC48',
+  WARNING_LIGHT: '#3B2C15',
+  WARNING_TEXT: '#FAD692',
 
-  WARNING: '#DFA04E',
-  WARNING_LIGHT: '#342617',
-  WARNING_TEXT: '#F7DCB5',
+  ERROR: '#E34234',
+  ERROR_LIGHT: '#421B19',
+  ERROR_TEXT: '#F8B4AF',
 
-  ERROR: '#E26D6D',
-  ERROR_LIGHT: '#381C1C',
-  ERROR_TEXT: '#FAD0D0',
+  INFO: '#8392EC',
+  INFO_LIGHT: '#252B4D',
+  INFO_TEXT: '#D0D6FA',
 
-  INFO: '#6D9BB5',
-  INFO_LIGHT: '#1B2730',
-  INFO_TEXT: '#CCE2EF',
+  // Mood & Activity Accent Pastels
+  LAVENDER: '#352945',
+  LAVENDER_TEXT: '#E8DDF5',
+  LIME: '#2E3D0D',
+  LIME_TEXT: '#D4FF3F',
+  RED: '#4A1D1B',
+  RED_TEXT: '#FCA5A5',
+  PEACH: '#3E251C',
+  PEACH_TEXT: '#FCD7C8',
+  MINT: '#1E3628',
+  MINT_TEXT: '#BCE8CE',
+  BUTTER: '#3B3319',
+  BUTTER_TEXT: '#FDEBB3',
 
-  // Overlay
-  OVERLAY_LIGHT: 'rgba(0, 0, 0, 0.55)',
-  OVERLAY_DARK: 'rgba(0, 0, 0, 0.8)',
+  // Overlays
+  OVERLAY_LIGHT: 'rgba(25, 21, 31, 0.65)',
+  OVERLAY_DARK: 'rgba(10, 8, 14, 0.85)',
 } as const;
-
-export type ColorPalette = typeof PALETTE;

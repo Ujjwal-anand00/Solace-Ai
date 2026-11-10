@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
-import { AppHeading, AppText, AppCard, AppBadge, AppIcon } from '../../../components/ui';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { AppHeading, AppText, AppCard, AppBadge, AppIcon, AccentButton } from '../../../components/ui';
+import { MoodSelector, MoodCharacter, MOOD_CONFIGS, MoodKey, normalizeMoodKey } from '../../../components/mood';
 import { useTheme } from '../../../hooks/useTheme';
 import { triggerHaptic } from '../../../utils/haptics';
 import { MoodEntry } from '@solace/shared';
@@ -17,22 +14,6 @@ interface MoodCheckInCardProps {
   onOpenHistory?: () => void;
 }
 
-interface MoodOption {
-  key: string;
-  label: string;
-  emoji: string;
-  bgColor: string;
-  activeColor: string;
-}
-
-const MOOD_OPTIONS: MoodOption[] = [
-  { key: 'ecstatic', label: 'Amazing', emoji: '🌟', bgColor: '#FEF9C3', activeColor: '#EAB308' },
-  { key: 'happy', label: 'Good', emoji: '😊', bgColor: '#DCFCE7', activeColor: '#22C55E' },
-  { key: 'calm', label: 'Okay', emoji: '🌿', bgColor: '#E0F2FE', activeColor: '#0EA5E9' },
-  { key: 'sad', label: 'Low', emoji: '🌧️', bgColor: '#F3E8FF', activeColor: '#A855F7' },
-  { key: 'anxious', label: 'Stressed', emoji: '⚡', bgColor: '#FEE2E2', activeColor: '#EF4444' },
-];
-
 export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
   todayMood,
   onSelectMood,
@@ -40,17 +21,23 @@ export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
   onOpenHistory,
 }) => {
   const { colors, isDark } = useTheme();
+  const [selectedMood, setSelectedMood] = useState<MoodKey | null>(null);
 
-  const handleMoodPress = (moodKey: string) => {
-    triggerHaptic.selection();
-    onSelectMood(moodKey);
+  const handleSelectMood = (moodKey: MoodKey) => {
+    setSelectedMood(moodKey);
   };
 
-  const todayMoodLabel = React.useMemo(() => {
-    if (!todayMood) return null;
-    const match = MOOD_OPTIONS.find((m) => m.key === todayMood.mood.toLowerCase());
-    return match ? `${match.emoji} ${match.label}` : todayMood.mood;
+  const handleConfirmMood = () => {
+    if (!selectedMood) return;
+    triggerHaptic.medium();
+    onSelectMood(selectedMood);
+  };
+
+  const normalizedTodayKey = React.useMemo(() => {
+    return todayMood ? normalizeMoodKey(todayMood.mood) : null;
   }, [todayMood]);
+
+  const todayConfig = normalizedTodayKey ? MOOD_CONFIGS[normalizedTodayKey] : null;
 
   return (
     <AppCard
@@ -59,7 +46,7 @@ export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
         styles.card,
         {
           backgroundColor: isDark ? colors.surfaceSecondary : colors.surface,
-          borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(130, 155, 131, 0.15)',
+          borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(203, 179, 232, 0.35)',
         },
       ]}
     >
@@ -77,37 +64,56 @@ export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
         </View>
 
         {todayMood && (
-          <AppBadge label="Checked in" variant="success" size="sm" style={styles.completedBadge} />
+          <AppBadge label="Checked in" variant="accent" size="sm" style={styles.completedBadge} />
         )}
       </View>
 
-      {/* If checked in today, show existing mood summary */}
-      {todayMood ? (
+      {/* If checked in today, show existing mood summary with character */}
+      {todayMood && todayConfig ? (
         <View style={styles.todaySection}>
-          <View style={[styles.existingMoodContainer, { backgroundColor: isDark ? colors.background : '#F3F4ED' }]}>
+          <View
+            style={[
+              styles.existingMoodContainer,
+              {
+                backgroundColor: isDark ? colors.surfaceTertiary : todayConfig.surfaceColor,
+                borderColor: colors.border,
+              },
+            ]}
+          >
             <View style={styles.existingMoodLeft}>
-              <View style={styles.existingMoodDot}>
-                <AppText style={styles.existingMoodEmoji}>
-                  {MOOD_OPTIONS.find((m) => m.key === todayMood.mood.toLowerCase())?.emoji || '🌿'}
-                </AppText>
+              <View style={styles.existingMoodCharWrapper}>
+                <MoodCharacter
+                  mood={todayConfig.key}
+                  size={46}
+                  isSelected={true}
+                  isInteractive={false}
+                  showShadow={false}
+                />
               </View>
               <View style={styles.existingMoodDetails}>
-                <AppText variant="bodyMedium" style={[styles.existingMoodTitle, { color: colors.textPrimary }]}>
-                  Felt {todayMoodLabel} today
+                <AppText
+                  variant="bodyMedium"
+                  style={[styles.existingMoodTitle, { color: colors.textPrimary }]}
+                >
+                  Felt {todayConfig.label} today
                 </AppText>
                 <AppText variant="caption" style={{ color: colors.textSecondary }}>
                   Intensity {todayMood.moodIntensity}/10
-                  {todayMood.emotions?.length ? ` • ${todayMood.emotions.slice(0, 2).join(', ')}` : ''}
+                  {todayMood.emotions?.length
+                    ? ` • ${todayMood.emotions.slice(0, 2).join(', ')}`
+                    : ''}
                 </AppText>
               </View>
             </View>
 
             <TouchableOpacity
               onPress={onUpdateMood}
-              style={[styles.updateButton, { borderColor: colors.primary }]}
+              style={[styles.updateButton, { borderColor: colors.primary, backgroundColor: isDark ? 'transparent' : '#FFFFFF' }]}
               activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel="Update today's mood check-in"
             >
-              <AppText variant="caption" style={[styles.updateButtonText, { color: colors.primary }]}>
+              <AppText variant="caption" style={[styles.updateButtonText, { color: colors.primaryDark }]}>
                 Update
               </AppText>
             </TouchableOpacity>
@@ -130,19 +136,29 @@ export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
           )}
         </View>
       ) : (
-        /* Mood Options Row */
+        /* Five Interactive Expressive Characters */
         <View style={styles.optionsContainer}>
-          <View style={styles.optionsRow}>
-            {MOOD_OPTIONS.map((option) => (
-              <MoodOptionItem
-                key={option.key}
-                option={option}
-                onPress={() => handleMoodPress(option.key)}
-                colors={colors}
-                isDark={isDark}
+          <MoodSelector
+            selectedMood={selectedMood}
+            onSelectMood={handleSelectMood}
+          />
+
+          {/* Smooth Confirmation Action when user taps a character */}
+          {selectedMood && (
+            <Animated.View
+              entering={FadeIn.duration(200)}
+              exiting={FadeOut.duration(150)}
+              style={styles.actionContainer}
+            >
+              <AccentButton
+                title={`Continue with ${MOOD_CONFIGS[selectedMood].label} →`}
+                size="md"
+                fullWidth
+                onPress={handleConfirmMood}
+                style={styles.confirmButton}
               />
-            ))}
-          </View>
+            </Animated.View>
+          )}
 
           {onOpenHistory && (
             <TouchableOpacity
@@ -165,63 +181,12 @@ export const MoodCheckInCard: React.FC<MoodCheckInCardProps> = ({
   );
 };
 
-interface MoodOptionItemProps {
-  option: MoodOption;
-  onPress: () => void;
-  colors: Record<string, string>;
-  isDark: boolean;
-}
-
-const MoodOptionItem: React.FC<MoodOptionItemProps> = ({ option, onPress, colors, isDark }) => {
-  const scale = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  const handlePressIn = () => {
-    scale.value = withSpring(0.92, { damping: 12, stiffness: 200 });
-  };
-
-  const handlePressOut = () => {
-    scale.value = withSpring(1, { damping: 12, stiffness: 200 });
-  };
-
-  return (
-    <Animated.View style={[styles.optionItem, animatedStyle]}>
-      <TouchableOpacity
-        onPress={onPress}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        activeOpacity={0.9}
-        style={styles.optionTouchTarget}
-        accessibilityLabel={`Mood ${option.label}`}
-        accessibilityRole="button"
-      >
-        <View
-          style={[
-            styles.emojiCircle,
-            {
-              backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : option.bgColor,
-            },
-          ]}
-        >
-          <AppText style={styles.emojiText}>{option.emoji}</AppText>
-        </View>
-        <AppText variant="caption" style={[styles.optionLabel, { color: colors.textPrimary }]}>
-          {option.label}
-        </AppText>
-      </TouchableOpacity>
-    </Animated.View>
-  );
-};
-
 const styles = StyleSheet.create({
   card: {
     marginHorizontal: 20,
     marginTop: 8,
     marginBottom: 16,
-    borderRadius: 20,
+    borderRadius: 22,
     borderWidth: 1,
     padding: 18,
   },
@@ -229,7 +194,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   titleWrapper: {
     flex: 1,
@@ -241,6 +206,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 13,
+    lineHeight: 18,
   },
   completedBadge: {
     marginLeft: 8,
@@ -249,70 +215,45 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   optionsContainer: {
-    gap: 12,
+    gap: 10,
   },
-  optionsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  actionContainer: {
+    marginTop: 4,
+    marginBottom: 4,
   },
-  optionItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  optionTouchTarget: {
-    alignItems: 'center',
-    paddingVertical: 4,
-  },
-  emojiCircle: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    elevation: 1,
-  },
-  emojiText: {
-    fontSize: 24,
-  },
-  optionLabel: {
-    fontSize: 12,
-    fontWeight: '600',
+  confirmButton: {
+    shadowColor: '#D4FF3F',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.28,
+    shadowRadius: 6,
+    elevation: 2,
   },
   existingMoodContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 12,
-    borderRadius: 14,
+    borderRadius: 16,
+    borderWidth: 1,
   },
   existingMoodLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
   },
-  existingMoodDot: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  existingMoodCharWrapper: {
+    width: 48,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
-  },
-  existingMoodEmoji: {
-    fontSize: 22,
   },
   existingMoodDetails: {
     flex: 1,
   },
   existingMoodTitle: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     marginBottom: 2,
   },
   updateButton: {
@@ -322,13 +263,13 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   updateButtonText: {
-    fontWeight: '600',
+    fontWeight: '700',
   },
   historyLinkRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
     gap: 4,
-    paddingTop: 4,
+    paddingTop: 6,
   },
 });

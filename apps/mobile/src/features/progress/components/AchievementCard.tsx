@@ -42,7 +42,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
           styles.card,
           {
             backgroundColor: isDark ? colors.surfaceSecondary : '#FFFFFF',
-            borderColor: isUnlocked ? '#829B83' : colors.border,
+            borderColor: isUnlocked ? colors.primary : colors.border,
             opacity: isUnlocked ? 1 : 0.85,
           },
         ]}
@@ -72,7 +72,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
               size="sm"
             />
             {isUnlocked ? (
-              <AppBadge label="EARNED ✨" variant="primary" size="sm" />
+              <AppBadge label="EARNED ✨" variant="lime" size="sm" />
             ) : (
               <AppBadge label="LOCKED" variant="neutral" size="sm" />
             )}
@@ -125,7 +125,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
                     styles.progressBarFill,
                     {
                       width: `${Math.min(100, Math.max(0, progressPct))}%`,
-                      backgroundColor: '#829B83',
+                      backgroundColor: colors.accent,
                     },
                   ]}
                 />

@@ -126,5 +126,22 @@ export class ConversationController {
       next(err);
     }
   }
+
+  public static async regenerate(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const result = await ConversationService.regenerateResponse(
+        req.params.id,
+        req.user!.id,
+      );
+      ApiResponseUtil.success(res, 'Response regenerated successfully', result);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
+
 

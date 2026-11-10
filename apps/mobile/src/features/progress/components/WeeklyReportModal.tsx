@@ -216,7 +216,7 @@ export const WeeklyReportModal: React.FC<WeeklyReportModalProps> = ({
                         },
                       ]}
                     >
-                      <AppIcon name="feather" size={16} color="#829B83" />
+                      <AppIcon name="feather" size={16} color={colors.primaryDark} />
                       <AppText
                         variant="bodySmall"
                         style={{ flex: 1, lineHeight: 20 }}

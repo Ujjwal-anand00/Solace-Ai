@@ -17,3 +17,4 @@ export * from './BottomSheet';
 export * from './Backgrounds';
 export * from './SolaceLogo';
 export * from './SolaceMascot';
+export * from '../mood';

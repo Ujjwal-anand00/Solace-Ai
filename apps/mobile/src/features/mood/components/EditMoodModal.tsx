@@ -15,6 +15,7 @@ import {
   AppIcon,
   AppCard,
 } from '../../../components/ui';
+import { MoodCharacter } from '../../../components/mood';
 import { useTheme } from '../../../hooks/useTheme';
 import { triggerHaptic } from '../../../utils/haptics';
 import { MoodEntry } from '@solace/shared';
@@ -87,7 +88,6 @@ export const EditMoodModal: React.FC<EditMoodModalProps> = ({
 
   const moodConfig = PRIMARY_MOODS.find((m) => m.key === entry.mood.toLowerCase()) || {
     label: entry.mood,
-    emoji: '🌿',
     color: colors.primary,
   };
 
@@ -97,13 +97,21 @@ export const EditMoodModal: React.FC<EditMoodModalProps> = ({
         <View style={[styles.modalSheet, { backgroundColor: colors.surface }]}>
           {/* Header */}
           <View style={styles.header}>
-            <View>
-              <AppHeading level={3} style={styles.title}>
-                Edit Check-In
-              </AppHeading>
-              <AppText variant="caption" style={{ color: colors.textSecondary }}>
-                Felt {moodConfig.emoji} {moodConfig.label}
-              </AppText>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <MoodCharacter
+                mood={entry.mood}
+                size={34}
+                showShadow={false}
+                isInteractive={false}
+              />
+              <View>
+                <AppHeading level={3} style={styles.title}>
+                  Edit Check-In
+                </AppHeading>
+                <AppText variant="caption" style={{ color: colors.textSecondary }}>
+                  Felt {moodConfig.label}
+                </AppText>
+              </View>
             </View>
 
             <TouchableOpacity

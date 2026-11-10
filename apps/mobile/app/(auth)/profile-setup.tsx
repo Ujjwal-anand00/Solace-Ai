@@ -23,12 +23,12 @@ import { useTheme } from '../../src/hooks/useTheme';
 import { triggerHaptic } from '../../src/utils/haptics';
 
 const AVATAR_OPTIONS = [
-  { id: 'zen_sage', name: 'Sage Pebble', bg: '#829B83', icon: 'smile' as const },
+  { id: 'lavender_bloom', name: 'Lavender Calm', bg: '#CBB3E8', icon: 'smile' as const },
+  { id: 'neon_vitality', name: 'Neon Spark', bg: '#D4FF3F', icon: 'sparkles' as const },
   { id: 'dawn_peach', name: 'Dawn Glow', bg: '#F5DFD2', icon: 'sun' as const },
-  { id: 'calm_mint', name: 'Calm Leaf', bg: '#DCE9DD', icon: 'feather' as const },
-  { id: 'spirit_lavender', name: 'Dream Aura', bg: '#E9E2F5', icon: 'moon' as const },
-  { id: 'spark_butter', name: 'Radiant Spark', bg: '#F5EDCF', icon: 'sparkles' as const },
-  { id: 'deep_sage', name: 'Deep Balance', bg: '#536B58', icon: 'heart' as const },
+  { id: 'spirit_lavender', name: 'Dream Aura', bg: '#E8DDF5', icon: 'moon' as const },
+  { id: 'soft_balance', name: 'Gentle Feather', bg: '#F0EAF7', icon: 'feather' as const },
+  { id: 'deep_lavender', name: 'Deep Balance', bg: '#9678BD', icon: 'heart' as const },
 ];
 
 const AVAILABLE_GOALS = [
@@ -136,7 +136,7 @@ export default function ProfileSetupScreen(): React.JSX.Element {
                       },
                     ]}
                   >
-                    <AppIcon name={item.icon} size="md" color="#303A34" />
+                    <AppIcon name={item.icon} size="md" color="#292431" />
                     {isSelected && (
                       <View style={[styles.avatarBadge, { backgroundColor: colors.primaryDark }]}>
                         <AppIcon name="check" size={10} color="#FFFFFF" strokeWidth={3} />
@@ -192,8 +192,8 @@ export default function ProfileSetupScreen(): React.JSX.Element {
                       {
                         backgroundColor: isSelected
                           ? isDark
-                            ? 'rgba(130, 155, 131, 0.3)'
-                            : colors.mint
+                            ? 'rgba(203, 179, 232, 0.3)'
+                            : colors.accent
                           : isDark
                             ? colors.surface
                             : colors.surfaceSecondary,
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   submitBtn: {
-    shadowColor: '#829B83',
+    shadowColor: '#CBB3E8',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 10,

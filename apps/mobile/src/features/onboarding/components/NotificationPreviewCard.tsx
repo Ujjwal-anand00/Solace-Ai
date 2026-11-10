@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 1,
     marginBottom: 12,
-    shadowColor: '#303A34',
+    shadowColor: '#292431',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.05,
     shadowRadius: 8,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.8,
     fontSize: 11,
-    color: '#737D75',
+    color: '#716B78',
   },
   contentBlock: {
     paddingLeft: 32,

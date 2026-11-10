@@ -77,15 +77,15 @@ export const ReminderTimePicker: React.FC<ReminderTimePickerProps> = ({
           style={[
             styles.timeBadge,
             {
-              backgroundColor: isDark ? colors.surfaceSecondary : '#F2F8F4',
-              borderColor: '#D2E3D6',
+              backgroundColor: isDark ? colors.surfaceSecondary : '#F0EAF7',
+              borderColor: '#E8DDF5',
             },
           ]}
         >
-          <AppIcon name="clock" size={14} color="#536B58" />
+          <AppIcon name="clock" size={14} color={colors.primaryDark} />
           <AppText
             variant="bodySmall"
-            style={{ fontWeight: '700', color: '#536B58' }}
+            style={{ fontWeight: '700', color: colors.primaryDark }}
           >
             {format12Hour(parseInt(hoursStr, 10) || 9, parseInt(minsStr, 10) || 0)}
           </AppText>
@@ -107,18 +107,18 @@ export const ReminderTimePicker: React.FC<ReminderTimePickerProps> = ({
                 styles.presetPill,
                 {
                   backgroundColor: isSelected
-                    ? '#829B83'
+                    ? colors.accent
                     : isDark
                     ? colors.surfaceSecondary
                     : '#FFFFFF',
-                  borderColor: isSelected ? '#829B83' : colors.border,
+                  borderColor: isSelected ? colors.accentDark : colors.border,
                 },
               ]}
             >
               <AppText
                 variant="caption"
                 style={{
-                  color: isSelected ? '#FFFFFF' : colors.textSecondary,
+                  color: isSelected ? '#292431' : colors.textSecondary,
                   fontWeight: isSelected ? '700' : '500',
                   fontSize: 11,
                 }}
