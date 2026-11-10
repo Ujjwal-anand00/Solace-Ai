@@ -10,7 +10,7 @@ import { API_ROUTES, AuthResponse, ApiResponse } from '@solace/shared';
  * duplicated paths like '/api/v1/api/v1/auth/register'.
  */
 const getBaseUrl = (): string => {
-  const url = (ENV.API_URL || 'http://127.0.0.1:5000').replace(/\/+$/, '');
+  const url = (ENV.API_URL || 'https://solace-ai-687q.onrender.com').replace(/\/+$/, '');
   return url.endsWith('/api/v1') ? url.slice(0, -'/api/v1'.length) : url;
 };
 
